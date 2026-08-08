@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forge — deploy previews from your terminal</title>
+<meta name="description" content="Demo developer-tool landing page — built by Jitendra Kulkarni.">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#0a0b0d;--panel:#111316;--line:#1e2127;--txt:#d7dbe0;--mut:#7d838d;--g:#3ddc84;--am:#ffb454}
+  body{background:var(--bg);color:var(--txt);font-family:"SFMono-Regular",ui-monospace,Menlo,Consolas,monospace;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 24px}
+  a{color:inherit}
+  nav{display:flex;align-items:center;justify-content:space-between;padding:20px 0;border-bottom:1px solid var(--line)}
+  .logo{font-weight:700;letter-spacing:-.02em;font-size:17px;color:#fff}
+  .logo b{color:var(--g)}
+  .nav-links{display:flex;gap:24px;font-size:13px;color:var(--mut)}
+  .nav-links a{text-decoration:none}
+  .nav-links a:hover{color:var(--txt)}
+  .ghbtn{border:1px solid var(--line);border-radius:8px;padding:8px 14px;font-size:13px;text-decoration:none;color:var(--txt)}
+  .hero{padding:70px 0 40px}
+  .tag{color:var(--g);font-size:13px;margin-bottom:18px}
+  h1{font-family:-apple-system,system-ui,sans-serif;font-size:clamp(34px,6vw,60px);line-height:1.05;letter-spacing:-.03em;color:#fff;margin-bottom:20px;font-weight:750}
+  .sub{color:var(--mut);max-width:560px;font-size:15px;margin-bottom:28px}
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .install{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:12px 16px;font-size:14px;display:flex;gap:10px;align-items:center}
+  .install .p{color:var(--g)}
+  .install .c{color:var(--txt)}
+  .copy{color:var(--mut);font-size:12px;border-left:1px solid var(--line);padding-left:10px}
+  /* terminal */
+  .term{margin-top:44px;background:#000;border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+  .term-bar{display:flex;align-items:center;gap:7px;padding:12px 14px;background:var(--panel);border-bottom:1px solid var(--line)}
+  .term-bar i{width:11px;height:11px;border-radius:50%;display:block}
+  .r{background:#ff5f56}.y{background:#ffbd2e}.gr{background:#27c93f}
+  .term-title{margin-left:10px;font-size:12px;color:var(--mut)}
+  .term-body{padding:20px;font-size:13.5px;line-height:1.9}
+  .term-body .c1{color:var(--g)}
+  .term-body .c2{color:var(--am)}
+  .term-body .dim{color:var(--mut)}
+  .term-body .ok{color:var(--g)}
+  .cursor{display:inline-block;width:8px;height:15px;background:var(--g);vertical-align:middle;animation:bl 1s steps(1) infinite}
+  @keyframes bl{50%{opacity:0}}
+  section{padding:70px 0;border-top:1px solid var(--line)}
+  h2{font-family:-apple-system,system-ui,sans-serif;font-size:clamp(24px,3.5vw,34px);color:#fff;letter-spacing:-.02em;margin-bottom:36px}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .cell{background:var(--bg);padding:24px}
+  .cell .n{color:var(--g);font-size:13px;margin-bottom:12px}
+  .cell h3{font-family:-apple-system,system-ui,sans-serif;color:#fff;font-size:16px;margin-bottom:8px}
+  .cell p{color:var(--mut);font-size:13px}
+  footer{border-top:1px solid var(--line);padding:26px 0;color:var(--mut);font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  footer a{color:var(--g);text-decoration:none}
+  @media(max-width:720px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <div class="logo">▲ <b>forge</b></div>
+    <div class="nav-links"><a href="#">Docs</a><a href="#">Changelog</a><a href="#">Pricing</a></div>
+    <a href="#" class="ghbtn">★ Star on GitHub</a>
+  </nav>
+
+  <header class="hero">
+    <div class="tag">// preview every pull request</div>
+    <h1>A live URL for<br>every branch you push.</h1>
+    <p class="sub">Forge spins up an isolated preview deploy from the terminal in seconds. Ship, share, tear down — no dashboards, no YAML.</p>
+    <div class="row">
+      <div class="install"><span class="p">$</span><span class="c">npm i -g forge-cli</span><span class="copy">⧉ copy</span></div>
+      <a href="#" class="ghbtn" style="border-color:var(--g);color:var(--g)">Read the docs →</a>
+    </div>
+
+    <div class="term">
+      <div class="term-bar"><i class="r"></i><i class="y"></i><i class="gr"></i><span class="term-title">forge — zsh</span></div>
+      <div class="term-body">
+        <div><span class="c1">$</span> forge deploy <span class="dim">--branch feat/checkout</span></div>
+        <div class="dim">→ building image…</div>
+        <div class="dim">→ pushing layers… <span class="ok">done</span></div>
+        <div><span class="c2">✔</span> preview ready in <span class="ok">4.1s</span></div>
+        <div><span class="dim">↳</span> https://feat-checkout.forge.dev <span class="cursor"></span></div>
+      </div>
+    </div>
+  </header>
+</div>
+
+<section><div class="wrap">
+  <h2>Everything a preview should be.</h2>
+  <div class="grid">
+    <div class="cell"><div class="n">01</div><h3>Instant</h3><p>Cold deploy in single-digit seconds. Warm rebuilds are near-instant.</p></div>
+    <div class="cell"><div class="n">02</div><h3>Isolated</h3><p>Every branch gets its own env, database branch and secrets.</p></div>
+    <div class="cell"><div class="n">03</div><h3>Ephemeral</h3><p>Auto-torn-down when the PR merges. No orphaned infra, no bill creep.</p></div>
+  </div>
+</div></section>
+
+<div class="wrap">
+  <footer>
+    <span>forge — a design demo · MIT</span>
+    <span>Built by <a href="../index.html">Jitendra Kulkarni</a></span>
+  </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VIVID — a creative studio that shouts</title>
+<meta name="description" content="Demo brutalist creative-agency page — built by Jitendra Kulkarni.">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--ink:#101010;--paper:#f7f3ea;--yellow:#ffe600;--pink:#ff5d8f;--blue:#2b39ff}
+  body{background:var(--paper);color:var(--ink);font-family:"Arial Black","Helvetica Neue",Arial,sans-serif;line-height:1;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 22px}
+  a{color:inherit;text-decoration:none}
+  nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0;border-bottom:4px solid var(--ink)}
+  .logo{font-size:26px;letter-spacing:-.04em;font-weight:900}
+  .navr{display:flex;gap:10px;font-family:Arial,sans-serif;font-weight:700;font-size:13px}
+  .navr a{border:3px solid var(--ink);padding:8px 14px;background:var(--paper);transition:.15s}
+  .navr a:hover{background:var(--yellow);transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--ink)}
+  /* hero */
+  .hero{padding:40px 0 20px}
+  .hero h1{font-size:clamp(58px,17vw,220px);letter-spacing:-.05em;line-height:.82;font-weight:900;text-transform:uppercase}
+  .hero h1 .p{color:var(--pink)}
+  .hero h1 .b{color:var(--blue);-webkit-text-stroke:2px var(--ink)}
+  .hero h1 .o{color:var(--paper);-webkit-text-stroke:3px var(--ink)}
+  .marq{border-top:4px solid var(--ink);border-bottom:4px solid var(--ink);background:var(--yellow);
+    font-family:Arial,sans-serif;font-weight:800;font-size:18px;padding:12px 0;margin:34px 0;overflow:hidden;white-space:nowrap}
+  .marq div{display:inline-block;animation:sc 16s linear infinite}
+  .marq span{margin:0 22px}
+  @keyframes sc{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  /* services */
+  .svc{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:4px solid var(--ink)}
+  .svc>div{padding:34px 26px;border-right:4px solid var(--ink);min-height:230px;display:flex;flex-direction:column;justify-content:space-between}
+  .svc>div:last-child{border-right:0}
+  .svc .n{font-family:Arial,sans-serif;font-weight:800;font-size:14px}
+  .svc h3{font-size:34px;letter-spacing:-.03em;text-transform:uppercase}
+  .svc p{font-family:Arial,sans-serif;font-weight:500;font-size:14px;line-height:1.5}
+  .svc>div:nth-child(1){background:var(--pink);color:var(--paper)}
+  .svc>div:nth-child(2){background:var(--blue);color:var(--paper)}
+  .svc>div:nth-child(3){background:var(--yellow)}
+  /* big statement */
+  .say{padding:70px 0;font-size:clamp(30px,6vw,80px);font-weight:900;letter-spacing:-.04em;line-height:.95;text-transform:uppercase}
+  .say u{text-decoration:none;background:var(--yellow);box-shadow:inset 0 -6px 0 var(--ink)}
+  .cta{display:inline-block;font-family:Arial,sans-serif;font-weight:800;font-size:18px;background:var(--ink);color:var(--paper);
+    padding:18px 30px;margin-bottom:60px;border:4px solid var(--ink);transition:.15s}
+  .cta:hover{background:var(--pink);transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--ink)}
+  footer{border-top:4px solid var(--ink);padding:22px 0;font-family:Arial,sans-serif;font-weight:700;font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  @media(max-width:800px){.svc{grid-template-columns:1fr}.svc>div{border-right:0;border-bottom:4px solid var(--ink)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <div class="logo">VIVID★</div>
+    <div class="navr"><a href="#">WORK</a><a href="#">STUDIO</a><a href="#">SAY HI</a></div>
+  </nav>
+
+  <header class="hero">
+    <h1><span class="p">MAKE</span> IT<br><span class="o">LOUD.</span> <span class="b">MAKE</span><br>IT <span class="p">MATTER.</span></h1>
+  </header>
+</div>
+
+<div class="marq"><div>
+  <span>BRANDING ★</span><span>CAMPAIGNS ★</span><span>MOTION ★</span><span>WEB ★</span><span>ART DIRECTION ★</span>
+  <span>BRANDING ★</span><span>CAMPAIGNS ★</span><span>MOTION ★</span><span>WEB ★</span><span>ART DIRECTION ★</span>
+</div></div>
+
+<div class="wrap">
+  <div class="svc">
+    <div><div class="n">01 / BRAND</div><h3>Identity that bites</h3><p>Logos, systems and voice that don't apologise for taking up space.</p></div>
+    <div><div class="n">02 / CAMPAIGN</div><h3>Ideas that travel</h3><p>Campaigns built to be screenshotted, shared and remembered.</p></div>
+    <div><div class="n">03 / DIGITAL</div><h3>Sites that move</h3><p>Fast, weird, delightful websites — engineered, not templated.</p></div>
+  </div>
+
+  <div class="say">We don't do <u>quiet.</u> We build brands people can't scroll past.</div>
+  <a href="#" class="cta">START SOMETHING LOUD →</a>
+
+  <footer>
+    <span>VIVID — A DESIGN DEMO</span>
+    <span>BUILT BY <a href="../index.html" style="text-decoration:underline">JITENDRA KULKARNI</a></span>
+  </footer>
+</div>
+</body>
+</html>

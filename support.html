@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support the News Bot — VYATIRIKHT</title>
+  <meta name="description" content="The Vyatirikht news bot researches and drafts articles using paid AI and web search. If the writing has been useful to you, you can help cover what it costs to run.">
+  <meta name="theme-color" content="#0B6623">
+  <link rel="canonical" href="https://vyatirikht.xyz/support.html">
+  <link rel="icon" type="image/png" href="assets/images/logo/Logo_transparent.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="support.css">
+
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <!-- NOT deferred: the donate script below is inline and runs during
+       parsing, so deferring these would leave SUPABASE_URL and VYT_ERR
+       undefined when it executes. -->
+  <script src="supabase-config.js"></script>
+  <script src="errors.js"></script>
+  <!-- Theme: light by default, dark only if the visitor opted in.
+       Runs before paint so a saved dark theme never flashes light. -->
+  <script>
+    (function () {
+      try {
+        if (localStorage.getItem('vy-theme') === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a href="index.html" class="nav-logo"><img src="assets/images/logo/Logo_transparent.png" alt="Vyatirikht" class="nav-logo-img" width="217" height="363"></a>
+  <ul class="nav-links">
+    <li><a href="blog.html" class="nav-blog">Blog</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="index.html#portfolio">Work</a></li>
+    <li><a href="vault.html">Vault</a></li>
+    <li><a href="index.html#connect" class="nav-cta">Connect</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="blog.html" class="mobile-blog-link" onclick="closeMobile()">Blog</a>
+  <a href="index.html#about" onclick="closeMobile()">About</a>
+  <a href="index.html#services" onclick="closeMobile()">Services</a>
+  <a href="index.html#portfolio" onclick="closeMobile()">Work</a>
+  <a href="vault.html" onclick="closeMobile()">Vault</a>
+  <a href="index.html#connect" onclick="closeMobile()">Connect</a>
+</div>
+
+<!-- HERO -->
+<div class="sup-hero">
+  <div class="orb orb-1" style="width:380px;height:380px;top:-120px;left:-80px;background:radial-gradient(circle,rgba(8,88,32,0.16),transparent 70%);"></div>
+  <div class="sup-hero-inner">
+    <div class="section-label">Support</div>
+    <h1 class="sup-title">Help keep the<br><em>news bot</em> running.</h1>
+    <p class="sup-sub">Every article the bot writes costs real money — it searches the web, reads sources, and drafts the piece using a paid AI model. If the writing has been useful to you, you can chip in toward what it costs. Entirely optional, and everything stays free to read either way.</p>
+  </div>
+</div>
+
+<div class="sup-wrap">
+  <div class="sup-grid">
+
+    <!-- WHAT IT PAYS FOR -->
+    <div class="sup-card">
+      <h2>What your money does</h2>
+      <p>This isn't a charity and I won't pretend otherwise — Vyatirikht is a working studio. What donations do is stop the research budget being the reason a piece doesn't get written.</p>
+      <ul class="sup-costs">
+        <li><span class="amt">₹100</span><span>Covers roughly five researched articles.</span></li>
+        <li><span class="amt">₹500</span><span>About a month of the daily news beat.</span></li>
+        <li><span class="amt">₹1,000</span><span>Lets the bot run deeper research on harder topics.</span></li>
+      </ul>
+      <p style="margin-top:16px;">Every bot-written article is reviewed by a human before it publishes, and lists the sources it used. That review is the part that keeps it honest — donations just keep the lights on.</p>
+    </div>
+
+    <!-- DONATE -->
+    <div class="sup-card">
+      <h2>Make a contribution</h2>
+
+      <div id="sup-form-view">
+        <div class="sup-amounts" id="sup-amounts">
+          <button type="button" class="sup-amt-btn" data-paise="10000">₹100</button>
+          <button type="button" class="sup-amt-btn active" data-paise="50000">₹500</button>
+          <button type="button" class="sup-amt-btn" data-paise="100000">₹1,000</button>
+          <button type="button" class="sup-amt-btn" data-paise="custom">Other</button>
+        </div>
+
+        <div class="sup-field" id="sup-custom-wrap" style="display:none;">
+          <label class="form-label" for="sup-custom">Amount in ₹</label>
+          <input type="number" id="sup-custom" class="form-input" min="1" max="100000" placeholder="250">
+        </div>
+
+        <div class="sup-row">
+          <div class="sup-field">
+            <label class="form-label" for="sup-name">Your name <span class="pub-hint">— optional</span></label>
+            <input type="text" id="sup-name" class="form-input" placeholder="Optional">
+          </div>
+          <div class="sup-field">
+            <label class="form-label" for="sup-email">Email <span class="pub-hint">— for the receipt</span></label>
+            <input type="email" id="sup-email" class="form-input" placeholder="Optional">
+          </div>
+        </div>
+
+        <div class="sup-field">
+          <label class="form-label" for="sup-message">Note <span class="pub-hint">— optional</span></label>
+          <input type="text" id="sup-message" class="form-input" placeholder="Anything you'd like to say">
+        </div>
+
+        <button type="button" class="btn-primary sup-give" id="sup-give">Contribute ₹500</button>
+
+        <div class="sup-msg" id="sup-msg"></div>
+
+        <p class="sup-note">
+          Payment is handled entirely by Razorpay — card and UPI details are entered on their secure page and never touch this site.
+          A contribution is a voluntary gift, not a purchase, and it buys no influence over what I publish.
+          See my <a href="refund.html">refund policy</a>, <a href="terms.html">terms</a>, and <a href="privacy.html">privacy policy</a>.
+        </p>
+      </div>
+
+      <div class="sup-thanks" id="sup-thanks">
+        <div class="sup-thanks-icon">✓</div>
+        <h2 style="margin-bottom:8px;">Thank you, genuinely.</h2>
+        <p id="sup-thanks-msg">Your contribution is confirmed. It goes straight into keeping the research running.</p>
+        <a href="blog.html" class="btn-ghost" style="margin-top:18px;display:inline-block;">Back to the blog →</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-divider-row" style="border-top:none;">
+    <span class="footer-copy">© 2026 VYATIRIKHT · <a href="index.html" style="color:var(--accent);text-decoration:none;">Main site</a> · <a href="blog.html" style="color:var(--accent);text-decoration:none;">Blog</a> · <a href="terms.html" style="color:rgba(255,255,255,0.32);text-decoration:none;">Terms</a> · <a href="refund.html" style="color:rgba(255,255,255,0.32);text-decoration:none;">Refunds</a> · <a href="privacy.html" style="color:rgba(255,255,255,0.32);text-decoration:none;">Privacy</a> · <a href="login.html" style="color:rgba(255,255,255,0.32);text-decoration:none;">Login</a></span>
+  </div>
+</footer>
+
+<script src="main.js" defer></script>
+<script>
+(function () {
+  var FN_BASE = (window.SUPABASE_URL || '') + '/functions/v1';
+
+  var amounts   = document.getElementById('sup-amounts');
+  var customWrap = document.getElementById('sup-custom-wrap');
+  var customIn  = document.getElementById('sup-custom');
+  var giveBtn   = document.getElementById('sup-give');
+  var msgEl     = document.getElementById('sup-msg');
+  var formView  = document.getElementById('sup-form-view');
+  var thanksView = document.getElementById('sup-thanks');
+
+  var selected = 50000;   // paise
+  /* Single source of truth for "can we actually take money right now".
+     syncButton() must honour this, or a later re-render silently
+     re-enables the button and sends visitors into a broken flow. */
+  var paymentsOn = !!(window.paymentsConfigured && window.paymentsConfigured());
+
+  function inr(paise) { return '₹' + (paise / 100).toLocaleString('en-IN'); }
+
+  function show(text, isError) {
+    msgEl.textContent = text;
+    msgEl.classList.toggle('is-error', !!isError);
+    msgEl.classList.add('is-visible');
+  }
+
+  function currentPaise() {
+    if (selected !== 'custom') return selected;
+    var rupees = Math.floor(Number(customIn.value));
+    return Number.isFinite(rupees) && rupees > 0 ? rupees * 100 : 0;
+  }
+
+  function syncButton() {
+    if (!paymentsOn) {
+      giveBtn.textContent = 'Donations not enabled yet';
+      giveBtn.disabled = true;
+      return;
+    }
+    var p = currentPaise();
+    giveBtn.textContent = p > 0 ? 'Contribute ' + inr(p) : 'Enter an amount';
+    giveBtn.disabled = p <= 0;
+  }
+
+  amounts.addEventListener('click', function (e) {
+    var btn = e.target.closest('.sup-amt-btn');
+    if (!btn) return;
+    selected = btn.dataset.paise === 'custom' ? 'custom' : parseInt(btn.dataset.paise, 10);
+    Array.prototype.forEach.call(amounts.children, function (b) { b.classList.toggle('active', b === btn); });
+    customWrap.style.display = selected === 'custom' ? '' : 'none';
+    if (selected === 'custom') customIn.focus();
+    syncButton();
+  });
+  customIn.addEventListener('input', syncButton);
+
+  /* Not connected yet? Say so plainly rather than failing on click. */
+  if (!paymentsOn) {
+    show('Contributions aren’t switched on yet. In the meantime, sharing an article helps just as much.', false);
+  }
+  syncButton();
+
+  giveBtn.addEventListener('click', function () {
+    if (!paymentsOn) return;
+    var paise = currentPaise();
+    if (paise <= 0) { show('Please enter an amount first.', true); return; }
+    if (typeof Razorpay === 'undefined') { show('Payment library did not load. Check your connection and refresh.', true); return; }
+
+    giveBtn.disabled = true;
+    var original = giveBtn.textContent;
+    giveBtn.textContent = 'Starting…';
+    msgEl.classList.remove('is-visible');
+
+    /* 1. Ask our server to create the order (it holds the secret). */
+    fetch(FN_BASE + '/donate-create-order', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        /* Anonymous call, but the functions gateway still requires apikey. */
+        'apikey': window.SUPABASE_ANON_KEY
+      },
+      body: JSON.stringify({ amount_paise: paise })
+    }).then(function (r) {
+      return VYT_ERR.readResponse(r, { area: 'function' });
+    }).then(function (res) {
+      giveBtn.disabled = false;
+      giveBtn.textContent = original;
+      if (!res.ok || !res.data || !res.data.order_id) {
+        var e = res.err || VYT_ERR.describe(res.data);
+        VYT_ERR.report(e);
+        show(e.message + ' [' + e.code + ']', true);
+        return;
+      }
+
+      /* 2. Hand off to Razorpay's own checkout — card/UPI details are
+            entered there, never here. */
+      var rzp = new Razorpay({
+        key: window.RAZORPAY_KEY_ID,
+        order_id: res.data.order_id,
+        amount: res.data.amount,
+        currency: res.data.currency || 'INR',
+        name: 'Vyatirikht',
+        description: 'Support the news bot',
+        image: 'assets/images/logo/Logo_transparent.png',
+        theme: { color: '#085820' },
+        prefill: {
+          name: document.getElementById('sup-name').value.trim(),
+          email: document.getElementById('sup-email').value.trim()
+        },
+        handler: function (resp) {
+          /* 3. Verify server-side. Nothing counts until this passes. */
+          giveBtn.disabled = true;
+          giveBtn.textContent = 'Confirming…';
+          fetch(FN_BASE + '/donate-verify', {
+            method: 'POST',
+            headers: {
+        'Content-Type': 'application/json',
+        /* Anonymous call, but the functions gateway still requires apikey. */
+        'apikey': window.SUPABASE_ANON_KEY
+      },
+            body: JSON.stringify({
+              razorpay_order_id: resp.razorpay_order_id,
+              razorpay_payment_id: resp.razorpay_payment_id,
+              razorpay_signature: resp.razorpay_signature,
+              donor_name: document.getElementById('sup-name').value.trim(),
+              donor_email: document.getElementById('sup-email').value.trim(),
+              message: document.getElementById('sup-message').value.trim()
+            })
+          }).then(function (r) {
+            return VYT_ERR.readResponse(r, { area: 'function' });
+          }).then(function (v) {
+            giveBtn.disabled = false;
+            giveBtn.textContent = original;
+            if (!v.ok) {
+              var ve = VYT_ERR.report(v.err);
+              /* The money HAS moved — reassurance comes first. The code is
+                 appended so we can trace this exact payment from an email. */
+              show('Your payment went through, but I could not confirm it automatically. ' +
+                   'Please email 2sloowwww@gmail.com quoting payment ' + resp.razorpay_payment_id +
+                   ' and I will sort it out — you have not been charged twice. [' + ve.code + ']', true);
+              return;
+            }
+            formView.style.display = 'none';
+            thanksView.classList.add('is-visible');
+          }).catch(function (err) {
+            giveBtn.disabled = false;
+            giveBtn.textContent = original;
+            var ce = VYT_ERR.report(err, { area: 'function' });
+            show('Your payment went through, but confirmation failed. ' +
+                 'Please email 2sloowwww@gmail.com quoting payment ' + resp.razorpay_payment_id +
+                 ' — you have not been charged twice. [' + ce.code + ']', true);
+          });
+        },
+        modal: {
+          ondismiss: function () { show('Payment cancelled — nothing was charged.', false); }
+        }
+      });
+
+      rzp.on('payment.failed', function (r) {
+        show((r.error && r.error.description) || 'The payment did not go through. Nothing was charged.', true);
+      });
+
+      rzp.open();
+
+    }).catch(function (err) {
+      giveBtn.disabled = false;
+      giveBtn.textContent = original;
+      var oe = VYT_ERR.report(err, { area: 'function' });
+      show(oe.message + ' Nothing has been charged. [' + oe.code + ']', true);
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pulse — analytics dashboard</title>
+<meta name="description" content="Demo product dashboard UI — built by Jitendra Kulkarni.">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#f4f6f8;--panel:#fff;--ink:#0f172a;--mut:#64748b;--line:#e6eaf0;--teal:#0d9488;--teal2:#14b8a6;--rose:#e11d48}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;font-size:14px;line-height:1.5}
+  .app{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+  /* sidebar */
+  .side{background:var(--panel);border-right:1px solid var(--line);padding:22px 16px;display:flex;flex-direction:column}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:700;font-size:16px;letter-spacing:-.02em;padding:6px 8px;margin-bottom:24px}
+  .brand i{width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,var(--teal),var(--teal2));display:block}
+  .menu{display:flex;flex-direction:column;gap:2px}
+  .menu a{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:9px;color:var(--mut);text-decoration:none;font-weight:500}
+  .menu a.on{background:#e6faf6;color:var(--teal)}
+  .menu a:hover:not(.on){background:var(--bg)}
+  .side .foot{margin-top:auto;font-size:12px;color:var(--mut);padding:10px 8px;border-top:1px solid var(--line)}
+  /* main */
+  .main{padding:24px 28px}
+  .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+  .top h1{font-size:22px;letter-spacing:-.02em}
+  .top .who{display:flex;align-items:center;gap:10px;color:var(--mut);font-size:13px}
+  .top .av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#fda4af,#f43f5e)}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:18px}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+  .stat .l{font-size:12px;color:var(--mut);margin-bottom:8px}
+  .stat .v{font-size:26px;font-weight:700;letter-spacing:-.02em}
+  .stat .d{font-size:12px;font-weight:600;margin-top:4px}
+  .up{color:var(--teal)}.down{color:var(--rose)}
+  .cols{display:grid;grid-template-columns:1.7fr 1fr;gap:16px}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
+  .panel h3{font-size:14px;margin-bottom:2px}
+  .panel .sub{font-size:12px;color:var(--mut);margin-bottom:16px}
+  svg{width:100%;height:180px;display:block}
+  .legend{display:flex;gap:16px;font-size:12px;color:var(--mut);margin-top:10px}
+  .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{text-align:left;color:var(--mut);font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:0 0 12px}
+  td{padding:11px 0;border-top:1px solid var(--line)}
+  .tag{font-size:11px;font-weight:600;padding:3px 9px;border-radius:100px}
+  .paid{background:#e6faf6;color:var(--teal)}.due{background:#fff1f2;color:var(--rose)}
+  @media(max-width:860px){.app{grid-template-columns:1fr}.side{display:none}.stats{grid-template-columns:1fr 1fr}.cols{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand"><i></i> Pulse</div>
+    <nav class="menu">
+      <a class="on" href="#">▦ Overview</a>
+      <a href="#">◷ Activity</a>
+      <a href="#">◈ Customers</a>
+      <a href="#">▤ Invoices</a>
+      <a href="#">⚙ Settings</a>
+    </nav>
+    <div class="foot">Pulse — a design demo<br>Built by <a href="../index.html" style="color:var(--teal)">J. Kulkarni</a></div>
+  </aside>
+
+  <main class="main">
+    <div class="top">
+      <h1>Overview</h1>
+      <div class="who">Priya M. <div class="av"></div></div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="l">Revenue</div><div class="v">₹8.4L</div><div class="d up">▲ 12.4%</div></div>
+      <div class="stat"><div class="l">Active users</div><div class="v">2,841</div><div class="d up">▲ 6.1%</div></div>
+      <div class="stat"><div class="l">Churn</div><div class="v">1.9%</div><div class="d down">▲ 0.3%</div></div>
+      <div class="stat"><div class="l">MRR</div><div class="v">₹1.2L</div><div class="d up">▲ 9.0%</div></div>
+    </div>
+
+    <div class="cols">
+      <div class="panel">
+        <h3>Revenue trend</h3><div class="sub">Last 6 months</div>
+        <svg viewBox="0 0 400 180" preserveAspectRatio="none">
+          <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#14b8a6" stop-opacity=".35"/><stop offset="1" stop-color="#14b8a6" stop-opacity="0"/></linearGradient></defs>
+          <path d="M0,140 L70,120 L140,128 L210,80 L280,92 L350,44 L400,52 L400,180 L0,180 Z" fill="url(#g)"/>
+          <path d="M0,140 L70,120 L140,128 L210,80 L280,92 L350,44 L400,52" fill="none" stroke="#0d9488" stroke-width="2.5"/>
+          <g fill="#0d9488"><circle cx="210" cy="80" r="3.5"/><circle cx="350" cy="44" r="3.5"/></g>
+        </svg>
+        <div class="legend"><span><i style="background:#0d9488"></i>Revenue</span><span><i style="background:#cbd5e1"></i>Target</span></div>
+      </div>
+      <div class="panel">
+        <h3>Recent invoices</h3><div class="sub">This week</div>
+        <table>
+          <tr><th>Client</th><th>Amount</th><th>Status</th></tr>
+          <tr><td>Studio K</td><td>₹64,000</td><td><span class="tag paid">Paid</span></td></tr>
+          <tr><td>Meridian</td><td>₹28,500</td><td><span class="tag due">Due</span></td></tr>
+          <tr><td>Loop Co.</td><td>₹41,200</td><td><span class="tag paid">Paid</span></td></tr>
+          <tr><td>Casa</td><td>₹12,000</td><td><span class="tag paid">Paid</span></td></tr>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

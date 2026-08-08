@@ -1,0 +1,18 @@
+# Claude Code local config (machine-specific, not for production)
+.claude/
+
+# Backup files from editing sessions
+*.bak
+*.pre-*.bak
+
+# Python cache
+__pycache__/
+*.pyc
+
+# OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Node (in case npm is used later)
+node_modules/

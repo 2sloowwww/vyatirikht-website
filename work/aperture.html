@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aperture — a photography studio</title>
+<meta name="description" content="Demo editorial photography portfolio — built by Jitendra Kulkarni.">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#0c0c0c;--txt:#f2efe9;--mut:#8f8b83;--line:rgba(255,255,255,.12)}
+  body{background:var(--bg);color:var(--txt);font-family:"Georgia","Times New Roman",serif;-webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden}
+  .sans{font-family:-apple-system,system-ui,sans-serif}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 28px}
+  a{color:inherit;text-decoration:none}
+  nav{display:flex;align-items:center;justify-content:space-between;padding:26px 0;
+    font-family:-apple-system,system-ui,sans-serif;font-size:12px;letter-spacing:.22em;text-transform:uppercase}
+  .nav-links{display:flex;gap:26px;color:var(--mut)}
+  .nav-links a:hover{color:var(--txt)}
+  .hero{padding:70px 0 50px;border-bottom:1px solid var(--line)}
+  .hero .k{font-family:-apple-system,system-ui,sans-serif;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--mut);margin-bottom:26px}
+  h1{font-size:clamp(48px,11vw,140px);line-height:.9;font-weight:400;font-style:italic;letter-spacing:-.02em}
+  .hero p{max-width:440px;margin-top:26px;color:var(--mut);font-size:17px}
+  .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px;padding:50px 0}
+  figure{position:relative;overflow:hidden;background:#161616}
+  figure img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1) contrast(1.04);transition:filter .6s,transform 1.2s}
+  figure:hover img{filter:grayscale(0);transform:scale(1.05)}
+  figcaption{position:absolute;left:16px;bottom:14px;font-family:-apple-system,system-ui,sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+    opacity:0;transform:translateY(6px);transition:.35s;text-shadow:0 1px 8px #000}
+  figure:hover figcaption{opacity:1;transform:none}
+  .a{grid-column:span 7;aspect-ratio:4/3}
+  .b{grid-column:span 5;aspect-ratio:4/5}
+  .c{grid-column:span 4;aspect-ratio:3/4}
+  .d{grid-column:span 4;aspect-ratio:3/4}
+  .e{grid-column:span 4;aspect-ratio:3/4}
+  .f{grid-column:span 6;aspect-ratio:16/10}
+  .g{grid-column:span 6;aspect-ratio:16/10}
+  .statement{text-align:center;padding:80px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .statement p{font-size:clamp(22px,3.4vw,40px);font-style:italic;max-width:800px;margin:0 auto;line-height:1.35}
+  footer{padding:34px 0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
+    font-family:-apple-system,system-ui,sans-serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+  footer a{color:var(--txt)}
+  @media(max-width:800px){.a,.b,.c,.d,.e,.f,.g{grid-column:span 12}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <div>Aperture Studio</div>
+    <div class="nav-links"><a href="#">Work</a><a href="#">About</a><a href="#">Contact</a></div>
+  </nav>
+
+  <header class="hero">
+    <div class="k">Photography · Film · Pune</div>
+    <h1>Light, held<br>a little longer.</h1>
+    <p class="sans" style="font-family:Georgia,serif">Product, portrait and event work for brands that care how they're seen.</p>
+  </header>
+
+  <div class="grid">
+    <figure class="a"><img src="../assets/images/web/djstage-2.jpg" alt=""><figcaption>Live · Stage</figcaption></figure>
+    <figure class="b"><img src="../assets/images/web/model-1.jpg" alt=""><figcaption>Portrait</figcaption></figure>
+    <figure class="c"><img src="../assets/images/web/jwellery-3.jpg" alt=""><figcaption>Jewellery</figcaption></figure>
+    <figure class="d"><img src="../assets/images/web/product-4.jpg" alt=""><figcaption>Product</figcaption></figure>
+    <figure class="e"><img src="../assets/images/web/model-2.jpg" alt=""><figcaption>Editorial</figcaption></figure>
+    <figure class="f"><img src="../assets/images/web/light-trails-khandala.jpg" alt=""><figcaption>Long exposure</figcaption></figure>
+    <figure class="g"><img src="../assets/images/web/architecture.jpg" alt=""><figcaption>Architecture</figcaption></figure>
+  </div>
+
+  <div class="statement"><p>“I don't take pictures of things. I take pictures of the way things feel.”</p></div>
+
+  <footer>
+    <span>Aperture — a design demo</span>
+    <span>Built by <a href="../index.html">Jitendra Kulkarni</a></span>
+  </footer>
+</div>
+</body>
+</html>

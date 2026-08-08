@@ -1,0 +1,13 @@
+# robots.txt — mjpvtspm.com
+# Generated June 2026
+
+User-agent: *
+Allow: /
+
+# Block any future admin or private paths
+Disallow: /admin/
+Disallow: /private/
+Disallow: /.env
+
+# Sitemap location
+Sitemap: https://vyatirikht.xyz/sitemap.xml

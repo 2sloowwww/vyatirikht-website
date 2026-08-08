@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ledgerly — finance for freelancers</title>
+<meta name="description" content="Demo fintech SaaS landing page — built by Jitendra Kulkarni.">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{--bg:#ffffff;--soft:#f6f7fb;--line:#e8eaf1;--txt:#0f1222;--mut:#5b6178;--ind:#4f46e5;--ind2:#7c73ff;--gr:#16a34a}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+  a{text-decoration:none;color:inherit}
+  nav{display:flex;align-items:center;justify-content:space-between;padding:20px 0}
+  .logo{font-weight:700;font-size:19px;letter-spacing:-.02em;display:flex;align-items:center;gap:8px}
+  .logo i{width:24px;height:24px;border-radius:8px;background:linear-gradient(135deg,var(--ind),var(--ind2));display:block}
+  .nav-links{display:flex;gap:26px;font-size:14px;color:var(--mut)}
+  .nav-links a:hover{color:var(--txt)}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;padding:11px 20px;border-radius:10px;transition:transform .2s,box-shadow .2s}
+  .btn-p{background:var(--ind);color:#fff;box-shadow:0 8px 24px rgba(79,70,229,.28)}
+  .btn-p:hover{transform:translateY(-2px)}
+  .btn-g{border:1px solid var(--line);color:var(--txt)}
+  .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;padding:56px 0 40px}
+  .badge{display:inline-flex;gap:8px;align-items:center;font-size:12px;font-weight:600;color:var(--ind);background:#eef0ff;padding:6px 12px;border-radius:100px;margin-bottom:20px}
+  h1{font-size:clamp(38px,5.4vw,60px);line-height:1.04;letter-spacing:-.03em;margin-bottom:18px;font-weight:760}
+  h1 em{font-style:normal;background:linear-gradient(120deg,var(--ind),var(--ind2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--mut);font-size:17px;max-width:460px;margin-bottom:26px}
+  .cta{display:flex;gap:12px;flex-wrap:wrap}
+  .trust{margin-top:24px;font-size:13px;color:var(--mut)}
+  /* card mock */
+  .mock{background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 30px 70px rgba(20,24,60,.12)}
+  .mock-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+  .mock-head b{font-size:14px}.mock-head span{font-size:12px;color:var(--gr);font-weight:600}
+  .bignum{font-size:38px;font-weight:750;letter-spacing:-.02em;margin-bottom:4px}
+  .bars{display:flex;align-items:flex-end;gap:8px;height:90px;margin:20px 0}
+  .bars i{flex:1;background:linear-gradient(180deg,var(--ind2),var(--ind));border-radius:6px 6px 0 0;display:block;opacity:.85}
+  .rows{border-top:1px solid var(--line);padding-top:14px}
+  .li{display:flex;justify-content:space-between;font-size:13px;padding:7px 0;color:var(--mut)}
+  .li b{color:var(--txt);font-weight:600}
+  /* logos */
+  .logos{display:flex;gap:34px;justify-content:center;flex-wrap:wrap;padding:34px 0;opacity:.5;font-weight:700;color:var(--mut);font-size:15px}
+  /* pricing */
+  section{padding:70px 0}
+  .eyebrow{text-align:center;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ind);font-weight:700;margin-bottom:12px}
+  h2{text-align:center;font-size:clamp(28px,4vw,42px);letter-spacing:-.02em;margin-bottom:44px}
+  .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .plan{border:1px solid var(--line);border-radius:16px;padding:28px;background:#fff;transition:transform .3s,box-shadow .3s}
+  .plan:hover{transform:translateY(-4px);box-shadow:0 20px 50px rgba(20,24,60,.1)}
+  .plan.pop{border-color:var(--ind);box-shadow:0 20px 60px rgba(79,70,229,.18)}
+  .plan .t{font-weight:700;margin-bottom:6px}
+  .plan .amt{font-size:34px;font-weight:750;letter-spacing:-.02em}
+  .plan .amt s{font-size:14px;color:var(--mut);text-decoration:none;font-weight:500}
+  .plan ul{list-style:none;margin:18px 0 22px;font-size:14px;color:var(--mut)}
+  .plan li{padding:6px 0}.plan li::before{content:'✓ ';color:var(--gr);font-weight:700}
+  .plan .btn{width:100%;justify-content:center}
+  footer{border-top:1px solid var(--line);padding:28px 0;color:var(--mut);font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  footer a{color:var(--ind);font-weight:600}
+  @media(max-width:800px){.hero{grid-template-columns:1fr}.price-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <div class="logo"><i></i> Ledgerly</div>
+    <div class="nav-links"><a href="#p">Pricing</a><a href="#">Features</a><a href="#">Login</a></div>
+    <a href="#" class="btn btn-p">Start free</a>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <div class="badge">◆ Made for solo operators</div>
+      <h1>Your money,<br><em>finally in order.</em></h1>
+      <p class="sub">Invoices, expenses and tax set-asides in one calm dashboard. Ledgerly does the bookkeeping so you can do the work.</p>
+      <div class="cta">
+        <a href="#" class="btn btn-p">Start free — no card →</a>
+        <a href="#p" class="btn btn-g">See pricing</a>
+      </div>
+      <div class="trust">Trusted by 4,000+ freelancers · ⭐ 4.9 average</div>
+    </div>
+    <div class="mock">
+      <div class="mock-head"><b>This month</b><span>▲ 18%</span></div>
+      <div class="bignum">₹2,84,900</div>
+      <div style="font-size:13px;color:var(--mut)">Net income after set-asides</div>
+      <div class="bars"><i style="height:40%"></i><i style="height:62%"></i><i style="height:48%"></i><i style="height:80%"></i><i style="height:70%"></i><i style="height:100%"></i></div>
+      <div class="rows">
+        <div class="li"><span>Invoice #0192 — Studio K</span><b>₹64,000</b></div>
+        <div class="li"><span>Tax set aside (30%)</span><b>−₹19,200</b></div>
+        <div class="li"><span>Software expenses</span><b>−₹3,400</b></div>
+      </div>
+    </div>
+  </header>
+</div>
+
+<div class="logos wrap"><span>NORTHWIND</span><span>Studio K</span><span>Loop</span><span>Meridian</span><span>Casa</span></div>
+
+<section id="p"><div class="wrap">
+  <div class="eyebrow">Pricing</div>
+  <h2>Simple, honest plans.</h2>
+  <div class="price-grid">
+    <div class="plan"><div class="t">Starter</div><div class="amt">₹0<s>/mo</s></div>
+      <ul><li>Up to 5 invoices</li><li>Expense tracking</li><li>1 client</li></ul>
+      <a href="#" class="btn btn-g">Get started</a></div>
+    <div class="plan pop"><div class="t" style="color:var(--ind)">Pro · popular</div><div class="amt">₹499<s>/mo</s></div>
+      <ul><li>Unlimited invoices</li><li>Auto tax set-asides</li><li>Recurring billing</li><li>Reports &amp; exports</li></ul>
+      <a href="#" class="btn btn-p">Start free trial</a></div>
+    <div class="plan"><div class="t">Studio</div><div class="amt">₹1,299<s>/mo</s></div>
+      <ul><li>Everything in Pro</li><li>Up to 5 seats</li><li>Client portal</li></ul>
+      <a href="#" class="btn btn-g">Choose Studio</a></div>
+  </div>
+</div></section>
+
+<div class="wrap">
+  <footer>
+    <span>© 2026 Ledgerly — a design demo.</span>
+    <span>Built by <a href="../index.html">Jitendra Kulkarni</a></span>
+  </footer>
+</div>
+</body>
+</html>

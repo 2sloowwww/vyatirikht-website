@@ -1,0 +1,136 @@
+<!-- ═══════════════════════════════════════════
+     SITE MAP — paste this whole block into index.html,
+     right before the closing </footer> tag (or wherever
+     you'd like it to appear). Uses the same CSS variables
+     already defined in your :root, so no style.css edits
+     needed — just drop it in.
+═══════════════════════════════════════════ -->
+<section id="sitemap">
+  <div class="reveal section-head">
+    <div class="section-label">Site Map</div>
+    <h2 class="section-title">Find Your Way<br><em>Around</em></h2>
+    <p class="section-intro">Every page and section on vyatirikht.xyz, in one place.</p>
+  </div>
+
+  <div class="sm-grid">
+
+    <div class="sm-col">
+      <h3 class="sm-col-title">Home <span class="sm-col-path">/</span></h3>
+      <ul class="sm-list">
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#services">Divisions</a></li>
+        <li><a href="index.html#portfolio">Portfolio</a></li>
+        <li><a href="index.html#social-mgmt">Social Media Management</a></li>
+        <li><a href="index.html#client-results">Client Results</a></li>
+        <li><a href="index.html#insurance">Insurance Advisory</a></li>
+        <li><a href="index.html#motorcycle">Motorcycle Education</a></li>
+        <li><a href="index.html#blog-preview">Blog Preview</a></li>
+        <li><a href="index.html#instagram-feeds">Instagram Feeds</a></li>
+        <li><a href="index.html#plugin-library">Plugin Library</a></li>
+        <li><a href="index.html#connect">Connect</a></li>
+      </ul>
+    </div>
+
+    <div class="sm-col sm-col-wide">
+      <h3 class="sm-col-title">Blog <span class="sm-col-path">/blog.html</span></h3>
+      <ul class="sm-list sm-list-2col">
+        <li><a href="blog.html#post-1">Why Every Rider Needs to Understand Their Motorcycle</a></li>
+        <li><a href="blog.html#post-2">The Exposure Triangle</a></li>
+        <li><a href="blog.html#post-3">Why Your Business Is Invisible Online</a></li>
+        <li><a href="blog.html#post-4">Building Multiple Income Streams from Zero</a></li>
+        <li><a href="blog.html#post-5">Body Positioning — Why It Matters More Than Speed</a></li>
+        <li><a href="blog.html#post-6">Product Photography on a Budget</a></li>
+        <li><a href="blog.html#post-7">Why Most People Are Underinsured</a></li>
+        <li><a href="blog.html#post-8">Google Maps Setup for Small Businesses</a></li>
+        <li><a href="blog.html#post-9">Tyre Pressure — The Most Overlooked Safety Check</a></li>
+        <li><a href="blog.html#post-10">Jewellery Photography — Light and Reflection</a></li>
+        <li><a href="blog.html#post-11">Freelancing vs Employment</a></li>
+        <li><a href="blog.html#post-12">Instagram Reels Strategy for Small Businesses</a></li>
+        <li><a href="blog.html#post-13">How Brakes Actually Work</a></li>
+        <li><a href="blog.html#post-14">Event Photography in Terrible Lighting</a></li>
+        <li><a href="blog.html#post-15">Term Insurance vs Endowment Plans</a></li>
+        <li><a href="blog.html#post-16">How I Structure My Week Across 5 Divisions</a></li>
+        <li><a href="blog.html#post-17">Monsoon Riding in India</a></li>
+        <li><a href="blog.html#post-18">Color Grading — Good Photo to Great</a></li>
+        <li><a href="blog.html#post-19">Facebook Ads for Local Businesses in 2026</a></li>
+        <li><a href="blog.html#post-20">Motocross vs Road Riding</a></li>
+        <li><a href="blog.html#post-21">Personal Branding in India</a></li>
+        <li><a href="blog.html#post-22">How to Price Your Photography</a></li>
+        <li><a href="blog.html#post-23">The Power of Compounding — Starting at 25</a></li>
+        <li><a href="blog.html#post-24">WhatsApp Business for Indian SMEs</a></li>
+        <li><a href="blog.html#post-25">Reading a Corner</a></li>
+        <li><a href="blog.html#post-26">Documentary vs Commercial Photography</a></li>
+        <li><a href="blog.html#post-27">Discipline Over Motivation</a></li>
+        <li><a href="blog.html#post-28">Content Calendar Strategy</a></li>
+        <li><a href="blog.html#post-29">Motorcycle Chain Maintenance</a></li>
+        <li><a href="blog.html#post-30">30 Days of Publishing</a></li>
+      </ul>
+    </div>
+
+    <div class="sm-col">
+      <h3 class="sm-col-title">External</h3>
+      <ul class="sm-list">
+        <li><a href="https://jitendrakulkarni.in" target="_blank" rel="noopener">jitendrakulkarni.in <span class="sm-tag">redirects here</span></a></li>
+        <li><a href="https://2sloowwww.xyz" target="_blank" rel="noopener">2sloowwww.xyz <span class="sm-tag">redirects here</span></a></li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<style>
+.sm-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 48px;
+  margin-top: 44px;
+}
+.sm-col-title {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 400;
+  color: var(--text);
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.sm-col-path {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-faint);
+  margin-left: 8px;
+  letter-spacing: 0.04em;
+}
+.sm-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.sm-list-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 24px;
+}
+.sm-list a {
+  font-size: 13px;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+  line-height: 1.5;
+}
+.sm-list a:hover { color: var(--gold-bright); }
+.sm-tag {
+  display: inline-block;
+  margin-left: 6px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+@media(max-width: 900px) {
+  .sm-grid { grid-template-columns: 1fr; gap: 32px; }
+  .sm-list-2col { grid-template-columns: 1fr; }
+}
+</style>

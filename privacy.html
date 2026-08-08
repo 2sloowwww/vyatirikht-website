@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — VYATIRIKHT</title>
+  <meta name="description" content="What information the Vyatirikht website collects, why, where it is stored, and how to have it deleted.">
+  <meta name="theme-color" content="#0B6623">
+  <link rel="canonical" href="https://vyatirikht.xyz/privacy.html">
+  <link rel="icon" type="image/png" href="assets/images/logo/Logo_transparent.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="policy.css">
+  <!-- Theme: light by default, dark only if the visitor opted in.
+       Runs before paint so a saved dark theme never flashes light. -->
+  <script>
+    (function () {
+      try {
+        if (localStorage.getItem('vy-theme') === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a href="index.html" class="nav-logo"><img src="assets/images/logo/Logo_transparent.png" alt="Vyatirikht" class="nav-logo-img" width="217" height="363"></a>
+  <ul class="nav-links">
+    <li><a href="blog.html" class="nav-blog">Blog</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="index.html#portfolio">Work</a></li>
+    <li><a href="vault.html">Vault</a></li>
+    <li><a href="index.html#connect" class="nav-cta">Connect</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="blog.html" class="mobile-blog-link" onclick="closeMobile()">Blog</a>
+  <a href="index.html#about" onclick="closeMobile()">About</a>
+  <a href="index.html#services" onclick="closeMobile()">Services</a>
+  <a href="index.html#portfolio" onclick="closeMobile()">Work</a>
+  <a href="vault.html" onclick="closeMobile()">Vault</a>
+  <a href="index.html#connect" onclick="closeMobile()">Connect</a>
+</div>
+
+<div class="pol-hero">
+  <div class="orb orb-1" style="width:340px;height:340px;top:-110px;left:-70px;background:radial-gradient(circle,rgba(8,88,32,0.14),transparent 70%);"></div>
+  <div class="pol-hero-inner">
+    <div class="section-label">Policy</div>
+    <h1 class="pol-title">Privacy<br><em>Policy</em></h1>
+    <div class="pol-updated">Last updated: 19 July 2026</div>
+  </div>
+</div>
+
+<div class="pol-wrap">
+  <div class="pol-body">
+
+    <div class="pol-note">
+      <p>Short version: you can read this entire site without giving me anything. I only hold what you type into a form yourself. I never see your card details. I don't run advertising or tracking analytics, and I don't sell or share your information. Ask me and I will delete what I hold.</p>
+    </div>
+
+    <h2>1. Scope</h2>
+    <p>This policy explains what <strong>Vyatirikht</strong> (Pune, Maharashtra, India) does with personal information collected through this website. It covers the site only — it does not cover information exchanged during a commissioned engagement, which is handled under the agreement for that work.</p>
+
+    <h2>2. Reading the site</h2>
+    <p>Browsing the site and reading the blog requires no account and no personal information. I do not run advertising networks, behavioural tracking, or third-party analytics on this site, and I do not build profiles of readers.</p>
+
+    <h2>3. What I collect, and only when you give it</h2>
+
+    <h3>Enquiry form</h3>
+    <p>If you contact me through the form on the homepage, I store your <strong>name and phone number</strong> (both required), and your <strong>email address, the service you're interested in, and your message</strong> where you provide them. I use it solely to reply to you and to keep track of the conversation.</p>
+
+    <h3>Newsletter</h3>
+    <p>If you subscribe, I store your <strong>email address</strong> and a note of which page you subscribed from. It is used only to send occasional updates about new writing. Every email includes a way to unsubscribe, or you can email me and I will remove you immediately.</p>
+
+    <h3>Contributions</h3>
+    <p>If you contribute through the <a href="support.html">Support</a> page I store the <strong>amount</strong>, the <strong>Razorpay order and payment identifiers</strong>, and the payment status — plus your <strong>name, email address, and message if you chose to enter them</strong>. All three of those are optional; you may contribute anonymously. I use this to confirm the payment, send a receipt where an email was given, keep proper financial records, and process refunds.</p>
+
+    <div class="pol-note">
+      <p><strong>I never receive your payment details.</strong> Card numbers, UPI IDs, CVVs, and bank credentials are entered on Razorpay's own secure page and are never transmitted to, processed by, or stored on this website. I only ever see a confirmation that a payment succeeded.</p>
+    </div>
+
+    <h3>Team accounts</h3>
+    <p>Vyatirikht team members have accounts holding an email address and a securely hashed password. These are created by me; there is no public sign-up.</p>
+
+    <h2>4. Why I am allowed to hold it</h2>
+    <p>I process this information because you gave it to me voluntarily and asked me to do something with it (reply to an enquiry, send the newsletter, process a contribution); because I have a legitimate interest in running and securing the site; and because I am legally obliged to retain financial records.</p>
+
+    <h2>5. Where it is stored</h2>
+    <p>Site data is stored in a <strong>Supabase</strong> Postgres database with row-level security enabled, so that submissions are write-only from the public site and readable only by authenticated Vyatirikht team members. Payment records are also held by <strong>Razorpay</strong> as my payment processor. Both are third-party providers with their own security and privacy practices, and data may be stored on servers outside India.</p>
+
+    <h2>6. Who else sees it</h2>
+    <p><strong>I do not sell, rent, or trade your personal information, and I do not share it for anyone else's marketing.</strong> It is seen only by:</p>
+    <ul>
+      <li>Vyatirikht team members who need it to do their job.</li>
+      <li>Supabase, as my database and authentication host.</li>
+      <li>Razorpay, as my payment processor, for contributions.</li>
+      <li>Anyone I am legally required to disclose to under Indian law.</li>
+    </ul>
+
+    <h2>7. Third-party services on this site</h2>
+    <ul>
+      <li><strong>Google Fonts</strong> — typefaces are loaded from Google's servers, which means your browser contacts Google and your IP address is visible to them as part of that request.</li>
+      <li><strong>Razorpay Checkout</strong> — the payment script loads only on the Support page.</li>
+      <li><strong>Supabase</strong> — receives form submissions and serves blog articles.</li>
+    </ul>
+    <p>My automated news writing sends <em>topic prompts and public web search results</em> to an AI provider to draft articles. Your personal information is never part of that process.</p>
+
+    <h2>8. Cookies</h2>
+    <p>This site sets no advertising or tracking cookies. Where you are signed in to the team area, your browser stores a session token so you stay logged in; that is functional, not tracking, and clearing your browser storage removes it.</p>
+
+    <h2>9. How long I keep it</h2>
+    <p>Enquiries are kept while the conversation is active and for a reasonable period afterwards. Newsletter addresses are kept until you unsubscribe. Contribution records are kept as long as tax and accounting law requires, typically eight years. Anything no longer needed is deleted.</p>
+
+    <h2>10. Your rights</h2>
+    <p>You can ask me to:</p>
+    <ul>
+      <li>Tell you what personal information I hold about you.</li>
+      <li>Correct anything that is wrong.</li>
+      <li>Delete what I hold, where I am not legally required to keep it.</li>
+      <li>Unsubscribe from the newsletter.</li>
+      <li>Withdraw consent you previously gave.</li>
+    </ul>
+    <p>Email <a href="mailto:2sloowwww@gmail.com">2sloowwww@gmail.com</a> and I will respond within <strong>30 days</strong>. There is no charge. Note that financial records attached to a contribution must be retained for the statutory period even if you ask for deletion — I will delete the optional name, email, and message from that record instead.</p>
+
+    <h2>11. Security</h2>
+    <p>Submissions travel over HTTPS. The database enforces row-level security so that public visitors can submit information but cannot read anyone's submissions back. Passwords are hashed, never stored in readable form. Payment credentials never touch my systems. No system is perfectly secure, but I take this seriously, and if a breach ever affects your information I will tell you.</p>
+
+    <h2>12. Children</h2>
+    <p>This site is not directed at children under 18, and I do not knowingly collect their information. If you believe a child has submitted personal information to me, contact me and I will delete it.</p>
+
+    <h2>13. Changes</h2>
+    <p>If this policy changes, the revision date at the top will change with it. Material changes will be noted on the site.</p>
+
+    <div class="pol-contact">
+      <h2>Contact</h2>
+      <p><strong>Vyatirikht</strong> — creative studio, Pune, Maharashtra, India</p>
+      <p>Email: <a href="mailto:2sloowwww@gmail.com">2sloowwww@gmail.com</a><br>
+      Or use the enquiry form in the <a href="index.html#connect">Connect section</a> of my homepage.</p>
+      <p>For any question about your privacy or to have your information deleted, email is the fastest route.</p>
+    </div>
+
+    <div class="pol-related">
+      <a href="terms.html">Terms &amp; Conditions</a>
+      <a href="refund.html">Refund &amp; Cancellation</a>
+      <a href="support.html">Support the bot</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-divider-row" style="border-top:none;">
+    <span class="footer-copy">© 2026 VYATIRIKHT · <a href="index.html" style="color:var(--accent);text-decoration:none;">Main site</a> · <a href="blog.html" style="color:var(--accent);text-decoration:none;">Blog</a> · <a href="login.html" style="color:rgba(255,255,255,0.32);text-decoration:none;">Login</a></span>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

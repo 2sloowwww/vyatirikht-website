@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Jitendra Kulkarni — Founder & Creative Director · VYATIRIKHT</title>
+  <meta name="description" content="Jitendra Kulkarni (MJ) — Founder and Creative Director of VYATIRIKHT. Photographer, filmmaker, creative director, and entrepreneur based in Pune.">
+  <meta name="author" content="Jitendra Kulkarni">
+  <meta name="theme-color" content="#0B6623">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://vyatirikht.xyz/mj.html">
+  <link rel="icon" type="image/png" href="assets/images/logo/Logo_transparent.png">
+  <link rel="apple-touch-icon" href="assets/images/logo/Logo_transparent.png">
+
+  <meta property="og:type" content="profile">
+  <meta property="og:url" content="https://vyatirikht.xyz/mj.html">
+  <meta property="og:title" content="Jitendra Kulkarni — Founder & Creative Director · VYATIRIKHT">
+  <meta property="og:description" content="Photographer. Filmmaker. Creative Director. Entrepreneur. The mind behind VYATIRIKHT.">
+  <meta property="og:image" content="https://vyatirikht.xyz/assets/images/web/founder-mj-jpg.jpg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400&family=DM+Mono:wght@400&display=swap" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400&family=DM+Mono:wght@400&display=swap" rel="stylesheet"></noscript>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* ── Keyframes ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes slideRight {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
+    }
+    @keyframes drift {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-8px); }
+    }
+
+    /* ── Scroll reveal ── */
+    .sr {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.75s cubic-bezier(.16,1,.3,1),
+                  transform 0.75s cubic-bezier(.16,1,.3,1);
+    }
+    .sr.visible { opacity: 1; transform: translateY(0); }
+    .sr-d1 { transition-delay: 0.08s; }
+    .sr-d2 { transition-delay: 0.18s; }
+    .sr-d3 { transition-delay: 0.28s; }
+    .sr-d4 { transition-delay: 0.38s; }
+    .sr-d5 { transition-delay: 0.48s; }
+    .sr-d6 { transition-delay: 0.58s; }
+    .sr-d7 { transition-delay: 0.68s; }
+    .sr-d8 { transition-delay: 0.78s; }
+
+    /* ══════════════════════════════════════
+       HERO
+    ══════════════════════════════════════ */
+    .mj-hero {
+      min-height: 100vh;
+      background: #05100A;
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: stretch;
+      overflow: hidden;
+    }
+
+    /* ambient glow layers */
+    .mj-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 55% 65% at 75% 35%, rgba(8,88,32,0.45) 0%, transparent 65%),
+        radial-gradient(ellipse 35% 45% at 15% 75%, rgba(154,108,16,0.14) 0%, transparent 55%);
+      pointer-events: none;
+    }
+
+    /* grain */
+    .mj-hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 180px;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* Left — text content */
+    .mj-hero-left {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: calc(var(--nav-h) + 60px) var(--pad) clamp(64px, 9vw, 130px) var(--pad);
+    }
+
+    .mj-hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1.8rem;
+      opacity: 0;
+      animation: fadeUp 0.8s cubic-bezier(.16,1,.3,1) 0.4s forwards;
+    }
+    .mj-hero-eyebrow-line {
+      width: 28px; height: 1px;
+      background: rgba(8,88,32,0.7);
+      transform-origin: left;
+      animation: slideRight 0.55s cubic-bezier(.16,1,.3,1) 0.4s both;
+    }
+    .mj-hero-eyebrow-text {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(11,102,35,0.75);
+    }
+
+    .mj-hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(52px, 9.5vw, 118px);
+      font-weight: 300;
+      line-height: 0.93;
+      color: #EEE9DF;
+      letter-spacing: -0.015em;
+      margin-bottom: 1.6rem;
+      opacity: 0;
+      animation: fadeUp 0.95s cubic-bezier(.16,1,.3,1) 0.56s forwards;
+    }
+    .mj-hero-name em {
+      font-style: italic;
+      color: rgba(238,233,223,0.42);
+    }
+
+    .mj-hero-roles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 1.8rem;
+      opacity: 0;
+      animation: fadeUp 0.8s cubic-bezier(.16,1,.3,1) 0.72s forwards;
+    }
+    .mj-role-pill {
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      border: 0.5px solid rgba(255,255,255,0.13);
+      color: rgba(238,233,223,0.65);
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(8px);
+    }
+    .mj-role-pill-accent {
+      border-color: rgba(8,88,32,0.45);
+      color: rgba(11,168,54,0.85);
+      background: rgba(8,88,32,0.12);
+    }
+
+    .mj-hero-tagline {
+      font-size: clamp(14px, 1.8vw, 17px);
+      color: rgba(238,233,223,0.55);
+      font-weight: 300;
+      line-height: 1.65;
+      max-width: 360px;
+      margin-bottom: 2.4rem;
+      opacity: 0;
+      animation: fadeUp 0.8s cubic-bezier(.16,1,.3,1) 0.84s forwards;
+    }
+
+    .mj-hero-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.8s cubic-bezier(.16,1,.3,1) 0.96s forwards;
+    }
+
+    /* Right — portrait */
+    .mj-hero-right {
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+    }
+    .mj-hero-right img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      opacity: 0;
+      animation: fadeIn 1.4s cubic-bezier(.16,1,.3,1) 0.2s forwards;
+    }
+    /* gradient blends portrait into dark left side */
+    .mj-hero-right::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, #05100A 0%, rgba(5,16,10,0.3) 35%, rgba(5,16,10,0) 65%);
+      z-index: 1;
+    }
+    .mj-hero-right::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 280px;
+      background: linear-gradient(to top, #05100A 0%, transparent 100%);
+      z-index: 1;
+    }
+
+    /* Scroll cue */
+    .mj-scroll-cue {
+      position: absolute;
+      bottom: 28px; left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      animation: fadeIn 1s ease 1.6s forwards;
+    }
+    .mj-scroll-cue span {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(238,233,223,0.2);
+    }
+    .mj-scroll-line {
+      width: 1px; height: 36px;
+      background: linear-gradient(to bottom, rgba(8,88,32,0.7), transparent);
+    }
+
+    /* ── Shared buttons ── */
+    .mj-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-family: var(--font-body);
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.22s cubic-bezier(.16,1,.3,1);
+      border: none;
+    }
+    .mj-btn-primary {
+      background: #0B6623;
+      color: #fff;
+      box-shadow: 0 4px 18px rgba(11,102,35,0.3);
+    }
+    .mj-btn-primary:hover {
+      background: #0E7A2A;
+      box-shadow: 0 6px 26px rgba(11,102,35,0.44);
+      transform: translateY(-2px);
+    }
+    .mj-btn-ghost {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.13);
+      color: rgba(238,233,223,0.8);
+      backdrop-filter: blur(10px);
+    }
+    .mj-btn-ghost:hover {
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.26);
+      color: #EEE9DF;
+      transform: translateY(-1px);
+    }
+    .mj-btn-ghost-light {
+      background: var(--surface-1);
+      border: 0.5px solid var(--border-mid);
+      color: var(--text);
+    }
+    .mj-btn-ghost-light:hover {
+      background: rgba(8,88,32,0.07);
+      border-color: rgba(8,88,32,0.3);
+      color: #0B6623;
+      transform: translateY(-1px);
+    }
+
+    /* ══════════════════════════════════════
+       SECTION UTILITIES
+    ══════════════════════════════════════ */
+    .mj-section { padding: clamp(80px, 11vw, 140px) var(--pad); }
+    .mj-section-dark  { background: #05100A; color: #EEE9DF; }
+    .mj-section-mid   { background: #0A1A0D; color: #EEE9DF; }
+    .mj-section-light { background: var(--warm); color: var(--text); }
+    .mj-section-alt   { background: var(--surface-2); }
+
+    .mj-inner { max-width: 1080px; margin: 0 auto; }
+
+    .mj-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .mj-label::before {
+      content: '';
+      display: inline-block;
+      width: 20px; height: 1px;
+      background: currentColor;
+    }
+    .mj-label-dark  { color: rgba(11,102,35,0.65); }
+    .mj-label-light { color: var(--text-muted); }
+
+    .mj-h2 {
+      font-family: var(--font-display);
+      font-size: clamp(30px, 5vw, 58px);
+      font-weight: 300;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .mj-h2-dark  { color: #EEE9DF; }
+    .mj-h2-light { color: var(--text); }
+    .mj-h2 em { font-style: italic; }
+
+    /* ══════════════════════════════════════
+       ABOUT — SPLIT
+    ══════════════════════════════════════ */
+    .mj-about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(36px, 5vw, 80px);
+      align-items: start;
+    }
+    .mj-about-lead {
+      font-family: var(--font-display);
+      font-size: clamp(18px, 2.6vw, 26px);
+      font-weight: 300;
+      line-height: 1.5;
+      color: var(--text);
+      margin-bottom: 1.6rem;
+    }
+    .mj-about-body {
+      font-size: 14px;
+      color: var(--text-mid);
+      line-height: 1.85;
+    }
+    .mj-about-body p + p { margin-top: 1rem; }
+
+    .mj-about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 0.5px solid var(--border-mid);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 1.2rem;
+    }
+    .mj-stat-cell {
+      background: var(--surface-1);
+      padding: 1.4rem 1.5rem;
+      transition: background 0.2s;
+    }
+    .mj-stat-cell:hover { background: var(--surface-2); }
+    .mj-stat-num {
+      font-family: var(--font-display);
+      font-size: 38px;
+      font-weight: 300;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .mj-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .mj-identities {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+    .mj-identity-tag {
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 400;
+      border: 0.5px solid var(--border-mid);
+      color: var(--text-mid);
+      background: var(--surface-1);
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+    .mj-identity-tag:hover {
+      border-color: rgba(8,88,32,0.4);
+      color: #0B6623;
+      background: rgba(8,88,32,0.06);
+    }
+
+    /* ══════════════════════════════════════
+       DISCIPLINES — DARK CARDS
+    ══════════════════════════════════════ */
+    .mj-disc-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 3rem;
+    }
+    .mj-disc-card {
+      background: rgba(255,255,255,0.035);
+      border: 0.5px solid rgba(255,255,255,0.09);
+      border-radius: 14px;
+      padding: 1.75rem 1.5rem;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: background 0.22s, border-color 0.22s, transform 0.22s;
+    }
+    .mj-disc-card:hover {
+      background: rgba(255,255,255,0.065);
+      border-color: rgba(8,88,32,0.38);
+      transform: translateY(-4px);
+    }
+    .mj-disc-icon {
+      width: 38px; height: 38px;
+      border-radius: 9px;
+      background: rgba(8,88,32,0.18);
+      border: 0.5px solid rgba(8,88,32,0.3);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.1rem;
+      color: rgba(11,168,54,0.8);
+    }
+    .mj-disc-name {
+      font-size: 15px;
+      font-weight: 400;
+      color: #EEE9DF;
+      margin-bottom: 0.45rem;
+      line-height: 1.25;
+    }
+    .mj-disc-desc {
+      font-size: 12px;
+      color: rgba(238,233,223,0.38);
+      line-height: 1.6;
+    }
+
+    /* ══════════════════════════════════════
+       PORTFOLIO GRID
+    ══════════════════════════════════════ */
+    .mj-portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 3rem;
+    }
+    .mj-pf-card {
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--surface-2);
+      border: 0.5px solid var(--border);
+      transition: box-shadow 0.25s, transform 0.25s, border-color 0.25s;
+    }
+    .mj-pf-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-4px);
+      border-color: var(--border-strong);
+    }
+    .mj-pf-thumb {
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      position: relative;
+    }
+    .mj-pf-thumb img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.65s cubic-bezier(.16,1,.3,1);
+    }
+    .mj-pf-card:hover .mj-pf-thumb img { transform: scale(1.07); }
+    .mj-pf-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(5,16,10,0.55) 0%, transparent 55%);
+    }
+    .mj-pf-body { padding: 1.1rem 1.2rem 1.25rem; }
+    .mj-pf-cat {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+    }
+    .mj-pf-name {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+    .mj-pf-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+    .mj-pf-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-family: var(--font-mono);
+      letter-spacing: 0.05em;
+      color: #0B6623;
+      text-decoration: none;
+      transition: gap 0.2s;
+    }
+    .mj-pf-link:hover { gap: 10px; }
+
+    /* Featured / tall card spanning 2 cols */
+    .mj-pf-card-featured {
+      grid-column: span 2;
+    }
+    .mj-pf-card-featured .mj-pf-thumb {
+      aspect-ratio: 16/9;
+    }
+
+    /* ══════════════════════════════════════
+       SKILLS
+    ══════════════════════════════════════ */
+    .mj-skills-cols {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 2.5rem;
+    }
+    .mj-skill-group {
+      background: var(--surface-1);
+      border: 0.5px solid var(--border);
+      border-radius: 12px;
+      padding: 1.4rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .mj-skill-group:hover {
+      border-color: var(--border-strong);
+      box-shadow: var(--shadow-sm);
+    }
+    .mj-skill-group-title {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 0.5px solid var(--border);
+    }
+    .mj-skill-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .mj-skill-list li {
+      font-size: 13px;
+      color: var(--text-mid);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      line-height: 1.3;
+    }
+    .mj-skill-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: #0B6623;
+      flex-shrink: 0;
+      opacity: 0.6;
+    }
+
+    /* ══════════════════════════════════════
+       QUOTE
+    ══════════════════════════════════════ */
+    .mj-quote-section {
+      padding: clamp(80px, 13vw, 180px) var(--pad);
+      background: #05100A;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .mj-quote-section::before {
+      content: '"';
+      position: absolute;
+      top: -60px; left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-display);
+      font-size: clamp(180px, 28vw, 360px);
+      font-weight: 300;
+      color: rgba(8,88,32,0.055);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+    .mj-quote-text {
+      font-family: var(--font-display);
+      font-size: clamp(22px, 4.2vw, 50px);
+      font-weight: 300;
+      font-style: italic;
+      color: #EEE9DF;
+      line-height: 1.32;
+      max-width: 800px;
+      margin: 0 auto 1.6rem;
+      position: relative; z-index: 1;
+    }
+    .mj-quote-attr {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: rgba(238,233,223,0.28);
+      text-transform: uppercase;
+      position: relative; z-index: 1;
+    }
+
+    /* ══════════════════════════════════════
+       CONNECT CTA
+    ══════════════════════════════════════ */
+    .mj-cta-section {
+      padding: clamp(80px, 11vw, 140px) var(--pad);
+      background: var(--warm);
+      text-align: center;
+    }
+    .mj-cta-sub {
+      font-size: 14px;
+      color: var(--text-muted);
+      max-width: 460px;
+      margin: 0.6rem auto 2.4rem;
+      line-height: 1.75;
+    }
+    .mj-cta-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ══════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════ */
+    @media (max-width: 960px) {
+      .mj-hero          { grid-template-columns: 1fr; min-height: auto; }
+      .mj-hero-right    { height: 56vw; min-height: 260px; max-height: 420px; }
+      .mj-hero-right::before { background: linear-gradient(to bottom, #05100A 0%, rgba(5,16,10,0) 40%); }
+      .mj-hero-left     { padding-bottom: clamp(40px, 7vw, 80px); }
+      .mj-about-grid    { grid-template-columns: 1fr; }
+      .mj-disc-grid     { grid-template-columns: repeat(2, 1fr); }
+      .mj-portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+      .mj-pf-card-featured { grid-column: span 2; }
+      .mj-skills-cols   { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .mj-hero-name     { font-size: clamp(36px, 10vw, 52px); }
+      .mj-disc-grid     { grid-template-columns: 1fr; }
+      .mj-portfolio-grid { grid-template-columns: 1fr; }
+      .mj-pf-card-featured { grid-column: span 1; }
+      .mj-pf-card-featured .mj-pf-thumb { aspect-ratio: 4/3; }
+      .mj-skills-cols   { grid-template-columns: 1fr; }
+      .mj-about-stats   { grid-template-columns: 1fr 1fr; }
+      .mj-section       { padding: clamp(56px, 9vw, 80px) var(--pad); }
+      .mj-hero-actions  { flex-direction: column; }
+      .mj-btn           { width: 100%; justify-content: center; }
+      .mj-cta-actions   { flex-direction: column; align-items: center; }
+    }
+    @media (max-width: 400px) {
+      .mj-hero-name     { font-size: 32px; }
+      .mj-hero-right    { height: 62vw; }
+      .mj-about-stats   { grid-template-columns: 1fr; }
+    }
+
+    /* Page transition */
+    #page-transition {
+      position: fixed; inset: 0; z-index: 9999;
+      background: #05100A;
+      transform: translateY(100%);
+      transition: transform 0s;
+      pointer-events: none;
+    }
+    #page-transition.pt-enter {
+      transform: translateY(0%);
+      transition: transform 0.42s cubic-bezier(0.76,0,0.24,1);
+    }
+    #page-transition.pt-exit {
+      transform: translateY(-100%);
+      transition: transform 0.42s cubic-bezier(0.76,0,0.24,1);
+    }
+    .pt-logo {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      height: 72px; width: auto;
+      opacity: 0; transition: opacity 0.2s ease;
+      filter: brightness(10);
+    }
+    #page-transition.pt-enter .pt-logo { opacity: 0.18; transition-delay: 0.18s; }
+  </style>
+  <!-- Theme: light by default, dark only if the visitor opted in.
+       Runs before paint so a saved dark theme never flashes light. -->
+  <script>
+    (function () {
+      try {
+        if (localStorage.getItem('vy-theme') === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+
+<!-- NEWSLETTER POPUP -->
+<div class="nl-overlay" id="nlOverlay" role="dialog" aria-modal="true" aria-label="Newsletter signup">
+  <div class="nl-box">
+    <button class="nl-close" onclick="closeNewsletter()" aria-label="Close">×</button>
+    <div class="nl-icon">✉</div>
+    <h2 class="nl-title">Stay in the <em>Loop</em></h2>
+    <p class="nl-sub">Photography, filmmaking, and entrepreneurship — dispatches from the studio, straight to your inbox.</p>
+    <div class="nl-form">
+      <input type="email" class="nl-input" placeholder="your@email.com" id="nl-email">
+      <button class="nl-btn" onclick="submitNewsletter()">Subscribe</button>
+    </div>
+    <p class="nl-note" id="nl-msg"></p>
+    <button class="nl-skip" onclick="closeNewsletter()">Maybe later</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a href="index.html" class="nav-logo">
+    <img loading="lazy" src="assets/images/logo/Logo_transparent.png" alt="Vyatirikht" class="nav-logo-img" width="217" height="363">
+  </a>
+  <ul class="nav-links">
+    <li><a href="blog.html" class="nav-blog">Blog</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="index.html#portfolio">Work</a></li>
+    <li><a href="index.html#connect" class="nav-cta">Connect</a></li>
+  </ul>
+  <button class="nav-hamburger" onclick="toggleMobile()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="blog.html" class="mobile-blog-link" onclick="closeMobile()">Blog</a>
+  <a href="index.html#about" onclick="closeMobile()">About</a>
+  <a href="index.html#services" onclick="closeMobile()">Services</a>
+  <a href="index.html#portfolio" onclick="closeMobile()">Work</a>
+  <a href="index.html#connect" onclick="closeMobile()">Connect</a>
+</div>
+
+
+<!-- ════════════════════════════════════
+     HERO
+════════════════════════════════════ -->
+<section class="mj-hero" aria-label="Jitendra Kulkarni profile">
+
+  <div class="mj-hero-left">
+    <div class="mj-hero-eyebrow">
+      <div class="mj-hero-eyebrow-line"></div>
+      <span class="mj-hero-eyebrow-text">VYATIRIKHT · Founder &amp; Creative Director</span>
+    </div>
+
+    <h1 class="mj-hero-name">
+      Jiten<em>dra</em><br>Kulkarni
+    </h1>
+
+    <div class="mj-hero-roles">
+      <span class="mj-role-pill mj-role-pill-accent">Photographer</span>
+      <span class="mj-role-pill">Filmmaker</span>
+      <span class="mj-role-pill">Creative Director</span>
+      <span class="mj-role-pill">Entrepreneur</span>
+    </div>
+
+    <p class="mj-hero-tagline">
+      I don't just create content. I build systems, businesses, and experiences — one frame at a time.
+    </p>
+
+    <div class="mj-hero-actions">
+      <a href="index.html#portfolio" class="mj-btn mj-btn-primary">
+        View Work
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="https://www.instagram.com/mjpvtspm/" target="_blank" rel="noopener" class="mj-btn mj-btn-ghost" aria-label="Instagram">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+        Instagram
+      </a>
+      <a href="https://www.linkedin.com/in/2sloowwww/" target="_blank" rel="noopener" class="mj-btn mj-btn-ghost" aria-label="LinkedIn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/>
+        </svg>
+        LinkedIn
+      </a>
+    </div>
+  </div>
+
+  <div class="mj-hero-right">
+    <img src="assets/images/web/founder-mj-jpg.jpg" alt="Jitendra Kulkarni — Founder, VYATIRIKHT" loading="eager" srcset="assets/images/web/sm/founder-mj-jpg.jpg 900w, assets/images/web/founder-mj-jpg.jpg 1920w" sizes="(max-width: 900px) 100vw, 50vw" width="960" height="1280">
+  </div>
+
+  <div class="mj-scroll-cue" aria-hidden="true">
+    <span>Scroll</span>
+    <div class="mj-scroll-line"></div>
+  </div>
+
+</section>
+
+
+<!-- ════════════════════════════════════
+     ABOUT
+════════════════════════════════════ -->
+<section class="mj-section mj-section-light" aria-labelledby="about-heading">
+  <div class="mj-inner">
+    <div class="mj-about-grid">
+
+      <div>
+        <p class="mj-label mj-label-light sr">About</p>
+        <h2 class="mj-h2 mj-h2-light sr sr-d1" id="about-heading">
+          Creator. Builder.<br><em>Rider. Founder.</em>
+        </h2>
+        <div class="mj-about-body sr sr-d2">
+          <p>Jitendra Kulkarni — known as MJ — is the founder and creative director of VYATIRIKHT, a Pune-based creative studio built at the intersection of photography, film, branding, and digital strategy.</p>
+          <p>He started with a camera and a compulsion to document the world differently. What followed was a discipline that spans product photography, automotive filmmaking, portrait work, maternity sessions, event coverage, and creative direction for brands — all shot and directed in-house.</p>
+          <p>Outside the studio, MJ rides motorcycles, writes about entrepreneurship, and builds things. Not as hobbies — as ways of thinking. The same precision that goes into a frame goes into every system, process, and decision at Vyatirikht.</p>
+        </div>
+      </div>
+
+      <div class="sr sr-d2">
+        <div class="mj-about-stats">
+          <div class="mj-stat-cell">
+            <div class="mj-stat-num">7+</div>
+            <div class="mj-stat-label">Photography categories in active portfolio</div>
+          </div>
+          <div class="mj-stat-cell">
+            <div class="mj-stat-num">100%</div>
+            <div class="mj-stat-label">Projects shot, directed &amp; delivered in-house</div>
+          </div>
+          <div class="mj-stat-cell">
+            <div class="mj-stat-num">01</div>
+            <div class="mj-stat-label">Studio. Every project gets the founder's eye.</div>
+          </div>
+          <div class="mj-stat-cell">
+            <div class="mj-stat-num">∞</div>
+            <div class="mj-stat-label">Systems, businesses, and experiences being built</div>
+          </div>
+        </div>
+
+        <div class="mj-identities sr sr-d3">
+          <span class="mj-identity-tag">Photography</span>
+          <span class="mj-identity-tag">Cinematography</span>
+          <span class="mj-identity-tag">Creative Direction</span>
+          <span class="mj-identity-tag">Brand Strategy</span>
+          <span class="mj-identity-tag">Social Media</span>
+          <span class="mj-identity-tag">Web Development</span>
+          <span class="mj-identity-tag">Entrepreneurship</span>
+          <span class="mj-identity-tag">Motorcycles</span>
+          <span class="mj-identity-tag">Motion Graphics</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════
+     DISCIPLINES
+════════════════════════════════════ -->
+<section class="mj-section mj-section-dark" aria-labelledby="disc-heading">
+  <div class="mj-inner">
+    <p class="mj-label mj-label-dark sr">What I Do</p>
+    <h2 class="mj-h2 mj-h2-dark sr sr-d1" id="disc-heading">
+      Every discipline<br><em>serves the story.</em>
+    </h2>
+
+    <div class="mj-disc-grid">
+
+      <div class="mj-disc-card sr sr-d1">
+        <div class="mj-disc-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="3" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="21"/><line x1="3" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="21" y2="12"/></svg>
+        </div>
+        <div class="mj-disc-name">Photography</div>
+        <div class="mj-disc-desc">Jewellery, product, portrait, automotive, event, maternity, creative — every category owned personally.</div>
+      </div>
+
+      <div class="mj-disc-card sr sr-d2">
+        <div class="mj-disc-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+        </div>
+        <div class="mj-disc-name">Cinematography</div>
+        <div class="mj-disc-desc">Automotive films, brand narratives, and cinematic shorts — from direction to final cut.</div>
+      </div>
+
+      <div class="mj-disc-card sr sr-d3">
+        <div class="mj-disc-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
+        </div>
+        <div class="mj-disc-name">Creative Direction</div>
+        <div class="mj-disc-desc">Concept, visual language, and execution — from brief to final asset, fully directed.</div>
+      </div>
+
+      <div class="mj-disc-card sr sr-d4">
+        <div class="mj-disc-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg>
+        </div>
+        <div class="mj-disc-name">Brand Strategy</div>
+        <div class="mj-disc-desc">Visual identity, positioning, and content systems that make brands recognisable and consistent.</div>
+      </div>
+
+      <div class="mj-disc-card sr sr-d1">
+        <div class="mj-disc-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53A4.48 4.48 0 0 0 16 2a4.48 4.48 0 0 0-4.48 4.48c0 .35.04.69.12 1.02A12.78 12.78 0 0 1 3 3.89s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+        </div>
+        <div class="mj-disc-name">Social Media</div>
+        <div class="mj-disc-desc">End-to-end content strategy and management — from calendar to analytics.</div>
+      </div>
+
+      <div class="mj-disc-card sr sr-d2">
+        <div class="mj-disc-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <div class="mj-disc-name">Web Development</div>
+        <div class="mj-disc-desc">Building fast, clean websites — including the one you're looking at right now.</div>
+      </div>
+
+      <div class="mj-disc-card sr sr-d3">
+        <div class="mj-disc-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <div class="mj-disc-name">Motion Graphics</div>
+        <div class="mj-disc-desc">Animation, titles, and motion overlays that add dimension to static and video work.</div>
+      </div>
+
+      <div class="mj-disc-card sr sr-d4">
+        <div class="mj-disc-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <div class="mj-disc-name">Entrepreneurship</div>
+        <div class="mj-disc-desc">Running the business, building the team, and making decisions that compound over time.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════
+     PORTFOLIO WORK
+════════════════════════════════════ -->
+<section class="mj-section mj-section-light" aria-labelledby="portfolio-heading">
+  <div class="mj-inner">
+    <p class="mj-label mj-label-light sr">Portfolio</p>
+    <h2 class="mj-h2 mj-h2-light sr sr-d1" id="portfolio-heading">
+      Work that<br><em>speaks first.</em>
+    </h2>
+
+    <div class="mj-portfolio-grid">
+
+      <!-- Featured -->
+      <article class="mj-pf-card mj-pf-card-featured sr sr-d1">
+        <div class="mj-pf-thumb">
+          <img src="assets/images/web/2xzx10rs.jpg" alt="ZX-10R Automotive Film" loading="lazy" srcset="assets/images/web/sm/2xzx10rs.jpg 900w, assets/images/web/2xzx10rs.jpg 1920w" sizes="(max-width: 900px) 100vw, 50vw" width="1920" height="1440">
+          <div class="mj-pf-overlay"></div>
+        </div>
+        <div class="mj-pf-body">
+          <p class="mj-pf-cat">Automotive · Featured</p>
+          <h3 class="mj-pf-name">Kawasaki ZX-10R — Twin Machine Film</h3>
+          <p class="mj-pf-desc">Two bikes, one frame. Cinematic automotive photography shot on location.</p>
+          <a href="index.html#portfolio" class="mj-pf-link">
+            View in Portfolio
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <article class="mj-pf-card sr sr-d2">
+        <div class="mj-pf-thumb">
+          <img src="assets/images/web/product-4.jpg" alt="Coolberg Product Campaign" loading="lazy" srcset="assets/images/web/sm/product-4.jpg 900w, assets/images/web/product-4.jpg 1920w" sizes="(max-width: 900px) 100vw, 50vw" width="1920" height="2880">
+          <div class="mj-pf-overlay"></div>
+        </div>
+        <div class="mj-pf-body">
+          <p class="mj-pf-cat">Product Photography</p>
+          <h3 class="mj-pf-name">Coolberg — Studio Campaign</h3>
+          <p class="mj-pf-desc">Botanical lighting, warm studio tones.</p>
+          <a href="index.html#portfolio" class="mj-pf-link">
+            View
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <article class="mj-pf-card sr sr-d1">
+        <div class="mj-pf-thumb">
+          <img src="assets/images/web/romantic-proposal.jpg" alt="Romantic Proposal" loading="lazy" srcset="assets/images/web/sm/romantic-proposal.jpg 900w, assets/images/web/romantic-proposal.jpg 1920w" sizes="(max-width: 900px) 100vw, 50vw" width="1920" height="2560">
+          <div class="mj-pf-overlay"></div>
+        </div>
+        <div class="mj-pf-body">
+          <p class="mj-pf-cat">Creative</p>
+          <h3 class="mj-pf-name">Romantic Proposal</h3>
+          <p class="mj-pf-desc">Candid emotion, real story, soft natural light.</p>
+          <a href="index.html#portfolio" class="mj-pf-link">
+            View
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <article class="mj-pf-card sr sr-d2">
+        <div class="mj-pf-thumb">
+          <img src="assets/images/web/maternity-1.jpg" alt="Maternity Portrait" loading="lazy" srcset="assets/images/web/sm/maternity-1.jpg 900w, assets/images/web/maternity-1.jpg 1920w" sizes="(max-width: 900px) 100vw, 50vw" width="1920" height="3416">
+          <div class="mj-pf-overlay"></div>
+        </div>
+        <div class="mj-pf-body">
+          <p class="mj-pf-cat">Maternity</p>
+          <h3 class="mj-pf-name">New Beginnings</h3>
+          <p class="mj-pf-desc">Soft, timeless maternity portrait series.</p>
+          <a href="index.html#portfolio" class="mj-pf-link">
+            View
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <article class="mj-pf-card sr sr-d3">
+        <div class="mj-pf-thumb">
+          <img src="assets/images/web/light-trails-khandala.jpg" alt="Light Trails Khandala" loading="lazy" srcset="assets/images/web/sm/light-trails-khandala.jpg 900w, assets/images/web/light-trails-khandala.jpg 1920w" sizes="(max-width: 900px) 100vw, 50vw" width="1920" height="1079">
+          <div class="mj-pf-overlay"></div>
+        </div>
+        <div class="mj-pf-body">
+          <p class="mj-pf-cat">Creative · Long Exposure</p>
+          <h3 class="mj-pf-name">Light Trails — Khandala</h3>
+          <p class="mj-pf-desc">Headlights paint ribbons through mountain mist.</p>
+          <a href="index.html#portfolio" class="mj-pf-link">
+            View
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- Featured wide — Jewellery -->
+      <article class="mj-pf-card mj-pf-card-featured sr sr-d1">
+        <div class="mj-pf-thumb">
+          <img src="assets/images/photography/Jwellers-main.jpg" alt="Jewellery Photography" loading="lazy">
+          <div class="mj-pf-overlay"></div>
+        </div>
+        <div class="mj-pf-body">
+          <p class="mj-pf-cat">Jewellery · Featured</p>
+          <h3 class="mj-pf-name">Fine Jewellery — Studio Series</h3>
+          <p class="mj-pf-desc">Macro detail, controlled reflections, premium positioning for jewellery brands.</p>
+          <a href="index.html#portfolio" class="mj-pf-link">
+            View in Portfolio
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <article class="mj-pf-card sr sr-d2">
+        <div class="mj-pf-thumb">
+          <img src="assets/images/web/traditional-1.jpg" alt="Traditional Heritage Portrait" loading="lazy" srcset="assets/images/web/sm/traditional-1.jpg 900w, assets/images/web/traditional-1.jpg 1920w" sizes="(max-width: 900px) 100vw, 50vw" width="1920" height="2557">
+          <div class="mj-pf-overlay"></div>
+        </div>
+        <div class="mj-pf-body">
+          <p class="mj-pf-cat">Portrait · Heritage</p>
+          <h3 class="mj-pf-name">Heritage Series</h3>
+          <p class="mj-pf-desc">Rich cultural depth, timeless framing.</p>
+          <a href="index.html#portfolio" class="mj-pf-link">
+            View
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </article>
+
+    </div>
+
+    <div style="text-align:center;margin-top:2.8rem;" class="sr sr-d2">
+      <a href="index.html#portfolio" class="mj-btn mj-btn-ghost-light">
+        View Full Portfolio
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════
+     SKILLS
+════════════════════════════════════ -->
+<section class="mj-section mj-section-alt" aria-labelledby="skills-heading">
+  <div class="mj-inner">
+    <p class="mj-label mj-label-light sr">Skills &amp; Tools</p>
+    <h2 class="mj-h2 mj-h2-light sr sr-d1" id="skills-heading">
+      Tools of the<br><em>trade.</em>
+    </h2>
+
+    <div class="mj-skills-cols">
+
+      <div class="mj-skill-group sr sr-d1">
+        <div class="mj-skill-group-title">Camera &amp; Capture</div>
+        <ul class="mj-skill-list">
+          <li><span class="mj-skill-dot"></span>DSLR &amp; Mirrorless systems</li>
+          <li><span class="mj-skill-dot"></span>Studio lighting &amp; flash</li>
+          <li><span class="mj-skill-dot"></span>Natural &amp; location lighting</li>
+          <li><span class="mj-skill-dot"></span>Gimbal &amp; handheld cinematography</li>
+          <li><span class="mj-skill-dot"></span>Macro product photography</li>
+        </ul>
+      </div>
+
+      <div class="mj-skill-group sr sr-d2">
+        <div class="mj-skill-group-title">Post Production</div>
+        <ul class="mj-skill-list">
+          <li><span class="mj-skill-dot"></span>Adobe Lightroom</li>
+          <li><span class="mj-skill-dot"></span>Adobe Photoshop</li>
+          <li><span class="mj-skill-dot"></span>Adobe Premiere Pro</li>
+          <li><span class="mj-skill-dot"></span>After Effects</li>
+          <li><span class="mj-skill-dot"></span>Color grading</li>
+        </ul>
+      </div>
+
+      <div class="mj-skill-group sr sr-d3">
+        <div class="mj-skill-group-title">Brand &amp; Digital</div>
+        <ul class="mj-skill-list">
+          <li><span class="mj-skill-dot"></span>Brand identity &amp; strategy</li>
+          <li><span class="mj-skill-dot"></span>Social media management</li>
+          <li><span class="mj-skill-dot"></span>Content calendar &amp; planning</li>
+          <li><span class="mj-skill-dot"></span>HTML · CSS · JavaScript</li>
+          <li><span class="mj-skill-dot"></span>Web design &amp; development</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════
+     QUOTE
+════════════════════════════════════ -->
+<section class="mj-quote-section" aria-label="MJ personal brand statement">
+  <blockquote>
+    <p class="mj-quote-text sr">
+      "I don't just create content. I build systems,<br>businesses, machines, websites, experiences,<br>and solutions."
+    </p>
+    <footer class="mj-quote-attr sr sr-d2">— MJ &nbsp;·&nbsp; Personal Brand Statement</footer>
+  </blockquote>
+</section>
+
+
+<!-- ════════════════════════════════════
+     CTA
+════════════════════════════════════ -->
+<section class="mj-cta-section" aria-labelledby="cta-heading">
+  <div class="sr">
+    <p class="mj-label mj-label-light" style="justify-content:center;">Work Together</p>
+    <h2 class="mj-h2 mj-h2-light" id="cta-heading" style="margin-bottom:0;">
+      Have a project<br><em>worth building?</em>
+    </h2>
+    <p class="mj-cta-sub">Photography, film, branding, web — if it needs to be created with intent, let's talk.</p>
+    <div class="mj-cta-actions">
+      <a href="index.html#connect" class="mj-btn mj-btn-primary">
+        Start a Project
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="index.html#portfolio" class="mj-btn mj-btn-ghost-light">
+        Browse Work
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <img loading="lazy" src="assets/images/logo/Logo_transparent.png" alt="Vyatirikht" class="footer-logo-img" width="257" height="403">
+      <p class="footer-tagline">Creative Agency based in Pune.<br>Photography · Film · Branding · Social Media</p>
+    </div>
+    <div class="footer-nav-grid">
+      <div>
+        <div class="footer-nav-col-title">Navigate</div>
+        <div class="footer-nav-links">
+          <a href="index.html#about">About</a>
+          <a href="index.html#services">Services</a>
+          <a href="index.html#portfolio">Portfolio</a>
+          <a href="mj.html">About</a>
+          <a href="blog.html">Blog</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-nav-col-title">Services</div>
+        <div class="footer-nav-links">
+          <a href="index.html#portfolio">Photography &amp; Film</a>
+          <a href="index.html#connect">Social Media</a>
+          <a href="index.html#connect">Branding</a>
+          <a href="index.html#connect">Web Dev</a>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="footer-nav-col-title">Connect with MJ</div>
+      <div class="footer-nav-links">
+        <a href="https://www.linkedin.com/in/2sloowwww/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://www.instagram.com/mjpvtspm/" target="_blank" rel="noopener">Instagram · Personal</a>
+        <a href="https://www.instagram.com/vyatirikht.xyz/" target="_blank" rel="noopener">Instagram · Studio</a>
+        <a href="https://www.instagram.com/2sloowwww/" target="_blank" rel="noopener">Instagram · Motorcycles</a>
+        <a href="https://www.youtube.com/@2sloowwwww/" target="_blank" rel="noopener">YouTube</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-divider-row">
+    <span class="footer-copy">© 2026 VYATIRIKHT · Founder <a href="https://www.linkedin.com/in/2sloowwww/" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;">Jitendra Kulkarni</a></span>
+    <div class="footer-social-row">
+      <a href="https://www.linkedin.com/in/2sloowwww/" target="_blank" rel="noopener" class="footer-social-icon" aria-label="LinkedIn">in</a>
+      <a href="https://www.instagram.com/vyatirikht.xyz/" target="_blank" rel="noopener" class="footer-social-icon" aria-label="Instagram">ig</a>
+      <a href="https://www.youtube.com/@2sloowwwww/" target="_blank" rel="noopener" class="footer-social-icon" aria-label="YouTube">yt</a>
+    </div>
+  </div>
+</footer>
+
+
+<!-- Page transition -->
+<div id="page-transition">
+  <img loading="lazy" src="assets/images/logo/Logo_transparent.png" alt="" class="pt-logo" width="257" height="403">
+</div>
+
+
+<script src="main.js" defer></script>
+<script>
+/* ── Newsletter ── */
+function closeNewsletter() {
+  document.getElementById('nlOverlay').classList.remove('nl-visible');
+  sessionStorage.setItem('nl_dismissed', '1');
+}
+function submitNewsletter() {
+  var email = document.getElementById('nl-email').value.trim();
+  var msg = document.getElementById('nl-msg');
+  if (!email || !email.includes('@')) {
+    msg.textContent = 'Please enter a valid email.';
+    msg.style.color = 'var(--accent)';
+    return;
+  }
+  msg.textContent = "You're subscribed! Thanks for joining.";
+  msg.style.color = 'var(--gold)';
+  document.getElementById('nl-email').value = '';
+  setTimeout(closeNewsletter, 2000);
+}
+if (!sessionStorage.getItem('nl_dismissed')) {
+  setTimeout(function() {
+    document.getElementById('nlOverlay').classList.add('nl-visible');
+  }, 10000);
+}
+
+/* ── Scroll reveal ── */
+(function() {
+  var els = document.querySelectorAll('.sr');
+  if (!els.length) return;
+  var io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -36px 0px' });
+  els.forEach(function(el) { io.observe(el); });
+})();
+
+/* ── Page transition ── */
+(function() {
+  var overlay = document.getElementById('page-transition');
+  if (!overlay) return;
+  window.addEventListener('DOMContentLoaded', function() {
+    requestAnimationFrame(function() {
+      overlay.classList.add('pt-exit');
+      setTimeout(function() { overlay.classList.remove('pt-exit'); }, 450);
+    });
+  });
+  document.addEventListener('click', function(e) {
+    var a = e.target.closest('a[href]');
+    if (!a) return;
+    var href = a.getAttribute('href');
+    if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto') || href.startsWith('tel') || a.target === '_blank') return;
+    e.preventDefault();
+    overlay.classList.remove('pt-exit');
+    void overlay.offsetWidth;
+    overlay.classList.add('pt-enter');
+    setTimeout(function() { window.location.href = href; }, 440);
+  });
+})();
+</script>
+
+</body>
+</html>

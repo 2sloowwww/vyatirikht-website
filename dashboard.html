@@ -1,0 +1,1665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — VYATIRIKHT</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0B6623">
+  <link rel="icon" type="image/png" href="assets/images/logo/Logo_transparent.png">
+
+  <!-- Hide the page until auth is confirmed, so unauthenticated
+       visitors never see a flash of dashboard content -->
+  <style>body.dash-body{visibility:hidden}body.dash-auth-ok{visibility:visible}</style>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="dashboard.css">
+
+  <!-- NOT deferred, deliberately. The dashboard's main script is inline
+       and runs during parsing, so it would execute BEFORE any deferred
+       script — leaving `supabase`, `SUPABASE_URL` and `VYT_ERR`
+       undefined and killing the whole dashboard on the first line.
+       If these ever need `defer` for performance, the inline script
+       must be wrapped in a DOMContentLoaded listener at the same time. -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="errors.js"></script>
+</head>
+<body class="dash-body">
+
+<!-- TOP BAR -->
+<header class="dash-nav">
+  <div class="dash-nav-left">
+    <img src="assets/images/logo/Logo_transparent.png" alt="Vyatirikht" class="dash-nav-logo" width="257" height="403">
+    <span class="dash-nav-title">Internal Workspace</span>
+  </div>
+  <div class="dash-nav-right">
+    <a href="index.html" class="dash-backlink">← Main site</a>
+    <span class="dash-nav-user" id="dash-user"></span>
+    <button type="button" class="dash-signout" id="dash-signout">Sign Out</button>
+  </div>
+</header>
+
+<div class="dash-shell">
+
+  <!-- GREETING -->
+  <div class="dash-head">
+    <div class="dash-head-label" id="dash-date"></div>
+    <h1 class="dash-head-title" id="dash-greeting">Welcome back.</h1>
+    <p class="dash-head-sub">Your workspace for tasks, shoot planning, and quick access to everything Vyatirikht.</p>
+    <div class="dash-localnote" id="dash-syncnote">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+      <span id="dash-syncnote-text">Shared with the team — synced across all your devices</span>
+    </div>
+  </div>
+
+  <!-- GRID -->
+  <div class="dash-grid">
+
+    <!-- AI NEWS BOT -->
+    <section class="dash-card dash-span-12" aria-label="AI news bot" id="newsbot">
+      <div class="dash-card-head">
+        <h2 class="dash-card-title">News Bot</h2>
+        <span class="dash-card-hint" id="bot-status"></span>
+      </div>
+
+      <div class="pub-notice" id="bot-notice"></div>
+
+      <p class="bot-blurb">Give it a subject; it researches the web, writes an article in your voice, and files it as a <strong>draft</strong> for you to approve. It never publishes on its own.</p>
+
+      <form id="bot-form" class="pub-form">
+        <div class="pub-row">
+          <div class="pub-field pub-grow">
+            <label class="form-label" for="bot-topic">Topic</label>
+            <input type="text" id="bot-topic" class="form-input" placeholder="India–US trade talks and what they mean for small exporters" required>
+          </div>
+          <div class="pub-field">
+            <label class="form-label" for="bot-category">Category</label>
+            <select id="bot-category" class="form-input">
+              <option>Tech Industry</option>
+              <option>Business &amp; Geopolitics</option>
+              <option>General Knowledge</option>
+              <option>Tutorials</option>
+              <option>Photography</option>
+              <option>Social Media &amp; Business</option>
+              <option>Entrepreneurship</option>
+              <option>Insurance &amp; Finance</option>
+              <option>Motorcycle Education</option>
+            </select>
+          </div>
+          <div class="pub-field">
+            <label class="form-label" for="bot-kind">Type</label>
+            <select id="bot-kind" class="form-input">
+              <option value="suggestion">One-off suggestion</option>
+              <option value="beat">Standing beat (recurring)</option>
+            </select>
+          </div>
+          <div class="pub-field" id="bot-cadence-wrap" style="display:none;">
+            <label class="form-label" for="bot-cadence">How often</label>
+            <select id="bot-cadence" class="form-input">
+              <option value="weekly">Weekly</option>
+              <option value="daily">Daily</option>
+              <option value="monthly">Monthly</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="pub-field">
+          <label class="form-label" for="bot-guidance">Extra direction <span class="pub-hint">— optional; angle, audience, what to avoid</span></label>
+          <input type="text" id="bot-guidance" class="form-input" placeholder="Focus on the practical impact for a small studio, not the politics.">
+        </div>
+
+        <div class="pub-actions">
+          <button type="submit" class="btn-ghost" id="bot-add">Add to Queue</button>
+          <button type="button" class="btn-primary" id="bot-run">Write Next Article</button>
+        </div>
+      </form>
+
+      <div class="pub-list-head">
+        <span class="dash-card-hint">Queue</span>
+        <button type="button" class="pub-refresh" id="bot-reload">Refresh</button>
+      </div>
+      <div class="pub-list" id="bot-list"></div>
+    </section>
+
+    <!-- ENQUIRIES INBOX -->
+    <section class="dash-card dash-span-8" aria-label="Enquiries" id="enquiries">
+      <div class="dash-card-head">
+        <h2 class="dash-card-title">Enquiries</h2>
+        <span class="dash-card-hint" id="enq-count"></span>
+      </div>
+      <div class="enq-filter">
+        <button type="button" class="enq-tab active" data-show="open">Open</button>
+        <button type="button" class="enq-tab" data-show="all">All</button>
+        <button type="button" class="pub-refresh" id="enq-reload" style="margin-left:auto;">Refresh</button>
+      </div>
+      <div class="enq-inbox" id="enq-inbox"></div>
+    </section>
+
+    <!-- CRM + COLD-CALL LIST -->
+    <section class="dash-card dash-span-12" aria-label="Clients and leads" id="crm">
+      <div class="dash-card-head">
+        <h2 class="dash-card-title">Clients &amp; Leads</h2>
+        <span class="dash-card-hint" id="crm-count"></span>
+      </div>
+
+      <form id="crm-form" class="pub-form">
+        <div class="pub-row">
+          <div class="pub-field pub-grow">
+            <label class="form-label" for="crm-name">Name</label>
+            <input type="text" id="crm-name" class="form-input" placeholder="Client or lead name" required>
+          </div>
+          <div class="pub-field">
+            <label class="form-label" for="crm-company">Company <span class="pub-hint">— optional</span></label>
+            <input type="text" id="crm-company" class="form-input" placeholder="Business">
+          </div>
+          <div class="pub-field">
+            <label class="form-label" for="crm-phone">Phone</label>
+            <input type="tel" id="crm-phone" class="form-input" placeholder="+91 …">
+          </div>
+        </div>
+        <div class="pub-row">
+          <div class="pub-field">
+            <label class="form-label" for="crm-stage">Stage</label>
+            <select id="crm-stage" class="form-input">
+              <option value="cold">Cold — to call</option>
+              <option value="contacted">Contacted</option>
+              <option value="negotiating">Negotiating</option>
+              <option value="client">Client</option>
+              <option value="lost">Lost</option>
+            </select>
+          </div>
+          <div class="pub-field">
+            <label class="form-label" for="crm-service">Service <span class="pub-hint">— optional</span></label>
+            <input type="text" id="crm-service" class="form-input" placeholder="Photography, film…">
+          </div>
+          <div class="pub-field">
+            <label class="form-label" for="crm-source">Source <span class="pub-hint">— optional</span></label>
+            <input type="text" id="crm-source" class="form-input" placeholder="Referral, Instagram, cold…">
+          </div>
+          <div class="pub-field">
+            <label class="form-label" for="crm-email">Email <span class="pub-hint">— optional</span></label>
+            <input type="email" id="crm-email" class="form-input" placeholder="Optional">
+          </div>
+        </div>
+        <div class="pub-actions">
+          <button type="submit" class="btn-primary" id="crm-add">Add Contact</button>
+        </div>
+      </form>
+
+      <div class="crm-filter">
+        <button type="button" class="crm-tab active" data-stage="all">All</button>
+        <button type="button" class="crm-tab" data-stage="cold">Cold list</button>
+        <button type="button" class="crm-tab" data-stage="contacted">Contacted</button>
+        <button type="button" class="crm-tab" data-stage="negotiating">Negotiating</button>
+        <button type="button" class="crm-tab" data-stage="client">Clients</button>
+        <button type="button" class="crm-tab" data-stage="lost">Lost</button>
+        <input type="search" id="crm-search" class="form-input" placeholder="Search name, company, phone…" autocomplete="off" style="margin-left:auto;max-width:220px;">
+        <button type="button" class="pub-refresh" id="crm-reload">Refresh</button>
+      </div>
+
+      <div class="crm-list" id="crm-list"></div>
+    </section>
+
+    <!-- DONATIONS -->
+    <section class="dash-card dash-span-4" aria-label="Donations">
+      <div class="dash-card-head">
+        <h2 class="dash-card-title">Support</h2>
+        <span class="dash-card-hint" id="don-total"></span>
+      </div>
+      <div class="subs-list" id="don-list"></div>
+    </section>
+
+    <!-- NEWSLETTER -->
+    <section class="dash-card dash-span-4" aria-label="Newsletter subscribers">
+      <div class="dash-card-head">
+        <h2 class="dash-card-title">Subscribers</h2>
+        <span class="dash-card-hint" id="subs-count"></span>
+      </div>
+      <div class="subs-list" id="subs-list"></div>
+      <button type="button" class="pub-refresh" id="subs-copy" style="margin-top:12px;align-self:flex-start;">Copy all emails</button>
+    </section>
+
+    <!-- ARTICLE PUBLISHER -->
+    <section class="dash-card dash-span-12" aria-label="Publish an article" id="publisher">
+      <div class="dash-card-head">
+        <h2 class="dash-card-title">Publish an Article</h2>
+        <span class="dash-card-hint" id="pub-status"></span>
+      </div>
+
+      <div class="pub-notice" id="pub-notice"></div>
+
+      <form id="pub-form" class="pub-form">
+        <input type="hidden" id="pub-id">
+
+        <div class="pub-row">
+          <div class="pub-field pub-grow">
+            <label class="form-label" for="pub-title">Title</label>
+            <input type="text" id="pub-title" class="form-input" placeholder="How to Light a Product Shoot" required>
+          </div>
+          <div class="pub-field">
+            <label class="form-label" for="pub-category">Category</label>
+            <select id="pub-category" class="form-input">
+              <option>Tutorials</option>
+              <option>Tech Industry</option>
+              <option>General Knowledge</option>
+              <option>Business &amp; Geopolitics</option>
+              <option>Motorcycle Education</option>
+              <option>Photography</option>
+              <option>Social Media &amp; Business</option>
+              <option>Entrepreneurship</option>
+              <option>Insurance &amp; Finance</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="pub-field">
+          <label class="form-label" for="pub-excerpt">Excerpt <span class="pub-hint">— the teaser shown on the card</span></label>
+          <textarea id="pub-excerpt" class="form-textarea" style="min-height:70px;" placeholder="One or two sentences that make someone want to read on."></textarea>
+        </div>
+
+        <div class="pub-field">
+          <label class="form-label" for="pub-body">Article body <span class="pub-hint">— HTML: &lt;h3&gt; for headings, &lt;p&gt; for paragraphs, &lt;blockquote class="blog-quote"&gt; for the pull quote</span></label>
+          <textarea id="pub-body" class="form-textarea" style="min-height:220px;font-family:var(--font-mono);font-size:12.5px;" placeholder="&lt;h3&gt;Section heading&lt;/h3&gt;&#10;&lt;p&gt;Your paragraph…&lt;/p&gt;"></textarea>
+        </div>
+
+        <div class="pub-row">
+          <div class="pub-field pub-grow">
+            <label class="form-label" for="pub-image">Cover image URL <span class="pub-hint">— optional</span></label>
+            <input type="text" id="pub-image" class="form-input" placeholder="assets/images/web/bike-3.jpg">
+          </div>
+          <div class="pub-field">
+            <label class="form-label" for="pub-read">Read time</label>
+            <input type="text" id="pub-read" class="form-input" placeholder="5 min" value="5 min">
+          </div>
+        </div>
+
+        <div class="pub-row">
+          <div class="pub-field">
+            <label class="form-label" for="pub-date">Publish date</label>
+            <input type="date" id="pub-date" class="form-input">
+          </div>
+          <div class="pub-field">
+            <label class="form-label" for="pub-time">Publish time</label>
+            <select id="pub-time" class="form-input">
+              <option value="07:00">7:00 AM — morning edition</option>
+              <option value="16:00">4:00 PM — afternoon edition</option>
+              <option value="now">Publish immediately</option>
+            </select>
+          </div>
+          <div class="pub-field pub-grow">
+            <label class="form-label" for="pub-slug">Link slug <span class="pub-hint">— auto-filled from the title</span></label>
+            <input type="text" id="pub-slug" class="form-input" placeholder="how-to-light-a-product-shoot">
+          </div>
+        </div>
+
+        <div class="pub-actions">
+          <button type="submit" class="btn-primary" id="pub-save">Publish Article</button>
+          <button type="button" class="btn-ghost" id="pub-reset">Clear</button>
+        </div>
+      </form>
+
+      <div class="pub-list-head">
+        <span class="dash-card-hint">Your articles</span>
+        <button type="button" class="pub-refresh" id="pub-refresh">Refresh</button>
+      </div>
+
+      <div class="pub-filter">
+        <input type="search" id="pub-search" class="form-input" placeholder="Search titles, categories, slugs…" autocomplete="off">
+        <select id="pub-filter-status" class="form-input">
+          <option value="all">All</option>
+          <option value="draft">Drafts</option>
+          <option value="live">Live</option>
+          <option value="scheduled">Scheduled</option>
+          <option value="bot">Written by bot</option>
+        </select>
+      </div>
+
+      <div class="pub-list" id="pub-list"></div>
+    </section>
+
+    <!-- TASKS -->
+    <section class="dash-card dash-span-7" aria-label="My tasks">
+      <div class="dash-card-head">
+        <h2 class="dash-card-title">Team Tasks</h2>
+        <span class="dash-card-hint" id="dash-task-count"></span>
+      </div>
+      <div class="dash-add-row">
+        <input type="text" class="form-input" id="task-input" placeholder="Add a task — edit reel, call client, prep gear…" maxlength="200">
+        <button type="button" class="dash-add-btn" id="task-add" aria-label="Add task">+</button>
+      </div>
+      <ul class="dash-list" id="task-list"></ul>
+    </section>
+
+    <!-- QUICK LINKS -->
+    <section class="dash-card dash-span-5" aria-label="Quick links">
+      <div class="dash-card-head">
+        <h2 class="dash-card-title">Quick Links</h2>
+      </div>
+      <div class="dash-links">
+        <a href="index.html" class="dash-link">
+          <span class="dash-link-icon">⌂</span>
+          <span><span class="dash-link-name">Main Site</span><br><span class="dash-link-sub">vyatirikht.xyz</span></span>
+        </a>
+        <a href="blog.html" class="dash-link">
+          <span class="dash-link-icon">✎</span>
+          <span><span class="dash-link-name">Blog</span><br><span class="dash-link-sub">30-day series</span></span>
+        </a>
+        <a href="mj.html" class="dash-link">
+          <span class="dash-link-icon">◉</span>
+          <span><span class="dash-link-name">Team Page</span><br><span class="dash-link-sub">Public profiles</span></span>
+        </a>
+        <a href="https://www.instagram.com/vyatirikht.xyz/" target="_blank" rel="noopener" class="dash-link">
+          <span class="dash-link-icon">✦</span>
+          <span><span class="dash-link-name">Instagram</span><br><span class="dash-link-sub">@vyatirikht.xyz</span></span>
+        </a>
+        <a href="https://www.youtube.com/@2sloowwwww/" target="_blank" rel="noopener" class="dash-link">
+          <span class="dash-link-icon">▶</span>
+          <span><span class="dash-link-name">YouTube</span><br><span class="dash-link-sub">@2sloowwwww</span></span>
+        </a>
+        <a href="https://wa.me/919168050906" target="_blank" rel="noopener" class="dash-link">
+          <span class="dash-link-icon">✆</span>
+          <span><span class="dash-link-name">WhatsApp</span><br><span class="dash-link-sub">Enquiries line</span></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- SHOOT SCHEDULE -->
+    <section class="dash-card dash-span-7" aria-label="Shoot schedule">
+      <div class="dash-card-head">
+        <h2 class="dash-card-title">Shoot Schedule</h2>
+        <span class="dash-card-hint" id="dash-sched-count"></span>
+      </div>
+      <div class="dash-add-row">
+        <input type="date" class="form-input" id="sched-date">
+        <input type="text" class="form-input" id="sched-input" placeholder="Shoot or event — client, location…" maxlength="200">
+        <button type="button" class="dash-add-btn" id="sched-add" aria-label="Add to schedule">+</button>
+      </div>
+      <ul class="dash-list" id="sched-list"></ul>
+    </section>
+
+    <!-- TEAM -->
+    <section class="dash-card dash-span-5" aria-label="Team directory">
+      <div class="dash-card-head">
+        <h2 class="dash-card-title">The Team</h2>
+        <span class="dash-card-hint">7 members</span>
+      </div>
+      <div class="dash-team" id="dash-team"></div>
+    </section>
+
+    <!-- NOTES -->
+    <section class="dash-card dash-span-12" aria-label="Notes">
+      <div class="dash-card-head">
+        <h2 class="dash-card-title">Shared Notes</h2>
+        <span class="dash-card-hint">Autosaves for the whole team</span>
+      </div>
+      <textarea class="dash-notes" id="dash-notes" placeholder="Scratchpad — shot lists, ideas, client details, anything…"></textarea>
+      <div class="dash-notes-status" id="dash-notes-status"></div>
+    </section>
+
+  </div>
+</div>
+
+<script>
+(function () {
+  var sb = window.getSupabase ? window.getSupabase() : null;
+
+  /* ── Auth guard ──
+     If the backend isn't wired up yet, don't lock the owner out of
+     their own dashboard — show it in a clearly-labelled offline mode
+     so the local tools still work. Once Supabase is connected, a real
+     session is required. */
+  var session = null, name = 'Team member', offline = !sb;
+
+  function boot(displayName) {
+    name = displayName || 'Team member';
+    document.body.classList.add('dash-auth-ok');
+    init();
+  }
+
+  if (!sb) {
+    boot('Team member');
+  } else {
+    sb.auth.getSession().then(function (res) {
+      session = res.data && res.data.session;
+      if (!session) { location.replace('login.html'); return; }
+      var u = session.user;
+      boot(u.user_metadata && u.user_metadata.full_name ? u.user_metadata.full_name : u.email.split('@')[0]);
+    });
+  }
+
+  function init() {
+  var firstName = name.split(' ')[0];
+  /* Tasks, schedule and notes now live in Supabase and are shared by
+     the whole team. The localStorage keys below are only a fallback
+     for when the backend isn't connected, so the page still works. */
+  var slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  var TASKS_KEY = 'vyt_dash_tasks_' + slug;
+  var SCHED_KEY = 'vyt_dash_sched_' + slug;
+  var NOTES_KEY = 'vyt_dash_notes_' + slug;
+
+  /* Keep the sync banner honest — it must not claim to be shared
+     when we're actually falling back to this browser's storage. */
+  if (!sb) {
+    var noteEl = document.getElementById('dash-syncnote');
+    document.getElementById('dash-syncnote-text').textContent =
+      'Backend not connected — saved in this browser only';
+    if (noteEl) noteEl.classList.add('is-local');
+  }
+
+  /* ── Header ── */
+  document.getElementById('dash-user').innerHTML = 'Signed in as <strong></strong>';
+  document.getElementById('dash-user').querySelector('strong').textContent = name;
+
+  var now = new Date();
+  var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('dash-date').textContent = days[now.getDay()] + ' · ' + now.getDate() + ' ' + months[now.getMonth()] + ' ' + now.getFullYear();
+
+  var hour = now.getHours();
+  var timeWord = hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening';
+  var greetEl = document.getElementById('dash-greeting');
+  greetEl.innerHTML = 'Good ' + timeWord + ', <em></em>';
+  greetEl.querySelector('em').textContent = firstName + '.';
+
+  document.getElementById('dash-signout').addEventListener('click', function () {
+    if (sb) { sb.auth.signOut().then(function () { location.replace('login.html'); }); }
+    else { location.replace('login.html'); }
+  });
+
+  /* ── Storage helpers ── */
+  function load(key) {
+    try { return JSON.parse(localStorage.getItem(key)) || []; }
+    catch (e) { return []; }
+  }
+  function save(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text !== undefined) n.textContent = text;
+    return n;
+  }
+
+  /* ── Tasks — shared across the team via Supabase ── */
+  var tasks = [];
+  var taskList  = document.getElementById('task-list');
+  var taskInput = document.getElementById('task-input');
+  var taskCount = document.getElementById('dash-task-count');
+
+  function renderTasks() {
+    taskList.innerHTML = '';
+    if (!tasks.length) {
+      taskList.appendChild(el('li', 'dash-empty', 'No tasks yet — add the first one above'));
+    }
+    tasks.forEach(function (t, i) {
+      var li = el('li', 'dash-item' + (t.done ? ' done' : ''));
+      var check = el('input', 'dash-item-check');
+      check.type = 'checkbox';
+      check.checked = !!t.done;
+      check.setAttribute('aria-label', 'Mark done');
+      check.addEventListener('change', function () {
+        setTaskDone(t, i, check.checked);
+      });
+      var del = el('button', 'dash-item-del', '×');
+      del.setAttribute('aria-label', 'Delete task');
+      del.addEventListener('click', function () { removeTask(t, i); });
+
+      var textWrap = el('span', 'dash-item-text', t.text);
+      /* Show who added it, so a shared board stays legible */
+      if (t.owner && t.owner !== name) {
+        textWrap.appendChild(el('em', 'dash-item-owner', ' · ' + t.owner));
+      }
+
+      li.appendChild(check);
+      li.appendChild(textWrap);
+      li.appendChild(del);
+      taskList.appendChild(li);
+    });
+    var open = tasks.filter(function (t) { return !t.done; }).length;
+    taskCount.textContent = tasks.length ? open + ' open · ' + (tasks.length - open) + ' done' : '';
+  }
+
+  function loadTasks() {
+    if (!sb) { tasks = load(TASKS_KEY); renderTasks(); return; }
+    sb.from('tasks').select('*').order('created_at', { ascending: false }).then(function (res) {
+      if (res.error) { tasks = load(TASKS_KEY); renderTasks(); return; }
+      tasks = res.data || [];
+      renderTasks();
+    });
+  }
+
+  function addTask() {
+    var text = taskInput.value.trim();
+    if (!text) return;
+    taskInput.value = '';
+    if (!sb) { tasks.unshift({ text: text, done: false, owner: name }); save(TASKS_KEY, tasks); renderTasks(); return; }
+    /* Optimistic: show it immediately, then reconcile with the server */
+    tasks.unshift({ text: text, done: false, owner: name, id: null });
+    renderTasks();
+    sb.from('tasks').insert({ text: text, done: false, owner: name }).then(function () { loadTasks(); });
+  }
+
+  function setTaskDone(t, i, done) {
+    tasks[i].done = done;
+    renderTasks();
+    if (!sb || !t.id) { save(TASKS_KEY, tasks); return; }
+    sb.from('tasks').update({ done: done }).eq('id', t.id).then(function () {});
+  }
+
+  function removeTask(t, i) {
+    tasks.splice(i, 1);
+    renderTasks();
+    if (!sb || !t.id) { save(TASKS_KEY, tasks); return; }
+    sb.from('tasks').delete().eq('id', t.id).then(function () { loadTasks(); });
+  }
+
+  document.getElementById('task-add').addEventListener('click', addTask);
+  taskInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') addTask(); });
+  loadTasks();
+
+  /* ── Schedule — shared across the team via Supabase ── */
+  var sched = [];
+  var schedList  = document.getElementById('sched-list');
+  var schedInput = document.getElementById('sched-input');
+  var schedDate  = document.getElementById('sched-date');
+  var schedCount = document.getElementById('dash-sched-count');
+
+  function fmtDate(iso) {
+    var p = iso.split('-');
+    var M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return p[2] + ' ' + M[+p[1] - 1];
+  }
+  function todayISO() {
+    var d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  }
+
+  function renderSched() {
+    sched.sort(function (a, b) { return a.date < b.date ? -1 : a.date > b.date ? 1 : 0; });
+    schedList.innerHTML = '';
+    if (!sched.length) {
+      schedList.appendChild(el('li', 'dash-empty', 'Nothing scheduled — add a shoot above'));
+    }
+    var today = todayISO();
+    sched.forEach(function (s, i) {
+      var li = el('li', 'dash-item');
+      var date = el('span', 'dash-item-date' + (s.date < today ? ' past' : ''), fmtDate(s.date));
+      var del = el('button', 'dash-item-del', '×');
+      del.setAttribute('aria-label', 'Remove from schedule');
+      del.addEventListener('click', function () { removeSched(s, i); });
+
+      var textWrap = el('span', 'dash-item-text', s.text);
+      if (s.owner && s.owner !== name) {
+        textWrap.appendChild(el('em', 'dash-item-owner', ' · ' + s.owner));
+      }
+
+      li.appendChild(date);
+      li.appendChild(textWrap);
+      li.appendChild(del);
+      schedList.appendChild(li);
+    });
+    var upcoming = sched.filter(function (s) { return s.date >= today; }).length;
+    schedCount.textContent = sched.length ? upcoming + ' upcoming' : '';
+  }
+
+  /* The DB column is shoot_date; the UI works with .date throughout */
+  function loadSched() {
+    if (!sb) { sched = load(SCHED_KEY); renderSched(); return; }
+    sb.from('schedule').select('*').order('shoot_date', { ascending: true }).then(function (res) {
+      if (res.error) { sched = load(SCHED_KEY); renderSched(); return; }
+      sched = (res.data || []).map(function (r) {
+        return { id: r.id, date: r.shoot_date, text: r.text, owner: r.owner };
+      });
+      renderSched();
+    });
+  }
+
+  function addSched() {
+    var text = schedInput.value.trim();
+    var date = schedDate.value;
+    if (!text || !date) return;
+    schedInput.value = '';
+    if (!sb) { sched.push({ date: date, text: text, owner: name }); save(SCHED_KEY, sched); renderSched(); return; }
+    sched.push({ date: date, text: text, owner: name, id: null });
+    renderSched();
+    sb.from('schedule').insert({ shoot_date: date, text: text, owner: name }).then(function () { loadSched(); });
+  }
+
+  function removeSched(s, i) {
+    sched.splice(i, 1);
+    renderSched();
+    if (!sb || !s.id) { save(SCHED_KEY, sched); return; }
+    sb.from('schedule').delete().eq('id', s.id).then(function () { loadSched(); });
+  }
+
+  document.getElementById('sched-add').addEventListener('click', addSched);
+  schedInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') addSched(); });
+  loadSched();
+
+  /* ── Team directory ── */
+  var TEAM = [
+    { name: 'Jitendra Kulkarni', role: 'Founder & Creative Director' },
+    { name: 'Saurabh Joshi',     role: 'Post Production & Operations' },
+    { name: 'Gauri Kulkarni',    role: 'Team Member' },
+    { name: 'Aditya More',       role: 'Team Member' },
+    { name: 'Sushant Ahire',     role: 'Team Member' },
+    { name: 'Akshay Choudhari',  role: 'Team Member' },
+    { name: 'Yash Rajput',       role: 'Team Member' }
+  ];
+  var teamWrap = document.getElementById('dash-team');
+  TEAM.forEach(function (m) {
+    var row = el('div', 'dash-member');
+    var initials = m.name.split(' ').map(function (w) { return w[0]; }).join('').slice(0, 2);
+    row.appendChild(el('span', 'dash-member-avatar', initials));
+    var info = el('span');
+    info.appendChild(el('span', 'dash-member-name', m.name));
+    info.appendChild(el('br'));
+    info.appendChild(el('span', 'dash-member-role', m.role));
+    row.appendChild(info);
+    if (m.name === name) row.appendChild(el('span', 'dash-member-you', 'You'));
+    teamWrap.appendChild(row);
+  });
+
+  /* ── Notes ── */
+  var notesEl = document.getElementById('dash-notes');
+  var notesStatus = document.getElementById('dash-notes-status');
+  var notesTimer = null;
+  var notesDirty = false;   // don't let a background refresh clobber active typing
+
+  function loadNotes() {
+    if (!sb) { notesEl.value = localStorage.getItem(NOTES_KEY) || ''; return; }
+    sb.from('team_notes').select('*').eq('id', 'shared').maybeSingle().then(function (res) {
+      if (res.error || !res.data) { notesEl.value = localStorage.getItem(NOTES_KEY) || ''; return; }
+      if (notesDirty) return;
+      notesEl.value = res.data.content || '';
+      if (res.data.updated_by) {
+        notesStatus.textContent = 'Last edited by ' + res.data.updated_by;
+        setTimeout(function () { if (!notesDirty) notesStatus.textContent = ''; }, 3000);
+      }
+    });
+  }
+
+  notesEl.addEventListener('input', function () {
+    notesDirty = true;
+    notesStatus.textContent = 'Saving…';
+    clearTimeout(notesTimer);
+    notesTimer = setTimeout(function () {
+      localStorage.setItem(NOTES_KEY, notesEl.value);   // local safety copy
+      if (!sb) {
+        notesStatus.textContent = 'Saved on this device';
+        notesDirty = false;
+        setTimeout(function () { notesStatus.textContent = ''; }, 1800);
+        return;
+      }
+      sb.from('team_notes').upsert({
+        id: 'shared', content: notesEl.value, updated_by: name, updated_at: new Date().toISOString()
+      }).then(function (res) {
+        notesDirty = false;
+        notesStatus.textContent = res.error ? 'Could not sync — saved locally' : 'Saved for the team';
+        setTimeout(function () { notesStatus.textContent = ''; }, 1800);
+      });
+    }, 600);
+  });
+  loadNotes();
+
+  /* ══════════════════════════════════════════════
+     ARTICLE PUBLISHER — writes to Supabase
+  ══════════════════════════════════════════════ */
+  var pubForm   = document.getElementById('pub-form');
+  var pubNotice = document.getElementById('pub-notice');
+  var pubStatus = document.getElementById('pub-status');
+  var pubList   = document.getElementById('pub-list');
+  var pubSave   = document.getElementById('pub-save');
+  var fId    = document.getElementById('pub-id');
+  var fTitle = document.getElementById('pub-title');
+  var fCat   = document.getElementById('pub-category');
+  var fExc   = document.getElementById('pub-excerpt');
+  var fBody  = document.getElementById('pub-body');
+  var fImg   = document.getElementById('pub-image');
+  var fRead  = document.getElementById('pub-read');
+  var fDate  = document.getElementById('pub-date');
+  var fTime  = document.getElementById('pub-time');
+  var fSlug  = document.getElementById('pub-slug');
+
+  function pubMsg(text, isError) {
+    pubNotice.textContent = text;
+    pubNotice.classList.toggle('is-error', !!isError);
+    pubNotice.classList.add('is-visible');
+  }
+  function slugify(s) {
+    return s.toLowerCase().trim()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .slice(0, 80);
+  }
+  /* Auto-fill the slug from the title until the user edits it themselves */
+  var slugTouched = false;
+  fSlug.addEventListener('input', function () { slugTouched = true; });
+  fTitle.addEventListener('input', function () {
+    if (!slugTouched) fSlug.value = slugify(fTitle.value);
+  });
+
+  /* Default the date field to today */
+  (function () {
+    var d = new Date();
+    fDate.value = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  })();
+
+  /* Combine the date + IST time into the UTC instant the DB stores */
+  function publishInstant() {
+    if (fTime.value === 'now') return new Date().toISOString();
+    var p = fDate.value.split('-');
+    var t = fTime.value.split(':');
+    var utcMinutes = (+t[0]) * 60 + (+t[1]) - 330;   // IST → UTC
+    return new Date(Date.UTC(+p[0], +p[1]-1, +p[2], 0, 0, 0) + utcMinutes * 60000).toISOString();
+  }
+
+  function resetForm() {
+    pubForm.reset();
+    fId.value = '';
+    slugTouched = false;
+    fRead.value = '5 min';
+    var d = new Date();
+    fDate.value = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+    pubSave.textContent = 'Publish Article';
+    pubNotice.classList.remove('is-visible');
+  }
+  document.getElementById('pub-reset').addEventListener('click', resetForm);
+
+  if (!sb) {
+    pubStatus.textContent = 'Backend not connected';
+    pubMsg('Add your Supabase URL and anon key to supabase-config.js to start publishing. Everything else on this page still works locally.', true);
+    pubSave.disabled = true;
+  }
+
+  function fmtWhen(iso) {
+    var d = new Date(iso);
+    var M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    /* Render in IST so it matches how posts are scheduled */
+    var ist = new Date(d.getTime() + 330 * 60000);
+    var h = ist.getUTCHours(), ap = h < 12 ? 'AM' : 'PM', h12 = (h % 12) || 12;
+    return ist.getUTCDate() + ' ' + M[ist.getUTCMonth()] + ' ' + ist.getUTCFullYear() +
+           ' · ' + h12 + ':' + String(ist.getUTCMinutes()).padStart(2,'0') + ' ' + ap;
+  }
+
+  var artCache = [];
+
+  /* Render a generated Instagram post below its article row, with
+     copy buttons — the point is to paste it straight into Instagram. */
+  function renderIgPost(d, afterEl){
+    var pane = el('div', 'ig-pane');
+
+    function copyBtn(label, getText){
+      var b = el('button', 'ig-copy', label); b.type = 'button';
+      b.addEventListener('click', function(){
+        var t = getText();
+        var done = function(){ b.textContent = 'Copied'; setTimeout(function(){ b.textContent = label; }, 1400); };
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(done, done);
+        else done();
+      });
+      return b;
+    }
+
+    if (d.hook){
+      var hookRow = el('div', 'ig-block');
+      hookRow.appendChild(el('div', 'ig-label', 'Cover / hook'));
+      hookRow.appendChild(el('div', 'ig-hook', d.hook));
+      pane.appendChild(hookRow);
+    }
+
+    if (Array.isArray(d.carousel) && d.carousel.length){
+      var carRow = el('div', 'ig-block');
+      carRow.appendChild(el('div', 'ig-label', 'Carousel slides'));
+      var ol = document.createElement('ol'); ol.className = 'ig-slides';
+      d.carousel.forEach(function(s){ ol.appendChild(el('li', '', s)); });
+      carRow.appendChild(ol);
+      pane.appendChild(carRow);
+    }
+
+    if (d.caption){
+      var capRow = el('div', 'ig-block');
+      var capHead = el('div', 'ig-label-row');
+      capHead.appendChild(el('span', 'ig-label', 'Caption'));
+      capHead.appendChild(copyBtn('Copy caption', function(){ return d.caption + (d.hashtags ? '\n\n' + d.hashtags : ''); }));
+      capRow.appendChild(capHead);
+      var cap = document.createElement('textarea');
+      cap.className = 'ig-caption'; cap.value = d.caption; cap.rows = Math.min(8, d.caption.split('\n').length + 2);
+      capRow.appendChild(cap);
+      pane.appendChild(capRow);
+    }
+
+    if (d.hashtags){
+      var tagRow = el('div', 'ig-block');
+      var tagHead = el('div', 'ig-label-row');
+      tagHead.appendChild(el('span', 'ig-label', 'Hashtags'));
+      tagHead.appendChild(copyBtn('Copy tags', function(){ return d.hashtags; }));
+      tagRow.appendChild(tagHead);
+      tagRow.appendChild(el('div', 'ig-tags', d.hashtags));
+      pane.appendChild(tagRow);
+    }
+
+    afterEl.parentNode.insertBefore(pane, afterEl.nextSibling);
+    pane.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    return pane;
+  }
+
+  function loadArticles() {
+    if (!sb) return;
+    pubStatus.textContent = 'Loading…';
+    sb.from('articles').select('*').order('publish_at', { ascending: false }).then(function (res) {
+      if (res.error) { pubStatus.textContent = ''; pubMsg('Could not load articles: ' + VYT_ERR.format(VYT_ERR.report(res.error, { area: 'db' })), true); return; }
+      artCache = res.data || [];
+      renderArticles();
+    });
+  }
+
+  function renderArticles() {
+    var q = (document.getElementById('pub-search').value || '').toLowerCase().trim();
+    var f = document.getElementById('pub-filter-status').value;
+    var now = new Date();
+
+    var rows = artCache.filter(function (row) {
+      var isDraft = row.status === 'draft';
+      var live = !isDraft && new Date(row.publish_at) <= now;
+      if (f === 'draft' && !isDraft) return false;
+      if (f === 'live' && !live) return false;
+      if (f === 'scheduled' && (isDraft || live)) return false;
+      if (f === 'bot' && row.generated_by !== 'news-bot') return false;
+      if (!q) return true;
+      return (row.title + ' ' + row.category + ' ' + row.slug + ' ' + (row.excerpt || ''))
+        .toLowerCase().indexOf(q) !== -1;
+    });
+
+    pubStatus.textContent = rows.length === artCache.length
+      ? artCache.length + (artCache.length === 1 ? ' article' : ' articles')
+      : rows.length + ' of ' + artCache.length;
+
+    pubList.innerHTML = '';
+    if (!artCache.length) {
+      pubList.innerHTML = '<div class="dash-empty">No articles yet — run supabase-import-articles.sql to bring the blog in</div>';
+      return;
+    }
+    if (!rows.length) {
+      pubList.innerHTML = '<div class="dash-empty">Nothing matches that search</div>';
+      return;
+    }
+
+      rows.forEach(function (row) {
+        var isDraft = row.status === 'draft';
+        var live = !isDraft && new Date(row.publish_at) <= now;
+        var item = document.createElement('div');
+        item.className = 'pub-item';
+
+        var main = document.createElement('div');
+        main.className = 'pub-item-main';
+        var t = document.createElement('div');
+        t.className = 'pub-item-title';
+        t.textContent = row.title;
+        var m = document.createElement('div');
+        m.className = 'pub-item-meta';
+        m.textContent = row.category + ' · ' + fmtWhen(row.publish_at) +
+                        (row.generated_by === 'news-bot' ? ' · written by bot' : '');
+        main.appendChild(t); main.appendChild(m);
+
+        /* Bot drafts carry the sources they were built from — surface them
+           so a reviewer can actually check the claims before publishing. */
+        if (row.source_urls && row.source_urls.length) {
+          var srcWrap = document.createElement('div');
+          srcWrap.className = 'pub-sources';
+          row.source_urls.slice(0, 6).forEach(function (u) {
+            var a = document.createElement('a');
+            a.href = u; a.target = '_blank'; a.rel = 'noopener';
+            try { a.textContent = new URL(u).hostname.replace(/^www\./, ''); }
+            catch (e) { a.textContent = 'source'; }
+            srcWrap.appendChild(a);
+          });
+          main.appendChild(srcWrap);
+        }
+
+        var badge = document.createElement('span');
+        badge.className = 'pub-badge ' + (isDraft ? 'draft' : (live ? 'live' : 'scheduled'));
+        badge.textContent = isDraft ? 'Draft' : (live ? 'Live' : 'Scheduled');
+
+        /* Drafts get a one-click approve */
+        var approve = null;
+        if (isDraft) {
+          approve = document.createElement('button');
+          approve.type = 'button'; approve.className = 'pub-item-btn'; approve.textContent = 'Publish';
+          approve.addEventListener('click', function () {
+            if (!confirm('Publish "' + row.title + '" to the live blog now?\n\nMake sure you have read it and checked its sources.')) return;
+            sb.from('articles').update({ status: 'published', publish_at: new Date().toISOString() })
+              .eq('id', row.id).then(function (r) {
+                if (r.error) { pubMsg('Could not publish: ' + r.error.message, true); return; }
+                pubMsg('Published "' + row.title + '".', false);
+                loadArticles();
+              });
+          });
+        }
+
+        /* Read the whole article without leaving the dashboard, rendered
+           the way the blog renders it — the only way to review a bot
+           draft honestly before publishing it. */
+        var preview = document.createElement('button');
+        preview.type = 'button'; preview.className = 'pub-item-btn'; preview.textContent = 'Preview';
+        var pane = null;
+        preview.addEventListener('click', function () {
+          if (pane) {                       /* toggle closed */
+            pane.parentNode.removeChild(pane); pane = null;
+            preview.textContent = 'Preview';
+            return;
+          }
+          pane = document.createElement('div');
+          pane.className = 'pub-preview';
+
+          var head = el('div', 'pub-preview-head');
+          head.appendChild(el('span', 'pub-preview-cat', row.category));
+          head.appendChild(el('span', 'pub-preview-when', fmtWhen(row.publish_at)));
+          head.appendChild(el('span', 'pub-preview-read', row.read_time || '5 min'));
+          if (row.author) head.appendChild(el('span', 'pub-preview-read', 'by ' + row.author));
+          pane.appendChild(head);
+
+          pane.appendChild(el('h3', 'pub-preview-title', row.title));
+          if (row.excerpt) pane.appendChild(el('p', 'pub-preview-excerpt', row.excerpt));
+
+          var bodyWrap = document.createElement('div');
+          bodyWrap.className = 'pub-preview-body';
+          /* The body is our own stored HTML, written by us or by the bot
+             under a prompt that permits only h3/p/strong/em/blockquote.
+             Strip anything executable anyway — a preview should never be
+             able to run script, whatever ends up in the column. */
+          var safe = document.createElement('div');
+          safe.innerHTML = row.body || '<p><em>No body content.</em></p>';
+          Array.prototype.forEach.call(safe.querySelectorAll('script,style,iframe,object,embed,link'), function (n) {
+            n.parentNode.removeChild(n);
+          });
+          Array.prototype.forEach.call(safe.querySelectorAll('*'), function (n) {
+            Array.prototype.slice.call(n.attributes).forEach(function (a) {
+              if (/^on/i.test(a.name) || /javascript:/i.test(a.value)) n.removeAttribute(a.name);
+            });
+          });
+          bodyWrap.innerHTML = safe.innerHTML;
+          pane.appendChild(bodyWrap);
+
+          var wc = (safe.textContent || '').trim().split(/\s+/).filter(Boolean).length;
+          pane.appendChild(el('div', 'pub-preview-foot', wc + ' words · slug: ' + row.slug));
+
+          item.parentNode.insertBefore(pane, item.nextSibling);
+          preview.textContent = 'Close';
+          pane.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+
+        var edit = document.createElement('button');
+        edit.type = 'button'; edit.className = 'pub-item-btn'; edit.textContent = 'Edit';
+        edit.addEventListener('click', function () {
+          fId.value = row.id; fTitle.value = row.title; fCat.value = row.category;
+          fExc.value = row.excerpt || ''; fBody.value = row.body || '';
+          fImg.value = row.cover_image || ''; fRead.value = row.read_time || '5 min';
+          fSlug.value = row.slug; slugTouched = true;
+          var ist = new Date(new Date(row.publish_at).getTime() + 330 * 60000);
+          fDate.value = ist.getUTCFullYear() + '-' + String(ist.getUTCMonth()+1).padStart(2,'0') + '-' + String(ist.getUTCDate()).padStart(2,'0');
+          var hh = String(ist.getUTCHours()).padStart(2,'0') + ':' + String(ist.getUTCMinutes()).padStart(2,'0');
+          fTime.value = (hh === '07:00' || hh === '16:00') ? hh : 'now';
+          pubSave.textContent = 'Save Changes';
+          pubMsg('Editing "' + row.title + '" — save to update it.', false);
+          document.getElementById('publisher').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        /* Generate an Instagram post from this article. Costs ~1–2¢ per
+           click, so it's always deliberate — never a batch of all 90. */
+        var ig = document.createElement('button');
+        ig.type = 'button'; ig.className = 'pub-item-btn'; ig.textContent = 'Instagram';
+        var igPane = null;
+        ig.addEventListener('click', function () {
+          if (igPane){ igPane.parentNode.removeChild(igPane); igPane = null; ig.textContent = 'Instagram'; return; }
+          if (!sb) return;
+          ig.disabled = true; ig.textContent = 'Writing…';
+          sb.auth.getSession().then(function (s) {
+            var token = s && s.data && s.data.session ? s.data.session.access_token : null;
+            if (!token) throw { code: 'PGRST301' };
+            return fetch(window.SUPABASE_URL + '/functions/v1/generate-instagram', {
+              method: 'POST',
+              headers: { 'content-type': 'application/json', 'apikey': window.SUPABASE_ANON_KEY, 'authorization': 'Bearer ' + token },
+              body: JSON.stringify({ article_id: row.id })
+            }).then(function (res) { return VYT_ERR.readResponse(res, { area: 'function' }); })
+              .then(function (out) {
+                ig.disabled = false; ig.textContent = 'Close';
+                if (!out.ok) throw out.err;
+                igPane = renderIgPost(out.data, item);
+              });
+          }).catch(function (err) {
+            ig.disabled = false; ig.textContent = 'Failed — retry';
+            var e = VYT_ERR.report(err, { area: 'function' });
+            ig.title = VYT_ERR.format(e);
+          });
+        });
+
+        var del = document.createElement('button');
+        del.type = 'button'; del.className = 'pub-item-btn danger'; del.textContent = 'Delete';
+        del.addEventListener('click', function () {
+          if (!confirm('Delete "' + row.title + '"? This cannot be undone.')) return;
+          sb.from('articles').delete().eq('id', row.id).then(function (r) {
+            if (r.error) { pubMsg('Delete failed: ' + r.error.message, true); return; }
+            pubMsg('Deleted "' + row.title + '".', false);
+            loadArticles();
+          });
+        });
+
+        item.appendChild(main); item.appendChild(badge);
+        if (approve) item.appendChild(approve);
+        item.appendChild(preview); item.appendChild(ig); item.appendChild(edit); item.appendChild(del);
+        pubList.appendChild(item);
+      });
+  }
+
+  document.getElementById('pub-search').addEventListener('input', renderArticles);
+  document.getElementById('pub-filter-status').addEventListener('change', renderArticles);
+  document.getElementById('pub-refresh').addEventListener('click', loadArticles);
+  loadArticles();
+
+  pubForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!sb) return;
+    if (!fTitle.value.trim()) { pubMsg('Give the article a title first.', true); return; }
+
+    var payload = {
+      slug:        (fSlug.value.trim() || slugify(fTitle.value)),
+      title:       fTitle.value.trim(),
+      category:    fCat.value,
+      excerpt:     fExc.value.trim(),
+      body:        fBody.value.trim(),
+      cover_image: fImg.value.trim() || null,
+      read_time:   fRead.value.trim() || '5 min',
+      author:      name,
+      publish_at:  publishInstant()
+    };
+
+    pubSave.disabled = true;
+    var original = pubSave.textContent;
+    pubSave.textContent = 'Saving…';
+
+    var q = fId.value
+      ? sb.from('articles').update(payload).eq('id', fId.value)
+      : sb.from('articles').insert(payload);
+
+    q.then(function (res) {
+      pubSave.disabled = false;
+      pubSave.textContent = original;
+      if (res.error) {
+        var msg = VYT_ERR.format(VYT_ERR.report(res.error, { area: 'db' }));
+        if (/duplicate|unique/i.test(msg)) msg = 'That link slug is already used by another article — change it and try again.';
+        pubMsg(msg, true);
+        return;
+      }
+      var scheduled = new Date(payload.publish_at) > new Date();
+      pubMsg(fId.value
+        ? 'Saved. Changes are live on the blog.'
+        : (scheduled ? 'Scheduled — it will appear on the blog at ' + fmtWhen(payload.publish_at) + ' IST.'
+                     : 'Published — it is live on the blog now.'), false);
+      resetForm();
+      loadArticles();
+    });
+  });
+
+  /* ══════════════════════════════════════════════
+     ENQUIRIES INBOX + NEWSLETTER SUBSCRIBERS
+     Both tables are readable only by signed-in team members,
+     so nothing here is exposed to site visitors.
+  ══════════════════════════════════════════════ */
+  var enqInbox = document.getElementById('enq-inbox');
+  var enqCount = document.getElementById('enq-count');
+  var subsList = document.getElementById('subs-list');
+  var subsCount = document.getElementById('subs-count');
+  var enqShow = 'open';
+  var enqCache = [];
+
+  function ago(iso){
+    var mins = Math.floor((Date.now() - new Date(iso)) / 60000);
+    if (mins < 1) return 'just now';
+    if (mins < 60) return mins + 'm ago';
+    var h = Math.floor(mins / 60);
+    if (h < 24) return h + 'h ago';
+    var d = Math.floor(h / 24);
+    if (d < 30) return d + 'd ago';
+    return new Date(iso).toLocaleDateString();
+  }
+
+  function renderEnquiries(){
+    var rows = enqShow === 'open' ? enqCache.filter(function(r){ return !r.handled; }) : enqCache;
+    enqInbox.innerHTML = '';
+    if (!rows.length){
+      enqInbox.innerHTML = '<div class="dash-empty">' +
+        (enqShow === 'open' ? 'No open enquiries — all caught up' : 'No enquiries yet') + '</div>';
+      return;
+    }
+    rows.forEach(function(r){
+      var card = el('div', 'enq-card' + (r.handled ? ' handled' : ''));
+
+      var top = el('div', 'enq-card-top');
+      top.appendChild(el('span', 'enq-name', r.name));
+      if (r.service) top.appendChild(el('span', 'enq-service', r.service));
+      top.appendChild(el('span', 'enq-when', ago(r.created_at)));
+      card.appendChild(top);
+
+      var contact = el('div', 'enq-contact');
+      if (r.phone){
+        var wa = document.createElement('a');
+        wa.href = 'https://wa.me/' + r.phone.replace(/[^0-9]/g,'');
+        wa.target = '_blank'; wa.rel = 'noopener';
+        wa.textContent = r.phone + (r.contact_via ? ' · prefers ' + r.contact_via : '');
+        contact.appendChild(wa);
+      }
+      if (r.email){
+        var em = document.createElement('a');
+        em.href = 'mailto:' + r.email;
+        em.textContent = r.email;
+        contact.appendChild(em);
+      }
+      card.appendChild(contact);
+
+      if (r.detail || r.message){
+        var body = el('div', 'enq-body', r.message || '');
+        if (r.detail) body.appendChild(el('em', '', r.detail));
+        card.appendChild(body);
+      }
+
+      /* ── Triage output, when it exists ── */
+      if (r.triaged_at){
+        var ai = el('div', 'enq-ai');
+
+        var aiTop = el('div', 'enq-ai-top');
+        aiTop.appendChild(el('span', 'enq-ai-tag urg-' + (r.ai_urgency || 'normal'),
+          (r.ai_urgency || 'normal') + ' priority'));
+        if (r.ai_intent) aiTop.appendChild(el('span', 'enq-ai-intent', r.ai_intent));
+        if (r.ai_spam) aiTop.appendChild(el('span', 'enq-ai-tag spam', 'likely spam'));
+        ai.appendChild(aiTop);
+
+        if (r.ai_summary) ai.appendChild(el('div', 'enq-ai-summary', r.ai_summary));
+        if (r.ai_notes) ai.appendChild(el('div', 'enq-ai-notes', 'Check first: ' + r.ai_notes));
+
+        if (r.ai_reply){
+          var draft = document.createElement('textarea');
+          draft.className = 'enq-ai-draft';
+          draft.value = r.ai_reply;
+          draft.rows = Math.min(10, r.ai_reply.split('\n').length + 3);
+          ai.appendChild(draft);
+
+          var copy = el('button', 'enq-act', 'Copy reply');
+          copy.type = 'button';
+          copy.addEventListener('click', function(){
+            /* Read from the textarea, not the row — the user may have edited it. */
+            draft.select();
+            var done = function(){ copy.textContent = 'Copied'; setTimeout(function(){ copy.textContent = 'Copy reply'; }, 1600); };
+            if (navigator.clipboard && navigator.clipboard.writeText){
+              navigator.clipboard.writeText(draft.value).then(done, function(){ document.execCommand('copy'); done(); });
+            } else { document.execCommand('copy'); done(); }
+          });
+          var copyRow = el('div', 'enq-ai-actions');
+          copyRow.appendChild(copy);
+          ai.appendChild(copyRow);
+        }
+
+        card.appendChild(ai);
+      }
+
+      var actions = el('div', 'enq-actions');
+
+      /* Triage costs money per click, so it is always deliberate — never automatic. */
+      var triage = el('button', 'enq-act', r.triaged_at ? 'Re-triage' : 'Draft reply');
+      triage.type = 'button';
+      triage.addEventListener('click', function(){
+        if (!sb) return;
+        triage.disabled = true;
+        triage.textContent = 'Thinking…';
+        sb.auth.getSession().then(function(s){
+          var token = s && s.data && s.data.session ? s.data.session.access_token : null;
+          if (!token) throw { code: 'PGRST301' };
+          return fetch(window.SUPABASE_URL + '/functions/v1/triage-enquiry', {
+            method: 'POST',
+            /* apikey is required by the Supabase functions gateway — without
+               it the request is rejected with an empty 401 before your
+               function ever runs. supabase-js adds it automatically; a
+               raw fetch does not. */
+            headers: {
+              'content-type': 'application/json',
+              'apikey': window.SUPABASE_ANON_KEY,
+              'authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({ enquiry_id: r.id }),
+          }).then(function(res){ return VYT_ERR.readResponse(res, { area: 'function' }); })
+            .then(function(out){
+              if (!out.ok) throw out.err;
+              loadEnquiries();
+            });
+        }).catch(function(err){
+          triage.disabled = false;
+          var e = VYT_ERR.report(err, { area: 'function' });
+          /* Put the reason on the button's tooltip so it isn't lost. */
+          triage.textContent = 'Failed — retry';
+          triage.title = VYT_ERR.format(e);
+        });
+      });
+      actions.appendChild(triage);
+
+      var mark = el('button', 'enq-act', r.handled ? 'Reopen' : 'Mark handled');
+      mark.type = 'button';
+      mark.addEventListener('click', function(){
+        sb.from('enquiries').update({ handled: !r.handled }).eq('id', r.id).then(function(res){
+          if (!res.error) loadEnquiries();
+        });
+      });
+      var del = el('button', 'enq-act danger', 'Delete');
+      del.type = 'button';
+      del.addEventListener('click', function(){
+        if (!confirm('Delete the enquiry from ' + r.name + '? This cannot be undone.')) return;
+        sb.from('enquiries').delete().eq('id', r.id).then(function(res){
+          if (!res.error) loadEnquiries();
+        });
+      });
+      actions.appendChild(mark); actions.appendChild(del);
+      card.appendChild(actions);
+
+      enqInbox.appendChild(card);
+    });
+  }
+
+  function loadEnquiries(){
+    if (!sb){ enqInbox.innerHTML = '<div class="dash-empty">Backend not connected</div>'; return; }
+    sb.from('enquiries').select('*').order('created_at', { ascending: false }).then(function(res){
+      if (res.error){
+        enqInbox.innerHTML = ''; enqInbox.appendChild(el('div','dash-empty', VYT_ERR.format(VYT_ERR.report(res.error, { area: 'db' }))));
+        return;
+      }
+      enqCache = res.data || [];
+      var open = enqCache.filter(function(r){ return !r.handled; }).length;
+      enqCount.textContent = open + ' open · ' + enqCache.length + ' total';
+      renderEnquiries();
+    });
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('.enq-tab'), function(tab){
+    tab.addEventListener('click', function(){
+      enqShow = tab.getAttribute('data-show');
+      Array.prototype.forEach.call(document.querySelectorAll('.enq-tab'), function(t){
+        t.classList.toggle('active', t === tab);
+      });
+      renderEnquiries();
+    });
+  });
+  document.getElementById('enq-reload').addEventListener('click', loadEnquiries);
+  loadEnquiries();
+
+  /* ── CRM + cold-call list ────────────────────────────
+     One table, filtered by stage. The "Cold list" tab is just
+     stage='cold'. Everything is team-only; no public access. */
+  var crmCache = [];
+  var crmStage = 'all';
+  var crmList = document.getElementById('crm-list');
+  var crmCount = document.getElementById('crm-count');
+  var STAGE_LABEL = { cold:'Cold', contacted:'Contacted', negotiating:'Negotiating', client:'Client', lost:'Lost' };
+
+  function crmDigits(p){ return (p || '').replace(/[^0-9]/g, ''); }
+
+  function renderCrm(){
+    if (!crmList) return;
+    var q = (document.getElementById('crm-search').value || '').toLowerCase().trim();
+    var rows = crmCache.filter(function(r){
+      if (crmStage !== 'all' && r.stage !== crmStage) return false;
+      if (!q) return true;
+      return ((r.name||'') + ' ' + (r.company||'') + ' ' + (r.phone||'') + ' ' + (r.service||''))
+        .toLowerCase().indexOf(q) !== -1;
+    });
+
+    var counts = { cold:0, contacted:0, negotiating:0, client:0, lost:0 };
+    crmCache.forEach(function(r){ if (counts[r.stage] != null) counts[r.stage]++; });
+    crmCount.textContent = crmCache.length + ' total · ' + counts.cold + ' to call · ' + counts.client + ' clients';
+
+    crmList.innerHTML = '';
+    if (!crmCache.length){ crmList.innerHTML = '<div class="dash-empty">No contacts yet — run supabase-setup-crm.sql, then add one above</div>'; return; }
+    if (!rows.length){ crmList.innerHTML = '<div class="dash-empty">Nothing in this view</div>'; return; }
+
+    rows.forEach(function(r){
+      var card = el('div', 'crm-card stage-' + r.stage);
+
+      var top = el('div', 'crm-card-top');
+      top.appendChild(el('span', 'crm-name', r.name));
+      if (r.company) top.appendChild(el('span', 'crm-company', r.company));
+      var stageSel = document.createElement('select');
+      stageSel.className = 'crm-stage-pick stage-' + r.stage;
+      ['cold','contacted','negotiating','client','lost'].forEach(function(s){
+        var o = document.createElement('option'); o.value = s; o.textContent = STAGE_LABEL[s];
+        if (s === r.stage) o.selected = true; stageSel.appendChild(o);
+      });
+      stageSel.addEventListener('change', function(){
+        sb.from('crm_contacts').update({ stage: stageSel.value }).eq('id', r.id).then(function(res){
+          if (res.error){ pubMsg(VYT_ERR.format(VYT_ERR.report(res.error,{area:'db'})), true); return; }
+          loadCrm();
+        });
+      });
+      top.appendChild(stageSel);
+      card.appendChild(top);
+
+      var meta = el('div', 'crm-meta');
+      if (r.service) meta.appendChild(el('span', '', r.service));
+      if (r.value_inr) meta.appendChild(el('span', '', '₹' + Number(r.value_inr).toLocaleString('en-IN')));
+      if (r.source) meta.appendChild(el('span', 'crm-muted', 'via ' + r.source));
+      if (meta.childNodes.length) card.appendChild(meta);
+
+      /* Contact actions — call and WhatsApp are the point of a cold list */
+      if (r.phone){
+        var acts = el('div', 'crm-contact');
+        var call = document.createElement('a');
+        call.href = 'tel:' + r.phone; call.className = 'crm-act'; call.textContent = '📞 ' + r.phone;
+        acts.appendChild(call);
+        var wa = document.createElement('a');
+        wa.href = 'https://wa.me/' + crmDigits(r.phone); wa.target = '_blank'; wa.rel = 'noopener';
+        wa.className = 'crm-act'; wa.textContent = 'WhatsApp';
+        acts.appendChild(wa);
+        if (r.email){
+          var em = document.createElement('a');
+          em.href = 'mailto:' + r.email; em.className = 'crm-act'; em.textContent = 'Email';
+          acts.appendChild(em);
+        }
+        card.appendChild(acts);
+      }
+
+      /* Running notes — save on blur so a click-to-call never loses them */
+      var notes = document.createElement('textarea');
+      notes.className = 'crm-notes'; notes.placeholder = 'Notes on this contact…';
+      notes.value = r.notes || '';
+      notes.rows = 2;
+      notes.addEventListener('blur', function(){
+        if (notes.value === (r.notes || '')) return;
+        sb.from('crm_contacts').update({ notes: notes.value }).eq('id', r.id).then(function(res){
+          if (!res.error){ r.notes = notes.value; notes.classList.add('saved'); setTimeout(function(){ notes.classList.remove('saved'); }, 1200); }
+        });
+      });
+      card.appendChild(notes);
+
+      /* Log-contact + delete */
+      var foot = el('div', 'crm-foot');
+      var logged = el('button', 'crm-mini', 'Log contact');
+      logged.type = 'button';
+      logged.addEventListener('click', function(){
+        var patch = { last_contacted_at: new Date().toISOString() };
+        if (r.stage === 'cold') patch.stage = 'contacted';   // calling a cold lead moves it forward
+        sb.from('crm_contacts').update(patch).eq('id', r.id).then(function(res){
+          if (!res.error) loadCrm();
+        });
+      });
+      foot.appendChild(logged);
+      if (r.last_contacted_at) foot.appendChild(el('span', 'crm-muted', 'last: ' + ago(r.last_contacted_at)));
+
+      var del = el('button', 'crm-mini danger', 'Delete');
+      del.type = 'button';
+      del.style.marginLeft = 'auto';
+      del.addEventListener('click', function(){
+        if (!confirm('Delete ' + r.name + ' from the CRM? This cannot be undone.')) return;
+        sb.from('crm_contacts').delete().eq('id', r.id).then(function(res){ if (!res.error) loadCrm(); });
+      });
+      foot.appendChild(del);
+      card.appendChild(foot);
+
+      crmList.appendChild(card);
+    });
+  }
+
+  function loadCrm(){
+    if (!sb){ crmList.innerHTML = '<div class="dash-empty">Backend not connected</div>'; return; }
+    sb.from('crm_contacts').select('*')
+      .order('next_action_at', { ascending: true, nullsFirst: false })
+      .order('created_at', { ascending: false })
+      .then(function(res){
+        if (res.error){ crmList.innerHTML = '<div class="dash-empty">' + VYT_ERR.format(VYT_ERR.report(res.error,{area:'db'})) + '</div>'; return; }
+        crmCache = res.data || [];
+        renderCrm();
+      });
+  }
+
+  var crmForm = document.getElementById('crm-form');
+  if (crmForm){
+    crmForm.addEventListener('submit', function(e){
+      e.preventDefault();
+      if (!sb){ pubMsg('Backend not connected.', true); return; }
+      var name = document.getElementById('crm-name').value.trim();
+      if (!name) return;
+      var row = {
+        name: name,
+        company: document.getElementById('crm-company').value.trim() || null,
+        phone: document.getElementById('crm-phone').value.trim() || null,
+        email: document.getElementById('crm-email').value.trim() || null,
+        stage: document.getElementById('crm-stage').value,
+        service: document.getElementById('crm-service').value.trim() || null,
+        source: document.getElementById('crm-source').value.trim() || null,
+        owner: (function(){ var u = document.getElementById('dash-user'); var s = u && u.querySelector('strong'); return s && s.textContent ? s.textContent : null; })()
+      };
+      sb.from('crm_contacts').insert(row).then(function(res){
+        if (res.error){ pubMsg(VYT_ERR.format(VYT_ERR.report(res.error,{area:'db'})), true); return; }
+        crmForm.reset();
+        loadCrm();
+      });
+    });
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('.crm-tab'), function(tab){
+    tab.addEventListener('click', function(){
+      crmStage = tab.getAttribute('data-stage');
+      Array.prototype.forEach.call(document.querySelectorAll('.crm-tab'), function(t){
+        t.classList.toggle('active', t === tab);
+      });
+      renderCrm();
+    });
+  });
+  var crmSearch = document.getElementById('crm-search');
+  if (crmSearch) crmSearch.addEventListener('input', renderCrm);
+  document.getElementById('crm-reload').addEventListener('click', loadCrm);
+  loadCrm();
+
+  var subsCache = [];
+  function loadSubscribers(){
+    if (!sb){ subsList.innerHTML = '<div class="dash-empty">Backend not connected</div>'; return; }
+    sb.from('newsletter_subscribers').select('*').order('created_at', { ascending: false }).then(function(res){
+      if (res.error){ subsList.innerHTML = ''; subsList.appendChild(el('div','dash-empty', VYT_ERR.format(VYT_ERR.report(res.error, { area: 'db' })))); return; }
+      subsCache = res.data || [];
+      subsCount.textContent = subsCache.length + (subsCache.length === 1 ? ' email' : ' emails');
+      subsList.innerHTML = '';
+      if (!subsCache.length){
+        subsList.innerHTML = '<div class="dash-empty">No subscribers yet</div>';
+        return;
+      }
+      subsCache.forEach(function(s){
+        var row = el('div', 'subs-item');
+        row.appendChild(el('span', '', s.email));
+        row.appendChild(el('span', 'subs-when', ago(s.created_at)));
+        subsList.appendChild(row);
+      });
+    });
+  }
+  document.getElementById('subs-copy').addEventListener('click', function(){
+    if (!subsCache.length) return;
+    var btn = this;
+    var text = subsCache.map(function(s){ return s.email; }).join(', ');
+    navigator.clipboard.writeText(text).then(function(){
+      var was = btn.textContent;
+      btn.textContent = 'Copied ' + subsCache.length + ' emails';
+      setTimeout(function(){ btn.textContent = was; }, 1800);
+    });
+  });
+  loadSubscribers();
+
+  /* ══════════════════════════════════════════════
+     AI NEWS BOT — queue + trigger
+     The Edge Function is called with the signed-in user's own token,
+     so no shared secret is ever exposed in this page.
+  ══════════════════════════════════════════════ */
+  var botForm   = document.getElementById('bot-form');
+  var botNotice = document.getElementById('bot-notice');
+  var botStatus = document.getElementById('bot-status');
+  var botList   = document.getElementById('bot-list');
+  var botRunBtn = document.getElementById('bot-run');
+  var botKind   = document.getElementById('bot-kind');
+  var botCadWrap = document.getElementById('bot-cadence-wrap');
+
+  botKind.addEventListener('change', function () {
+    botCadWrap.style.display = botKind.value === 'beat' ? '' : 'none';
+  });
+
+  function botMsg(text, isError) {
+    botNotice.textContent = text;
+    botNotice.classList.toggle('is-error', !!isError);
+    botNotice.classList.add('is-visible');
+  }
+
+  function loadTopics() {
+    if (!sb) { botList.innerHTML = '<div class="dash-empty">Backend not connected</div>'; return; }
+    sb.from('bot_topics').select('*').order('created_at', { ascending: false }).then(function (res) {
+      if (res.error) {
+        botList.innerHTML = ''; botList.appendChild(el('div','dash-empty', VYT_ERR.format(VYT_ERR.report(res.error, { area: 'db' }))));
+        botStatus.textContent = 'Not set up';
+        return;
+      }
+      var rows = res.data || [];
+      var queued = rows.filter(function (r) { return r.status === 'pending'; }).length;
+      botStatus.textContent = queued + ' queued · ' + rows.length + ' total';
+      botList.innerHTML = '';
+      if (!rows.length) { botList.innerHTML = '<div class="dash-empty">No topics yet — add one above</div>'; return; }
+
+      rows.forEach(function (r) {
+        var item = el('div', 'pub-item');
+        var main = el('div', 'pub-item-main');
+        main.appendChild(el('div', 'pub-item-title', r.topic));
+        var meta = r.category + (r.kind === 'beat' ? ' · ' + (r.cadence || 'weekly') : '') +
+                   (r.last_run_at ? ' · last run ' + ago(r.last_run_at) : '');
+        main.appendChild(el('div', 'pub-item-meta', meta));
+        if (r.status === 'failed' && r.last_error) {
+          main.appendChild(el('div', 'bot-err', r.last_error));
+        }
+
+        item.appendChild(main);
+        item.appendChild(el('span', 'bot-kind' + (r.kind === 'beat' ? ' beat' : ''), r.kind === 'beat' ? 'Beat' : 'One-off'));
+        item.appendChild(el('span', 'bot-state ' + r.status, r.status));
+
+        var run = el('button', 'pub-item-btn', 'Run');
+        run.type = 'button';
+        run.addEventListener('click', function () { runBot(r.id); });
+
+        var del = el('button', 'pub-item-btn danger', 'Delete');
+        del.type = 'button';
+        del.addEventListener('click', function () {
+          if (!confirm('Remove "' + r.topic + '" from the queue?')) return;
+          sb.from('bot_topics').delete().eq('id', r.id).then(function () { loadTopics(); });
+        });
+
+        item.appendChild(run); item.appendChild(del);
+        botList.appendChild(item);
+      });
+    });
+  }
+
+  botForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!sb) return;
+    var t = document.getElementById('bot-topic').value.trim();
+    if (!t) { botMsg('Give the bot a topic first.', true); return; }
+    sb.from('bot_topics').insert({
+      kind: botKind.value,
+      topic: t,
+      category: document.getElementById('bot-category').value,
+      guidance: document.getElementById('bot-guidance').value.trim() || null,
+      cadence: botKind.value === 'beat' ? document.getElementById('bot-cadence').value : null,
+      created_by: name
+    }).then(function (res) {
+      if (res.error) { botMsg(VYT_ERR.format(VYT_ERR.report(res.error, { area: 'db' })), true); return; }
+      botMsg('Added to the queue.', false);
+      botForm.reset();
+      botCadWrap.style.display = 'none';
+      loadTopics();
+    });
+  });
+
+  function runBot(topicId) {
+    if (!sb) return;
+    botRunBtn.disabled = true;
+    var original = botRunBtn.textContent;
+    botRunBtn.textContent = 'Researching…';
+    botMsg('Researching and writing — this usually takes 30–90 seconds.', false);
+
+    sb.auth.getSession().then(function (s) {
+      var token = s.data && s.data.session ? s.data.session.access_token : null;
+      if (!token) throw { code: 'PGRST301' };   // no session — describe() names it
+      return fetch(window.SUPABASE_URL + '/functions/v1/news-bot', {
+        method: 'POST',
+        /* apikey is required by the Supabase functions gateway — see the
+           note on the triage call above. */
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': window.SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify(topicId ? { topic_id: topicId } : {})
+      });
+    }).then(function (r) {
+      /* readResponse copes with a non-JSON body (an HTML error page,
+         an empty 502) and reads the message wherever it actually is —
+         our functions use `error`, the Supabase gateway uses `message`. */
+      return VYT_ERR.readResponse(r, { area: 'function' });
+    }).then(function (res) {
+      botRunBtn.disabled = false;
+      botRunBtn.textContent = original;
+      if (!res.ok) {
+        botMsg('Bot failed: ' + VYT_ERR.format(VYT_ERR.report(res.err)), true);
+      } else if (res.data.article_id) {
+        botMsg('Draft ready: "' + res.data.title + '" (confidence: ' + (res.data.confidence || 'n/a') +
+               '). Review it in Your Articles below before publishing.', false);
+        loadArticles();
+      } else {
+        botMsg(res.data.message || 'Nothing to do.', false);
+      }
+      loadTopics();
+    }).catch(function (err) {
+      botRunBtn.disabled = false;
+      botRunBtn.textContent = original;
+      botMsg('Bot failed: ' + VYT_ERR.format(VYT_ERR.report(err, { area: 'function' })), true);
+    });
+  }
+
+  /* ── Donations (verified payments only) ── */
+  var donList = document.getElementById('don-list');
+  var donTotal = document.getElementById('don-total');
+  function loadDonations() {
+    if (!sb) { donList.innerHTML = '<div class="dash-empty">Backend not connected</div>'; return; }
+    sb.from('donations').select('*').order('created_at', { ascending: false }).then(function (res) {
+      if (res.error) {
+        donList.innerHTML = ''; donList.appendChild(el('div','dash-empty', VYT_ERR.format(VYT_ERR.report(res.error, { area: 'db' }))));
+        donTotal.textContent = 'Not set up';
+        return;
+      }
+      var rows = (res.data || []).filter(function (d) { return d.status === 'paid'; });
+      var paise = rows.reduce(function (s, d) { return s + (d.amount_paise || 0); }, 0);
+      donTotal.textContent = '₹' + (paise / 100).toLocaleString('en-IN') + ' · ' + rows.length;
+      donList.innerHTML = '';
+      if (!rows.length) { donList.innerHTML = '<div class="dash-empty">No contributions yet</div>'; return; }
+      rows.forEach(function (d) {
+        var row = el('div', 'subs-item');
+        row.appendChild(el('span', '', (d.donor_name || 'Anonymous') + ' · ₹' + ((d.amount_paise || 0) / 100).toLocaleString('en-IN')));
+        row.appendChild(el('span', 'subs-when', ago(d.created_at)));
+        donList.appendChild(row);
+      });
+    });
+  }
+  loadDonations();
+
+  botRunBtn.addEventListener('click', function () { runBot(null); });
+  document.getElementById('bot-reload').addEventListener('click', loadTopics);
+  loadTopics();
+
+  }  /* end init() */
+})();
+</script>
+
+</body>
+</html>

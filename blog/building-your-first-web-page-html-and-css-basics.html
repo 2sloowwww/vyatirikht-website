@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Building Your First Web Page — HTML and CSS Basics — VYATIRIKHT</title>
+  <meta name="description" content="This very site is hand-built HTML and CSS. You can build a page today with two simple ideas: structure and style. Here is the mental model that makes…">
+  <meta name="theme-color" content="#0B6623">
+  <link rel="canonical" href="https://vyatirikht.xyz/blog/building-your-first-web-page-html-and-css-basics.html">
+  <link rel="icon" type="image/png" href="../assets/images/logo/Logo_transparent.png">
+
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://vyatirikht.xyz/blog/building-your-first-web-page-html-and-css-basics.html">
+  <meta property="og:title" content="Building Your First Web Page — HTML and CSS Basics">
+  <meta property="og:description" content="This very site is hand-built HTML and CSS. You can build a page today with two simple ideas: structure and style. Here is the mental model that makes…">
+  <meta property="og:image" content="https://vyatirikht.xyz/assets/images/web/product-7.jpg">
+  <meta property="og:site_name" content="Vyatirikht">
+  <meta property="og:locale" content="en_IN">
+  <meta property="article:published_time" content="2026-07-30T10:30:00.000Z">
+  <meta property="article:section" content="Tutorials">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Building Your First Web Page — HTML and CSS Basics">
+  <meta name="twitter:description" content="This very site is hand-built HTML and CSS. You can build a page today with two simple ideas: structure and style. Here is the mental model that makes…">
+  <meta name="twitter:image" content="https://vyatirikht.xyz/assets/images/web/product-7.jpg">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Building Your First Web Page — HTML and CSS Basics",
+    "description": "This very site is hand-built HTML and CSS. You can build a page today with two simple ideas: structure and style. Here is the mental model that makes…",
+    "datePublished": "2026-07-30T10:30:00.000Z",
+    "dateModified": "2026-07-30T10:30:00.000Z",
+    "articleSection": "Tutorials",
+    "inLanguage": "en-IN",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://vyatirikht.xyz/blog/building-your-first-web-page-html-and-css-basics.html" },
+    "author": { "@type": "Person", "name": "Jitendra Kulkarni" },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Vyatirikht",
+      "url": "https://vyatirikht.xyz/"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://vyatirikht.xyz/" },
+      { "@type": "ListItem", "position": 2, "name": "Journal", "item": "https://vyatirikht.xyz/blog.html" },
+      { "@type": "ListItem", "position": 3, "name": "Building Your First Web Page — HTML and CSS Basics", "item": "https://vyatirikht.xyz/blog/building-your-first-web-page-html-and-css-basics.html" }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../policy.css">
+  <script>
+    (function () {
+      try {
+        if (localStorage.getItem('vy-theme') === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+
+<nav id="main-nav">
+  <a href="../index.html" class="nav-logo"><img src="../assets/images/logo/Logo_transparent.png" alt="Vyatirikht" class="nav-logo-img" width="217" height="363"></a>
+  <ul class="nav-links">
+    <li><a href="../blog.html" class="nav-blog">Blog</a></li>
+    <li><a href="../index.html#about">About</a></li>
+    <li><a href="../index.html#services">Services</a></li>
+    <li><a href="../index.html#portfolio">Work</a></li>
+    <li><a href="../vault.html">Vault</a></li>
+    <li><a href="../index.html#connect" class="nav-cta">Connect</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../blog.html" onclick="closeMobile()">Blog</a>
+  <a href="../index.html#about" onclick="closeMobile()">About</a>
+  <a href="../index.html#services" onclick="closeMobile()">Services</a>
+  <a href="../index.html#portfolio" onclick="closeMobile()">Work</a>
+  <a href="../vault.html" onclick="closeMobile()">Vault</a>
+  <a href="../index.html#connect" onclick="closeMobile()">Connect</a>
+</div>
+
+<div class="pol-hero">
+  <div class="orb orb-1" style="width:340px;height:340px;top:-110px;left:-70px;background:radial-gradient(circle,rgba(8,88,32,0.14),transparent 70%);"></div>
+  <div class="pol-hero-inner">
+    <nav class="art-crumbs" aria-label="Breadcrumb">
+      <a href="../index.html">Home</a> <span>/</span>
+      <a href="../blog.html">Journal</a> <span>/</span>
+      <span>Tutorials</span>
+    </nav>
+    <h1 class="pol-title">Building Your First Web Page — HTML and CSS Basics</h1>
+    <div class="pol-updated">Tutorials · 30 July 2026 · 6 min read</div>
+  </div>
+</div>
+
+<div class="pol-wrap">
+  <article class="pol-body">
+    <div class="pol-note"><p>This very site is hand-built HTML and CSS. You can build a page today with two simple ideas: structure and style. Here is the mental model that makes it click.</p></div>
+
+<h3>Two Languages, Two Jobs</h3><p>A web page is built from two things working together. <strong>HTML</strong> is the structure — the skeleton that says "this is a heading, this is a paragraph, this is an image." <strong>CSS</strong> is the style — the clothing that says "make headings large and green, give this box rounded corners." Keep those two jobs separate in your head and web development stops being intimidating.</p><h3>HTML — Boxes With Names</h3><p>HTML is just content wrapped in labelled tags. A heading is <code>&lt;h1&gt;Title&lt;/h1&gt;</code>, a paragraph is <code>&lt;p&gt;text&lt;/p&gt;</code>, an image is <code>&lt;img&gt;</code>. Tags nest inside each other like boxes in boxes, and that nesting is the whole structure of every page on the internet. Write a few tags in a plain text file, save it as .html, open it in a browser — and you have made a web page. That is genuinely all the first step is.</p><h3>CSS — Rules That Target</h3><p>CSS is a list of rules, each saying "find these elements, apply this style." <code>h1 { color: green; }</code> means "every h1, make it green." You select elements (by tag, class, or id) and declare properties (colour, size, spacing, layout). Modern layout uses <strong>flexbox</strong> and <strong>grid</strong> to arrange those boxes into columns and rows responsively. Learn to select and to space, and you can style anything.</p><h3>How to Actually Start</h3><p>Do not buy a course yet. Make one file, put a heading and a paragraph in it, open it, then add a <code>&lt;style&gt;</code> block and change a colour. That loop — write, save, refresh, see it change — is the entire feedback cycle of web development, and an afternoon of it teaches more than a week of watching videos.</p><blockquote class="blog-quote">A web page is structure (HTML) wearing style (CSS). Master that one distinction, build one real file, and the mystery of "how are websites made" quietly dissolves into something you can do.</blockquote>
+
+    <div class="pol-contact">
+      <h2>Working on something like this?</h2>
+      <p>Vyatirikht is a creative studio in Pune — photography, film, branding and social media.</p>
+      <p><a href="../index.html#connect">Tell us about the project</a> or read more in the <a href="../blog.html">journal</a>.</p>
+    </div>
+
+    <nav class="art-nav" aria-label="More articles">
+      <a class="art-nav-link" href="engine-braking-the-skill-nobody-teaches-properly.html"><span>← Previous</span><strong>Engine Braking — The Skill Nobody Teaches Properly</strong></a>
+      <a class="art-nav-link is-next" href="the-emergency-fund-the-first-financial-system-to-build.html"><span>Next →</span><strong>The Emergency Fund — The First Financial System to Build</strong></a>
+    </nav>
+  </article>
+</div>
+
+<footer>
+  <div class="footer-divider-row" style="border-top:none;">
+    <span class="footer-copy">© 2026 VYATIRIKHT · <a href="../index.html" style="color:var(--accent);text-decoration:none;">Main site</a> · <a href="../blog.html" style="color:var(--accent);text-decoration:none;">Blog</a> · <a href="../terms.html" style="color:rgba(255,255,255,0.32);text-decoration:none;">Terms</a> · <a href="../privacy.html" style="color:rgba(255,255,255,0.32);text-decoration:none;">Privacy</a></span>
+  </div>
+</footer>
+
+<script src="../main.js" defer></script>
+</body>
+</html>

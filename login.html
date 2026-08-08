@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team Login — VYATIRIKHT</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0B6623">
+  <link rel="icon" type="image/png" href="assets/images/logo/Logo_transparent.png">
+  <link rel="apple-touch-icon" href="assets/images/logo/Logo_transparent.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="login.css">
+
+  <!-- NOT deferred: the inline login script runs during parsing and
+       calls window.getSupabase(). Deferring these leaves that helper
+       undefined at that moment, so `sb` is null and the page reports
+       "Backend not connected yet" with the login button disabled. -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="errors.js"></script>
+</head>
+<body class="login-body">
+
+<a href="index.html" class="login-back">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+  Back to site
+</a>
+
+<div class="login-shell">
+
+  <!-- BRAND PANEL -->
+  <aside class="login-brand">
+    <div class="orb orb-1" style="width:420px;height:420px;top:-100px;left:-90px;background:radial-gradient(circle,rgba(8,88,32,0.55),transparent 70%);"></div>
+    <div class="orb orb-2" style="width:320px;height:320px;bottom:-80px;right:-40px;background:radial-gradient(circle,rgba(154,108,16,0.35),transparent 70%);"></div>
+    <div class="orb orb-3" style="width:260px;height:260px;top:38%;right:12%;background:radial-gradient(circle,rgba(8,88,32,0.30),transparent 70%);"></div>
+
+    <div class="login-brand-inner">
+      <div class="login-mark"><img src="assets/images/logo/Logo_transparent.png" alt="Vyatirikht" width="257" height="403"></div>
+      <div class="login-brand-eyebrow">Internal Workspace</div>
+      <h1 class="login-brand-title">Welcome back,<br><em>team.</em></h1>
+      <p class="login-brand-sub">Sign in to access shoot schedules, client boards, and creative ops for Vyatirikht — in one place, built for how we actually work.</p>
+      <div class="login-brand-quote-block">
+        <p class="login-brand-quote">"I don't just create content. I build systems, businesses, machines, websites, experiences, and solutions."</p>
+        <div class="login-brand-quote-attr">— MJ · Founder &amp; Creative Director</div>
+      </div>
+    </div>
+
+    <div class="login-brand-footer"><span class="dot"></span>© 2026 VYATIRIKHT · Internal use only</div>
+  </aside>
+
+  <!-- FORM PANEL -->
+  <main class="login-panel">
+    <div class="login-card">
+      <div id="login-form-view">
+        <div class="login-card-head">
+          <span class="login-label">Login</span>
+          <h2 class="login-title">Sign in</h2>
+          <p class="login-desc">Use your Vyatirikht account to continue.</p>
+        </div>
+
+        <form id="login-form" novalidate>
+          <div class="login-field">
+            <label class="form-label" for="login-email">Email</label>
+            <input type="email" id="login-email" class="form-input" placeholder="you@vyatirikht.xyz" autocomplete="username" required>
+          </div>
+
+          <div class="login-field">
+            <label class="form-label" for="login-password">Password</label>
+            <div class="login-pw-wrap">
+              <input type="password" id="login-password" class="form-input" placeholder="••••••••" autocomplete="current-password" required>
+              <button type="button" class="login-pw-toggle" id="login-pw-toggle" aria-label="Show password" aria-pressed="false">
+                <svg id="login-pw-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="login-row" style="justify-content:flex-end;">
+            <a href="#" class="login-forgot" id="login-forgot">Forgot password?</a>
+          </div>
+
+          <div class="login-notice" id="login-notice"></div>
+
+          <button type="submit" class="btn-primary login-submit" id="login-submit">
+            <span class="btn-spinner" aria-hidden="true"></span><span id="login-submit-text">Sign In</span>
+          </button>
+        </form>
+
+        <p class="login-note">Not a team member? <a href="index.html">Return to the main site →</a></p>
+      </div>
+
+      <div id="login-signedin-view" style="display:none;">
+        <div class="login-signedin-icon">✓</div>
+        <h2 class="login-title" style="text-align:center;">Signed in</h2>
+        <p class="login-desc" id="login-signedin-msg" style="text-align:center;margin-bottom:26px;">Taking you to the dashboard…</p>
+      </div>
+    </div>
+  </main>
+
+</div>
+
+<script>
+(function () {
+  /* ── Real authentication via Supabase ────────────────────────
+     Replaces the old client-side passcode check. Sign-in is now
+     verified by the server, and the resulting session token is
+     what the database's row-level-security policies check before
+     allowing anyone to publish or edit an article.
+
+     Accounts are created by an admin in the Supabase dashboard
+     (Authentication → Users → Add user). Public sign-ups should
+     be disabled so strangers cannot grant themselves access.
+  ───────────────────────────────────────────────────────────── */
+  var sb = window.getSupabase ? window.getSupabase() : null;
+
+  var toggle    = document.getElementById('login-pw-toggle');
+  var pwInput   = document.getElementById('login-password');
+  var pwIcon    = document.getElementById('login-pw-icon');
+  var form      = document.getElementById('login-form');
+  var submit    = document.getElementById('login-submit');
+  var submitTx  = document.getElementById('login-submit-text');
+  var notice    = document.getElementById('login-notice');
+  var forgot    = document.getElementById('login-forgot');
+  var formView  = document.getElementById('login-form-view');
+  var doneView  = document.getElementById('login-signedin-view');
+  var doneMsg   = document.getElementById('login-signedin-msg');
+
+  var EYE_OPEN   = '<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/>';
+  var EYE_CLOSED = '<path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a21.6 21.6 0 0 1 5.06-5.94M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 7 11 7a21.6 21.6 0 0 1-2.16 3.19M14.12 14.12a3 3 0 1 1-4.24-4.24"/><path d="M1 1l22 22"/>';
+
+  toggle.addEventListener('click', function () {
+    var showing = pwInput.type === 'text';
+    pwInput.type = showing ? 'password' : 'text';
+    pwIcon.innerHTML = showing ? EYE_OPEN : EYE_CLOSED;
+    toggle.setAttribute('aria-pressed', String(!showing));
+    toggle.setAttribute('aria-label', showing ? 'Show password' : 'Hide password');
+  });
+
+  function showNotice(msg, isError) {
+    notice.innerHTML = (isError
+      ? '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v5M12 16h.01"/></svg>'
+      : '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>'
+    ) + '<span>' + msg + '</span>';
+    notice.classList.toggle('is-error', !!isError);
+    notice.classList.add('is-visible');
+  }
+
+  forgot.addEventListener('click', function (e) {
+    e.preventDefault();
+    if (!sb) { showNotice('Password reset needs the backend connected first.', true); return; }
+    var email = document.getElementById('login-email').value.trim();
+    if (!email) { showNotice('Enter your email above first, then click again.', true); return; }
+    sb.auth.resetPasswordForEmail(email).then(function (res) {
+      if (res.error) { showNotice(res.error.message, true); return; }
+      showNotice('Reset link sent — check your inbox.', false);
+    });
+  });
+
+  function goToDashboard(name) {
+    formView.style.display = 'none';
+    doneView.style.display = 'block';
+    doneMsg.textContent = name ? 'Welcome back, ' + name + '. Taking you to the dashboard…' : 'Taking you to the dashboard…';
+    setTimeout(function () { location.replace('dashboard.html'); }, 600);
+  }
+
+  /* Not connected yet? Say so plainly instead of failing silently. */
+  if (!sb) {
+    showNotice('Backend not connected yet — add your Supabase URL and anon key to supabase-config.js.', true);
+    submit.disabled = true;
+  } else {
+    /* Already signed in? Supabase restores the session — skip the form. */
+    sb.auth.getSession().then(function (res) {
+      if (res.data && res.data.session) location.replace('dashboard.html');
+    });
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    notice.classList.remove('is-visible');
+    if (!sb) return;
+
+    var email = document.getElementById('login-email').value.trim();
+    var pw    = pwInput.value;
+
+    if (!email || !pw) {
+      showNotice('Enter both your email and password to continue.', true);
+      return;
+    }
+
+    submit.classList.add('is-loading');
+    submitTx.textContent = 'Signing in…';
+
+    sb.auth.signInWithPassword({ email: email, password: pw }).then(function (res) {
+      submit.classList.remove('is-loading');
+      submitTx.textContent = 'Sign In';
+
+      if (res.error) {
+        /* Supabase returns a deliberately vague message for bad
+           credentials — don't leak whether the email exists. */
+        showNotice(res.error.message || 'Could not sign you in. Check your details and try again.', true);
+        return;
+      }
+
+      var user = res.data && res.data.user;
+      var name = user && user.user_metadata && user.user_metadata.full_name
+        ? user.user_metadata.full_name
+        : (user && user.email ? user.email.split('@')[0] : '');
+      goToDashboard(name);
+    }).catch(function (err) {
+      submit.classList.remove('is-loading');
+      submitTx.textContent = 'Sign In';
+      showNotice('Could not reach the server. Check your connection and try again.', true);
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
