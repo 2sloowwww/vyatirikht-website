@@ -16,3 +16,5 @@ desktop.ini
 
 # Node (in case npm is used later)
 node_modules/
+
+.vercel

@@ -50,68 +50,48 @@
   </div>
 </nav>
 
-<!-- ── GATEWAY — three worlds ── -->
-<main class="gw" id="gw">
+<!-- ── GATEWAY STAGE ── -->
+<main class="gw-stage" id="gw-stage" aria-label="Vyatirikht">
 
-  <a class="gw-card" href="studio.html" data-transition style="--d:0s">
-    <span class="gw-media">
-    <video class="gw-vid" data-reels="assets/videos/web/bhagwati.mp4,assets/videos/web/karwa.mp4,assets/videos/web/royalenfield.mp4,assets/videos/web/hunter.mp4"
-           poster="assets/videos/poster/bhagwati.jpg" muted loop playsinline preload="none" aria-hidden="true"></video>
-    <span class="gw-scrim" aria-hidden="true"></span>
-    </span>
-    <span class="gw-body">
-      <span class="gw-eyebrow"><span class="ck-rule"></span>01 · Studio</span>
-      <span class="gw-title">Stories that <em>move.</em></span>
-      <span class="gw-desc">Films · Photography · Commercial Content · Motion · Branding</span>
-      <span class="gw-enter">Enter Studio
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </span>
-    </span>
-  </a>
+  <!-- Ambient background: cycles through cinematic reels -->
+  <video class="gw-stage-vid gw-vid"
+         data-reels="assets/videos/web/bhagwati.mp4,assets/videos/web/karwa.mp4,assets/videos/web/cinematic.mp4,assets/videos/web/royalenfield.mp4"
+         poster="assets/videos/poster/bhagwati.jpg"
+         muted loop playsinline preload="none" aria-hidden="true"></video>
+  <div class="gw-stage-scrim" aria-hidden="true"></div>
 
-  <a class="gw-card" href="lab.html" data-transition style="--d:.09s">
-    <span class="gw-media">
-    <video class="gw-vid" data-src="assets/videos/loop/abstract.mp4"
-           poster="assets/videos/poster/loop-abstract.jpg" muted loop playsinline preload="none" aria-hidden="true"></video>
-    <span class="gw-scrim" aria-hidden="true"></span>
-    </span>
-    <span class="gw-body">
-      <span class="gw-eyebrow"><span class="ck-rule"></span>02 · Lab</span>
-      <span class="gw-title">Ideas that <em>scale.</em></span>
-      <span class="gw-desc">Software · AI · Web Apps · Automation · APIs · SaaS</span>
-      <span class="gw-enter">Enter Lab
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </span>
-    </span>
-  </a>
+  <!-- Brand statement -->
+  <div class="gw-stage-body">
+    <p class="gw-stage-label">Digital Services · Pune, India</p>
+    <h1 class="gw-stage-name">Vyatirikht</h1>
+    <p class="gw-stage-tagline">Stories. Systems. Structures.</p>
+  </div>
 
-  <a class="gw-card" href="foundry.html" data-transition style="--d:.18s">
-    <span class="gw-media">
-    <video class="gw-vid" data-src="assets/videos/web/badminton.mp4"
-           poster="assets/videos/poster/badminton.jpg" muted loop playsinline preload="none" aria-hidden="true"></video>
-    <span class="gw-scrim" aria-hidden="true"></span>
-    </span>
-    <span class="gw-body">
-      <span class="gw-eyebrow"><span class="ck-rule"></span>03 · Foundry</span>
-      <span class="gw-title">Ideas, <em>forged.</em></span>
-      <span class="gw-desc">New Ideas · Experiments · Bike Builds · 3D · Karate · Journal</span>
-      <span class="gw-enter">Enter Foundry
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </span>
-    </span>
-  </a>
+  <!-- Three-world selector strip -->
+  <nav class="gw-worlds" aria-label="Three worlds">
+    <a class="gw-world" href="studio.html" data-transition>
+      <span class="gw-world-num">01</span>
+      <span class="gw-world-name">Studio</span>
+      <span class="gw-world-tags">Film · Photography · Branding</span>
+      <svg class="gw-world-arrow" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg>
+    </a>
+    <a class="gw-world" href="lab.html" data-transition>
+      <span class="gw-world-num">02</span>
+      <span class="gw-world-name">Lab</span>
+      <span class="gw-world-tags">Software · AI · Web Apps</span>
+      <svg class="gw-world-arrow" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg>
+    </a>
+    <a class="gw-world" href="foundry.html" data-transition>
+      <span class="gw-world-num">03</span>
+      <span class="gw-world-name">Foundry</span>
+      <span class="gw-world-tags">Builds · Experiments · Journal</span>
+      <svg class="gw-world-arrow" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 10h12M11 5l5 5-5 5"/></svg>
+    </a>
+  </nav>
 
 </main>
 
-<!-- ── BRAND BLOCK ── -->
-<section class="gw-brand">
-  <div class="gw-brand-mark" aria-hidden="true">व्यतिरिक्त</div>
-  <h1 class="gw-brand-name">Vyatirikht</h1>
-  <p class="gw-brand-line">One vision. <em>Three worlds.</em></p>
-  <p class="gw-brand-sub">The digital headquarters of Jitendra Kulkarni — “MJ” · Pune, India.</p>
-</section>
-
-<!-- ── MINIMAL FOOTER ── -->
+<!-- ── FOOTER ── -->
 <footer class="gw-foot">
   <span>© 2026 Vyatirikht</span>
   <span class="gw-foot-mid">Studio · Lab · Foundry</span>
