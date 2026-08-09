@@ -70,33 +70,22 @@
         });
       } else { play(); }
 
-      /* Scroll exit: 0 at rest, 1 by the time the hero has gone. */
-      var ticking = false;
-      var exit = function () {
-        ticking = false;
-        var h = hero.offsetHeight || 1;
-        hero.style.setProperty('--exit', Math.min(scrollY / h, 1).toFixed(3));
-      };
-      addEventListener('scroll', function () {
-        if (!ticking) { ticking = true; requestAnimationFrame(exit); }
-      }, { passive: true });
-      exit();
-    }
-
-    /* Background clip: fetched only when it can be seen, and skipped
-       under reduced-motion or Save-Data. The poster carries the frame
-       either way, so nothing is ever blank. */
-    var bg = hero.querySelector('video[data-src]');
-    if (bg && !reduce && !thrifty && 'IntersectionObserver' in window) {
-      new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-          var v = e.target;
-          if (e.isIntersecting) {
-            if (!v.src) v.src = v.getAttribute('data-src');
-            var p = v.play(); if (p && p.catch) p.catch(function () {});
-          } else if (v.src) { v.pause(); }
-        });
-      }, { threshold: 0.1 }).observe(bg);
+      /* The hero's scroll exit is pure CSS (see the
+         `animation-timeline: scroll()` block in style.css). Only drive
+         it from JS where that is unsupported — otherwise two things
+         fight over the same transform. */
+      if (!CSS.supports('animation-timeline: scroll()')) {
+        var ticking = false;
+        var exit = function () {
+          ticking = false;
+          var h = hero.offsetHeight || 1;
+          hero.style.setProperty('--exit', Math.min(scrollY / h, 1).toFixed(3));
+        };
+        addEventListener('scroll', function () {
+          if (!ticking) { ticking = true; requestAnimationFrame(exit); }
+        }, { passive: true });
+        exit();
+      }
     }
   }
 

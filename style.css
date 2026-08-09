@@ -209,24 +209,38 @@ body:not(.hero-page) { padding-top: var(--nav-h); }
   background: #0C0D10;
   overflow: hidden;
 }
-.hero-media {
-  position: absolute; inset: 0;
+/* One photograph, no video. The frame is 94KB against the clip's 883KB,
+   and the films grid below already carries the motion.
+   Two nested layers because they animate on different timelines: the
+   wrapper is driven by scroll, the image by the clock. */
+/* Bleeds past the hero top and bottom so the parallax shift below can
+   never drag an edge into view. */
+.hero-frame { position: absolute; inset: -7% 0; overflow: hidden; }
+.hero-img {
   width: 100%; height: 100%;
   object-fit: cover;
-  /* The clip is already low-key, so it can carry more of the frame. */
-  opacity: 0.66;
-  /* A very slow push-in. Long enough that you feel it rather than see it. */
-  animation: kenburns 32s ease-out forwards;
+  opacity: 0.72;
+  animation: kenburns 48s ease-out forwards;
 }
-@keyframes kenburns { from { transform: scale(1); } to { transform: scale(1.1); } }
+@keyframes kenburns { from { transform: scale(1.02); } to { transform: scale(1.12); } }
 
 .hero::after {
   content: ''; position: absolute; inset: 0;
   background:
-    linear-gradient(to top, rgba(10,11,13,0.92) 14%, rgba(10,11,13,0.28) 64%, rgba(10,11,13,0.55) 100%),
-    /* keeps the headline off the subject's side of the frame */
-    linear-gradient(to right, rgba(10,11,13,0.55), transparent 62%);
+    linear-gradient(to top, rgba(9,10,12,0.94) 12%, rgba(9,10,12,0.30) 66%, rgba(9,10,12,0.58) 100%),
+    linear-gradient(to right, rgba(9,10,12,0.62), transparent 58%);
 }
+
+/* Film grain. Not decoration for its own sake — a near-black gradient
+   over a dark photograph bands visibly on 8-bit displays, and a couple
+   of percent of noise breaks the banding up. */
+.hero-grain {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 190px 190px;
+}
+
 .hero-copy {
   position: relative; z-index: 2;
   max-width: 1180px; margin: 0 auto; width: 100%;
@@ -238,13 +252,13 @@ body:not(.hero-page) { padding-top: var(--nav-h); }
 .hero h1 {
   font-family: var(--font-display);
   font-weight: 300;
-  font-size: clamp(52px, 10vw, 138px);
-  line-height: 0.95;
-  letter-spacing: -0.03em;
-  color: #F5F3EE;
-  margin: 22px 0 0;
+  font-size: clamp(54px, 10.5vw, 152px);
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+  color: #F7F5F0;
+  margin: 26px 0 0;
 }
-.hero h1 em { font-style: italic; color: var(--brass); }
+.hero h1 em { font-style: italic; color: var(--brass); letter-spacing: -0.02em; }
 
 /* Each line rises out of its own mask */
 .hero h1 .line { display: block; overflow: hidden; padding-bottom: 0.06em; }
@@ -268,13 +282,14 @@ body:not(.hero-page) { padding-top: var(--nav-h); }
 .hero.lit .h-fade.d3 { transition-delay: .54s; }
 
 .hero p.h-sub {
-  max-width: 56ch;
-  margin-top: 26px;
+  max-width: 52ch;
+  margin-top: 28px;
   font-size: 17px;
-  line-height: 1.72;
-  color: rgba(245,243,238,0.72);
+  line-height: 1.74;
+  color: rgba(247,245,240,0.7);
+  text-wrap: pretty;
 }
-.hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 36px; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 40px; }
 
 /* Right edge, not centred — centring puts it on top of the CTAs
    at narrower desktop widths. */
@@ -301,6 +316,38 @@ body:not(.hero-page) { padding-top: var(--nav-h); }
   60%, 100% { transform: translateY(100%); }
 }
 @media (max-width: 720px) { .scroll-cue { display: none; } }
+
+/* ── Scroll-driven hero ───────────────────────────────
+   Where the browser supports it, the hero's exit runs on the
+   compositor off a scroll timeline — no listener, no rAF, no
+   main-thread work. Browsers without it simply get a hero that
+   does not move, which is a perfectly good hero. */
+@supports (animation-timeline: scroll()) {
+  .hero-copy {
+    transform: none; opacity: 1;      /* hand over from the JS --exit fallback */
+    animation: heroLift linear both;
+    animation-timeline: scroll(root block);
+    animation-range: 0 100vh;
+  }
+  @keyframes heroLift {
+    to { transform: translateY(-70px); opacity: 0; filter: blur(2px); }
+  }
+
+  .hero-frame {
+    animation: heroPan linear both;
+    animation-timeline: scroll(root block);
+    animation-range: 0 100vh;
+  }
+  @keyframes heroPan { to { transform: translateY(6%); } }
+
+  .scroll-cue {
+    opacity: 1;
+    animation: heroFade linear both;
+    animation-timeline: scroll(root block);
+    animation-range: 0 42vh;
+  }
+  @keyframes heroFade { to { opacity: 0; } }
+}
 
 /* ── Buttons ──────────────────────────────────────── */
 .btn {
