@@ -121,6 +121,48 @@ button, input, textarea, select { font: inherit; color: inherit; }
 section { padding: var(--section-v) var(--pad); }
 .wrap { max-width: 1180px; margin: 0 auto; }
 
+/* The nav is fixed, so anchored sections must stop clear of it. */
+section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 24px); }
+
+/* Headings set their own line breaks; let the browser even out the
+   ragged edge on anything that wraps on its own. */
+.h2, .lede, .row-desc, .link-row i { text-wrap: pretty; }
+
+/* ── Client roster ────────────────────────────────────
+   The strongest professionalism signal a portfolio has is names the
+   reader recognises. Kept typographic — a logo wall would undo the
+   restraint the rest of the page is built on. */
+.clients {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 22px;
+  padding-bottom: 40px; margin-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2.1vw, 24px);
+  line-height: 1.5;
+  color: var(--text-mid);
+}
+.clients span {
+  font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+/* ── Credentials ──────────────────────────────────────
+   Four facts, set as a definition list rather than badges. */
+.creds {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 28px; margin-top: 34px;
+  padding-top: 26px; border-top: 1px solid var(--border-mid);
+  max-width: var(--measure);
+}
+.creds dt {
+  font-family: var(--font-mono); font-size: 9.5px;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--text-faint); margin-bottom: 5px;
+}
+.creds dd { font-size: 14.5px; color: var(--text-mid); }
+@media (max-width: 520px) { .creds { grid-template-columns: 1fr; gap: 15px; } }
+
 /* ── Nav ──────────────────────────────────────────── */
 #site-nav {
   position: fixed; inset: 0 0 auto 0; z-index: 200;
