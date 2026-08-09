@@ -7,87 +7,213 @@
 <meta name="description" content="Demo developer-tool landing page — built by Jitendra Kulkarni.">
 <style>
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  :root{--bg:#0a0b0d;--panel:#111316;--line:#1e2127;--txt:#d7dbe0;--mut:#7d838d;--g:#3ddc84;--am:#ffb454}
-  body{background:var(--bg);color:var(--txt);font-family:"SFMono-Regular",ui-monospace,Menlo,Consolas,monospace;line-height:1.6;-webkit-font-smoothing:antialiased}
-  .wrap{max-width:1000px;margin:0 auto;padding:0 24px}
-  a{color:inherit}
-  nav{display:flex;align-items:center;justify-content:space-between;padding:20px 0;border-bottom:1px solid var(--line)}
-  .logo{font-weight:700;letter-spacing:-.02em;font-size:17px;color:#fff}
+  :root{
+    --bg:#08090b; --panel:#101215; --panel-2:#15181c; --line:#1e2127; --line-2:#2a2f37;
+    --txt:#d9dde3; --mut:#7d838d; --faint:#575d67;
+    --g:#3ddc84; --g-dim:rgba(61,220,132,.12); --am:#ffb454; --red:#ff6b6b; --blue:#63b3ff;
+    --ease:cubic-bezier(.16,1,.3,1);
+  }
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--txt);
+    font-family:"SFMono-Regular",ui-monospace,Menlo,Consolas,monospace;
+    line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  .sans{font-family:Inter,-apple-system,system-ui,sans-serif}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+  a{color:inherit;text-decoration:none}
+
+  /* Faint grid, the way infra tools like to signal "systems" */
+  body::before{content:'';position:fixed;inset:0;z-index:-2;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),
+                     linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:56px 56px;opacity:.4;
+    -webkit-mask-image:radial-gradient(900px 560px at 50% 0%,#000,transparent 75%);
+    mask-image:radial-gradient(900px 560px at 50% 0%,#000,transparent 75%)}
+  body::after{content:'';position:fixed;inset:0 0 auto 0;height:560px;z-index:-1;pointer-events:none;
+    background:radial-gradient(680px 320px at 50% -8%,rgba(61,220,132,.1),transparent 70%)}
+
+  /* ── Nav ── */
+  nav{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;
+    gap:16px;padding:15px 24px;max-width:1040px;margin:0 auto;
+    background:rgba(8,9,11,.78);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line)}
+  .logo{font-weight:700;letter-spacing:-.02em;font-size:16px;color:#fff}
   .logo b{color:var(--g)}
-  .nav-links{display:flex;gap:24px;font-size:13px;color:var(--mut)}
-  .nav-links a{text-decoration:none}
+  .nav-links{display:flex;gap:22px;font-size:13px;color:var(--mut)}
+  .nav-links a{transition:color .22s}
   .nav-links a:hover{color:var(--txt)}
-  .ghbtn{border:1px solid var(--line);border-radius:8px;padding:8px 14px;font-size:13px;text-decoration:none;color:var(--txt)}
-  .hero{padding:70px 0 40px}
-  .tag{color:var(--g);font-size:13px;margin-bottom:18px}
-  h1{font-family:-apple-system,system-ui,sans-serif;font-size:clamp(34px,6vw,60px);line-height:1.05;letter-spacing:-.03em;color:#fff;margin-bottom:20px;font-weight:750}
+  @media(max-width:760px){.nav-links{display:none}}
+  .ghbtn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line-2);border-radius:8px;
+    padding:8px 13px;font-size:12.5px;color:var(--txt);transition:.25s var(--ease)}
+  .ghbtn:hover{border-color:var(--g);color:var(--g);transform:translateY(-1px)}
+  .ghbtn u{text-decoration:none;color:var(--faint);border-left:1px solid var(--line-2);padding-left:9px}
+
+  /* ── Hero ── */
+  .hero{padding:66px 0 40px}
+  .tag{display:inline-flex;align-items:center;gap:8px;color:var(--g);font-size:12.5px;margin-bottom:18px;
+    background:var(--g-dim);border:1px solid rgba(61,220,132,.22);padding:5px 12px;border-radius:100px}
+  .tag i{width:6px;height:6px;border-radius:50%;background:var(--g);display:block;
+    box-shadow:0 0 0 0 rgba(61,220,132,.6);animation:ping 2.2s var(--ease) infinite}
+  @keyframes ping{70%,100%{box-shadow:0 0 0 7px rgba(61,220,132,0)}}
+  h1{font-family:Inter,-apple-system,system-ui,sans-serif;
+    font-size:clamp(34px,6.2vw,62px);line-height:1.02;letter-spacing:-.035em;color:#fff;
+    margin-bottom:20px;font-weight:750}
+  h1 em{font-style:normal;color:var(--g)}
   .sub{color:var(--mut);max-width:560px;font-size:15px;margin-bottom:28px}
   .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-  .install{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:12px 16px;font-size:14px;display:flex;gap:10px;align-items:center}
+  .install{background:var(--panel);border:1px solid var(--line-2);border-radius:9px;padding:11px 15px;
+    font-size:13.5px;display:flex;gap:10px;align-items:center;cursor:pointer;transition:border-color .25s}
+  .install:hover{border-color:var(--g)}
   .install .p{color:var(--g)}
-  .install .c{color:var(--txt)}
-  .copy{color:var(--mut);font-size:12px;border-left:1px solid var(--line);padding-left:10px}
-  /* terminal */
-  .term{margin-top:44px;background:#000;border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.6)}
-  .term-bar{display:flex;align-items:center;gap:7px;padding:12px 14px;background:var(--panel);border-bottom:1px solid var(--line)}
+  .copy{color:var(--faint);font-size:11.5px;border-left:1px solid var(--line-2);padding-left:11px;transition:color .2s}
+  .install:hover .copy{color:var(--g)}
+
+  /* ── Terminal ── */
+  .term{margin-top:44px;background:#000;border:1px solid var(--line-2);border-radius:12px;overflow:hidden;
+    box-shadow:0 40px 100px rgba(0,0,0,.7)}
+  .term-bar{display:flex;align-items:center;gap:7px;padding:11px 14px;background:var(--panel);border-bottom:1px solid var(--line)}
   .term-bar i{width:11px;height:11px;border-radius:50%;display:block}
   .r{background:#ff5f56}.y{background:#ffbd2e}.gr{background:#27c93f}
-  .term-title{margin-left:10px;font-size:12px;color:var(--mut)}
-  .term-body{padding:20px;font-size:13.5px;line-height:1.9}
+  .term-title{margin-left:10px;font-size:11.5px;color:var(--faint)}
+  .term-tabs{margin-left:auto;display:flex;gap:14px;font-size:11.5px;color:var(--faint)}
+  .term-tabs span.on{color:var(--txt)}
+  .term-body{padding:20px;font-size:13px;line-height:1.95;min-height:232px}
   .term-body .c1{color:var(--g)}
-  .term-body .c2{color:var(--am)}
   .term-body .dim{color:var(--mut)}
   .term-body .ok{color:var(--g)}
-  .cursor{display:inline-block;width:8px;height:15px;background:var(--g);vertical-align:middle;animation:bl 1s steps(1) infinite}
+  .term-body .warn{color:var(--am)}
+  .term-body .url{color:var(--blue)}
+  /* lines type in one after another */
+  .ln{opacity:0;animation:show .01s linear forwards}
+  .ln:nth-child(1){animation-delay:.25s}.ln:nth-child(2){animation-delay:1s}
+  .ln:nth-child(3){animation-delay:1.7s}.ln:nth-child(4){animation-delay:2.4s}
+  .ln:nth-child(5){animation-delay:3.1s}.ln:nth-child(6){animation-delay:3.7s}
+  .ln:nth-child(7){animation-delay:4.3s}
+  @keyframes show{to{opacity:1}}
+  .bar{display:inline-block;width:150px;height:7px;border-radius:4px;background:var(--line-2);
+    vertical-align:middle;overflow:hidden;margin:0 8px}
+  .bar i{display:block;height:100%;width:0;background:var(--g);border-radius:4px;
+    animation:fill 1.5s var(--ease) 1.7s forwards}
+  @keyframes fill{to{width:100%}}
+  .cursor{display:inline-block;width:8px;height:14px;background:var(--g);vertical-align:middle;
+    animation:bl 1.05s steps(1) infinite}
   @keyframes bl{50%{opacity:0}}
-  section{padding:70px 0;border-top:1px solid var(--line)}
-  h2{font-family:-apple-system,system-ui,sans-serif;font-size:clamp(24px,3.5vw,34px);color:#fff;letter-spacing:-.02em;margin-bottom:36px}
-  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
-  .cell{background:var(--bg);padding:24px}
-  .cell .n{color:var(--g);font-size:13px;margin-bottom:12px}
-  .cell h3{font-family:-apple-system,system-ui,sans-serif;color:#fff;font-size:16px;margin-bottom:8px}
+
+  /* ── Sections ── */
+  section{padding:74px 0;border-top:1px solid var(--line)}
+  .eyebrow{color:var(--g);font-size:12px;margin-bottom:12px}
+  h2{font-family:Inter,-apple-system,system-ui,sans-serif;font-size:clamp(24px,3.6vw,36px);
+    color:#fff;letter-spacing:-.028em;line-height:1.1;margin-bottom:10px;font-weight:700}
+  .lead{color:var(--mut);font-size:14.5px;max-width:520px;margin-bottom:38px}
+
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);
+    border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .cell{background:var(--bg);padding:26px;position:relative;transition:background .3s}
+  .cell:hover{background:var(--panel)}
+  .cell .n{color:var(--g);font-size:12px;margin-bottom:12px}
+  .cell h3{font-family:Inter,-apple-system,system-ui,sans-serif;color:#fff;font-size:16px;margin-bottom:7px;font-weight:600}
   .cell p{color:var(--mut);font-size:13px}
-  footer{border-top:1px solid var(--line);padding:26px 0;color:var(--mut);font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
-  footer a{color:var(--g);text-decoration:none}
-  @media(max-width:720px){.grid{grid-template-columns:1fr}}
+  @media(max-width:760px){.grid{grid-template-columns:1fr}}
+
+  /* Command reference — the thing a dev actually scans for */
+  .cmds{border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .cmd{display:grid;grid-template-columns:minmax(0,300px) 1fr;gap:20px;padding:15px 20px;
+    border-bottom:1px solid var(--line);font-size:13px;transition:background .25s}
+  .cmd:last-child{border-bottom:0}
+  .cmd:hover{background:var(--panel)}
+  .cmd code{color:var(--txt)}
+  .cmd code b{color:var(--g);font-weight:400}
+  .cmd span{color:var(--mut)}
+  @media(max-width:640px){.cmd{grid-template-columns:1fr;gap:5px}}
+
+  /* Stats strip */
+  .nums{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+    border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:38px}
+  .num{background:var(--bg);padding:22px 20px}
+  .num b{font-family:Inter,-apple-system,system-ui,sans-serif;display:block;font-size:27px;
+    color:#fff;letter-spacing:-.03em;line-height:1.2;font-weight:700}
+  .num span{font-size:12px;color:var(--faint)}
+  @media(max-width:760px){.nums{grid-template-columns:repeat(2,1fr)}}
+
+  footer{border-top:1px solid var(--line);padding:26px 0;color:var(--faint);font-size:12px;
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  footer a{color:var(--g)}
+
+  @supports (animation-timeline:view()){
+    .cell,.cmd,.num{animation:up linear both;animation-timeline:view();animation-range:entry 0% entry 34%}
+    @keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition-duration:.01ms!important}
+    .ln{opacity:1}.bar i{width:100%}
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <nav>
-    <div class="logo">▲ <b>forge</b></div>
-    <div class="nav-links"><a href="#">Docs</a><a href="#">Changelog</a><a href="#">Pricing</a></div>
-    <a href="#" class="ghbtn">★ Star on GitHub</a>
-  </nav>
 
+<nav>
+  <div class="logo">▲ <b>forge</b></div>
+  <div class="nav-links"><a href="#f">Features</a><a href="#cli">CLI</a><a href="#">Docs</a><a href="#">Changelog</a></div>
+  <a href="#" class="ghbtn">★ Star <u>4.2k</u></a>
+</nav>
+
+<div class="wrap">
   <header class="hero">
-    <div class="tag">// preview every pull request</div>
-    <h1>A live URL for<br>every branch you push.</h1>
+    <div class="tag"><i></i> preview every pull request</div>
+    <h1>A live URL for<br>every branch <em>you push.</em></h1>
     <p class="sub">Forge spins up an isolated preview deploy from the terminal in seconds. Ship, share, tear down — no dashboards, no YAML.</p>
     <div class="row">
-      <div class="install"><span class="p">$</span><span class="c">npm i -g forge-cli</span><span class="copy">⧉ copy</span></div>
+      <div class="install"><span class="p">$</span><span>npm i -g forge-cli</span><span class="copy">⧉ copy</span></div>
       <a href="#" class="ghbtn" style="border-color:var(--g);color:var(--g)">Read the docs →</a>
     </div>
 
     <div class="term">
-      <div class="term-bar"><i class="r"></i><i class="y"></i><i class="gr"></i><span class="term-title">forge — zsh</span></div>
-      <div class="term-body">
-        <div><span class="c1">$</span> forge deploy <span class="dim">--branch feat/checkout</span></div>
-        <div class="dim">→ building image…</div>
-        <div class="dim">→ pushing layers… <span class="ok">done</span></div>
-        <div><span class="c2">✔</span> preview ready in <span class="ok">4.1s</span></div>
-        <div><span class="dim">↳</span> https://feat-checkout.forge.dev <span class="cursor"></span></div>
+      <div class="term-bar">
+        <i class="r"></i><i class="y"></i><i class="gr"></i>
+        <span class="term-title">forge — zsh</span>
+        <span class="term-tabs"><span class="on">deploy</span><span>logs</span><span>env</span></span>
       </div>
+      <div class="term-body">
+        <div class="ln"><span class="c1">$</span> forge deploy <span class="dim">--branch feat/checkout</span></div>
+        <div class="ln dim">→ resolving lockfile… <span class="ok">cached</span></div>
+        <div class="ln dim">→ building image <span class="bar"><i></i></span></div>
+        <div class="ln dim">→ pushing layers… <span class="ok">done</span></div>
+        <div class="ln"><span class="warn">⚠</span> <span class="dim">2 env vars inherited from</span> production</div>
+        <div class="ln"><span class="ok">✔</span> preview ready in <span class="ok">4.1s</span></div>
+        <div class="ln"><span class="dim">↳</span> <span class="url">https://feat-checkout.forge.dev</span> <span class="cursor"></span></div>
+      </div>
+    </div>
+
+    <div class="nums">
+      <div class="num"><b>4.1s</b><span>median cold deploy</span></div>
+      <div class="num"><b>0</b><span>lines of YAML</span></div>
+      <div class="num"><b>1.2M</b><span>previews shipped</span></div>
+      <div class="num"><b>99.98%</b><span>build success rate</span></div>
     </div>
   </header>
 </div>
 
-<section><div class="wrap">
+<section id="f"><div class="wrap">
+  <div class="eyebrow">// features</div>
   <h2>Everything a preview should be.</h2>
+  <p class="lead">Three properties, and Forge refuses to ship a preview that misses any of them.</p>
   <div class="grid">
-    <div class="cell"><div class="n">01</div><h3>Instant</h3><p>Cold deploy in single-digit seconds. Warm rebuilds are near-instant.</p></div>
-    <div class="cell"><div class="n">02</div><h3>Isolated</h3><p>Every branch gets its own env, database branch and secrets.</p></div>
-    <div class="cell"><div class="n">03</div><h3>Ephemeral</h3><p>Auto-torn-down when the PR merges. No orphaned infra, no bill creep.</p></div>
+    <div class="cell"><div class="n">01</div><h3>Instant</h3><p>Cold deploy in single-digit seconds. Warm rebuilds land before you've switched windows.</p></div>
+    <div class="cell"><div class="n">02</div><h3>Isolated</h3><p>Every branch gets its own environment, database branch and secrets. Nothing leaks sideways.</p></div>
+    <div class="cell"><div class="n">03</div><h3>Ephemeral</h3><p>Torn down when the PR merges. No orphaned infrastructure, no bill creep at the end of the quarter.</p></div>
+  </div>
+</div></section>
+
+<section id="cli"><div class="wrap">
+  <div class="eyebrow">// cli</div>
+  <h2>Six commands. That's the whole surface.</h2>
+  <p class="lead">If you need to read the manual twice, we designed it wrong.</p>
+  <div class="cmds">
+    <div class="cmd"><code>forge <b>deploy</b> --branch &lt;name&gt;</code><span>Build and publish a preview for a branch</span></div>
+    <div class="cmd"><code>forge <b>ls</b></code><span>List every live preview and what it costs</span></div>
+    <div class="cmd"><code>forge <b>logs</b> --follow</code><span>Stream build and runtime logs to your shell</span></div>
+    <div class="cmd"><code>forge <b>env</b> pull</code><span>Sync environment variables into .env.local</span></div>
+    <div class="cmd"><code>forge <b>promote</b> &lt;id&gt;</code><span>Ship the exact artefact you reviewed to production</span></div>
+    <div class="cmd"><code>forge <b>rm</b> --merged</code><span>Tear down every preview whose PR has landed</span></div>
   </div>
 </div></section>
 
@@ -97,5 +223,52 @@
     <span>Built by <a href="../index.html">Jitendra Kulkarni</a></span>
   </footer>
 </div>
+
+<script>
+/* The install line is the one thing anyone on this page wants to take
+   with them, so it has to actually copy — and has to say so honestly
+   when it cannot. navigator.clipboard rejects more often than you would
+   expect (unfocused document, permissions policy, an embedding iframe),
+   so there is a fallback, and the label only claims success when
+   something really wrote to the clipboard. */
+(function () {
+  var CMD = 'npm i -g forge-cli';
+  var el = document.querySelector('.install');
+  var label = el.querySelector('.copy');
+
+  function flash(text, ok) {
+    label.textContent = text;
+    label.style.color = ok ? 'var(--g)' : 'var(--am)';
+    setTimeout(function () { label.textContent = '⧉ copy'; label.style.color = ''; }, 1800);
+  }
+
+  function legacy() {
+    try {
+      var ta = document.createElement('textarea');
+      ta.value = CMD;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:-100px;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      return ok;
+    } catch (e) { return false; }
+  }
+
+  function fallback() {
+    var ok = legacy();
+    flash(ok ? '✓ copied' : 'select to copy', ok);
+  }
+
+  el.addEventListener('click', function () {
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(CMD).then(function () { flash('✓ copied', true); }, fallback);
+    } else {
+      fallback();
+    }
+  });
+})();
+</script>
 </body>
 </html>
