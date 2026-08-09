@@ -5,72 +5,291 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Aperture — a photography studio</title>
 <meta name="description" content="Demo editorial photography portfolio — built by Jitendra Kulkarni.">
+<!-- Cormorant is already loaded by the parent site from the same origin,
+     so inside the preview iframe this is a cache hit rather than a fetch. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
 <style>
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  :root{--bg:#0c0c0c;--txt:#f2efe9;--mut:#8f8b83;--line:rgba(255,255,255,.12)}
-  body{background:var(--bg);color:var(--txt);font-family:"Georgia","Times New Roman",serif;-webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden}
-  .sans{font-family:-apple-system,system-ui,sans-serif}
-  .wrap{max-width:1240px;margin:0 auto;padding:0 28px}
+  :root{
+    --bg:#0b0b0c; --raise:#131315; --txt:#f4f1eb; --mut:#8d8981; --faint:#5d5a55;
+    --line:rgba(255,255,255,.11); --line-2:rgba(255,255,255,.2);
+    --ease:cubic-bezier(.16,1,.3,1);
+  }
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--txt);
+    font-family:"Cormorant Garamond",Georgia,serif;
+    -webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden}
+  .mono{font-family:"DM Mono",ui-monospace,monospace;font-size:10.5px;
+    letter-spacing:.2em;text-transform:uppercase}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 30px}
   a{color:inherit;text-decoration:none}
-  nav{display:flex;align-items:center;justify-content:space-between;padding:26px 0;
-    font-family:-apple-system,system-ui,sans-serif;font-size:12px;letter-spacing:.22em;text-transform:uppercase}
+  img{display:block;max-width:100%;height:auto}
+
+  /* ── Nav ── */
+  nav{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;
+    padding:20px 30px;max-width:1280px;margin:0 auto;
+    background:rgba(11,11,12,.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+  .brand{font-size:19px;letter-spacing:.02em}
+  .brand em{font-style:italic}
   .nav-links{display:flex;gap:26px;color:var(--mut)}
+  .nav-links a{transition:color .3s}
   .nav-links a:hover{color:var(--txt)}
-  .hero{padding:70px 0 50px;border-bottom:1px solid var(--line)}
-  .hero .k{font-family:-apple-system,system-ui,sans-serif;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--mut);margin-bottom:26px}
-  h1{font-size:clamp(48px,11vw,140px);line-height:.9;font-weight:400;font-style:italic;letter-spacing:-.02em}
-  .hero p{max-width:440px;margin-top:26px;color:var(--mut);font-size:17px}
-  .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px;padding:50px 0}
-  figure{position:relative;overflow:hidden;background:#161616}
-  figure img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1) contrast(1.04);transition:filter .6s,transform 1.2s}
-  figure:hover img{filter:grayscale(0);transform:scale(1.05)}
-  figcaption{position:absolute;left:16px;bottom:14px;font-family:-apple-system,system-ui,sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;
-    opacity:0;transform:translateY(6px);transition:.35s;text-shadow:0 1px 8px #000}
-  figure:hover figcaption{opacity:1;transform:none}
+  @media(max-width:640px){.nav-links a:not(:last-child){display:none}}
+
+  /* ── Hero ── */
+  .hero{padding:56px 0 34px}
+  .hero-top{display:grid;grid-template-columns:1fr auto;gap:30px;align-items:end}
+  h1{font-size:clamp(50px,11.5vw,152px);line-height:.86;font-weight:300;font-style:italic;letter-spacing:-.025em}
+  .hero-meta{text-align:right;color:var(--faint);line-height:2}
+  @media(max-width:760px){.hero-top{grid-template-columns:1fr}.hero-meta{text-align:left}}
+  .hero-sub{display:flex;flex-wrap:wrap;gap:16px 40px;justify-content:space-between;align-items:baseline;
+    margin-top:34px;padding-top:22px;border-top:1px solid var(--line)}
+  .hero-sub p{max-width:46ch;color:var(--mut);font-size:19px;font-weight:300}
+
+  /* ── Feature plate ── */
+  .plate{position:relative;margin-top:34px;aspect-ratio:21/9;overflow:hidden;background:var(--raise)}
+  .plate img{width:100%;height:100%;object-fit:cover;
+    filter:grayscale(1) contrast(1.05);transition:filter 1s var(--ease),transform 1.6s var(--ease)}
+  .plate:hover img{filter:none;transform:scale(1.03)}
+  .plate figcaption{position:absolute;left:22px;bottom:18px;right:22px;
+    display:flex;justify-content:space-between;gap:16px;color:#fff;
+    text-shadow:0 1px 12px rgba(0,0,0,.8)}
+  @media(max-width:760px){.plate{aspect-ratio:4/3}}
+
+  /* ── Section heads ── */
+  .head{display:flex;justify-content:space-between;align-items:baseline;gap:20px;
+    padding:74px 0 26px;border-bottom:1px solid var(--line);margin-bottom:26px}
+  .head h2{font-size:clamp(24px,3.4vw,38px);font-weight:300;font-style:italic;letter-spacing:-.01em}
+  .head span{color:var(--faint)}
+
+  /* ── Editorial grid ── */
+  .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+  figure{position:relative;overflow:hidden;background:var(--raise)}
+  figure img{width:100%;height:100%;object-fit:cover;
+    filter:grayscale(1) contrast(1.04);transition:filter .7s var(--ease),transform 1.4s var(--ease)}
+  figure:hover img{filter:none;transform:scale(1.045)}
+  /* index numeral, always on — it is what makes the grid read as a body of work */
+  figure .no{position:absolute;top:14px;left:15px;color:rgba(255,255,255,.85);
+    text-shadow:0 1px 10px rgba(0,0,0,.9);z-index:2}
+  figcaption{position:absolute;left:15px;right:15px;bottom:14px;z-index:2;
+    display:flex;justify-content:space-between;align-items:flex-end;gap:12px;
+    opacity:0;transform:translateY(8px);transition:opacity .45s var(--ease),transform .45s var(--ease);
+    text-shadow:0 1px 10px rgba(0,0,0,.9)}
+  figcaption em{font-style:normal;color:rgba(255,255,255,.62)}
+  figure::after{content:'';position:absolute;inset:0;z-index:1;opacity:0;transition:opacity .45s var(--ease);
+    background:linear-gradient(to top,rgba(0,0,0,.62),transparent 45%)}
+  figure:hover figcaption,figure:hover::after{opacity:1;transform:none}
+  @media(hover:none){figcaption,figure::after{opacity:1;transform:none}}
+
   .a{grid-column:span 7;aspect-ratio:4/3}
   .b{grid-column:span 5;aspect-ratio:4/5}
-  .c{grid-column:span 4;aspect-ratio:3/4}
-  .d{grid-column:span 4;aspect-ratio:3/4}
-  .e{grid-column:span 4;aspect-ratio:3/4}
-  .f{grid-column:span 6;aspect-ratio:16/10}
-  .g{grid-column:span 6;aspect-ratio:16/10}
-  .statement{text-align:center;padding:80px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-  .statement p{font-size:clamp(22px,3.4vw,40px);font-style:italic;max-width:800px;margin:0 auto;line-height:1.35}
-  footer{padding:34px 0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
-    font-family:-apple-system,system-ui,sans-serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+  .c,.d,.e{grid-column:span 4;aspect-ratio:3/4}
+  .f{grid-column:span 8;aspect-ratio:16/9}
+  .g{grid-column:span 4;aspect-ratio:3/4}
+  @media(max-width:860px){
+    .a,.f{grid-column:span 12}
+    .b,.c,.d,.e,.g{grid-column:span 6}
+  }
+  @media(max-width:520px){.a,.b,.c,.d,.e,.f,.g{grid-column:span 12}}
+
+  /* ── Series index with a preview that tracks the pointer ── */
+  .index{border-top:1px solid var(--line);position:relative}
+  .row{display:grid;grid-template-columns:52px 1fr auto;gap:22px;align-items:baseline;
+    padding:24px 4px;border-bottom:1px solid var(--line);position:relative;
+    transition:padding-left .5s var(--ease),color .4s var(--ease)}
+  .row:hover{padding-left:18px}
+  .row h3{font-size:clamp(22px,3vw,34px);font-weight:300;letter-spacing:-.01em}
+  .row .yr,.row .no2{color:var(--faint);transition:color .4s}
+  .row:hover .yr,.row:hover .no2{color:var(--txt)}
+  .peek{position:absolute;width:230px;aspect-ratio:3/4;pointer-events:none;z-index:5;
+    opacity:0;transform:translate(-50%,-50%) scale(.94);transition:opacity .35s var(--ease),transform .5s var(--ease);
+    overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,.6)}
+  .peek.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  .peek img{width:100%;height:100%;object-fit:cover}
+  @media(max-width:900px){.peek{display:none}}
+
+  /* ── Statement ── */
+  .statement{text-align:center;padding:96px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:74px}
+  .statement p{font-size:clamp(24px,4vw,50px);font-style:italic;font-weight:300;max-width:19ch;margin:0 auto;line-height:1.22}
+  .statement span{display:block;margin-top:26px;color:var(--faint)}
+
+  /* ── Contact ── */
+  .contact{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;padding:70px 0 20px}
+  .contact div span{display:block;color:var(--faint);margin-bottom:9px}
+  .contact div p{font-size:20px;font-weight:300}
+  .contact a:hover{color:var(--mut)}
+  @media(max-width:700px){.contact{grid-template-columns:1fr;gap:22px}}
+
+  footer{padding:30px 0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
+    border-top:1px solid var(--line);color:var(--faint)}
   footer a{color:var(--txt)}
-  @media(max-width:800px){.a,.b,.c,.d,.e,.f,.g{grid-column:span 12}}
+
+  @supports (animation-timeline:view()){
+    figure,.row{animation:rise linear both;animation-timeline:view();animation-range:entry 0% entry 34%}
+    @keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition-duration:.01ms!important}
+    figure img,.plate img{filter:none}
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <nav>
-    <div>Aperture Studio</div>
-    <div class="nav-links"><a href="#">Work</a><a href="#">About</a><a href="#">Contact</a></div>
-  </nav>
 
+<nav>
+  <div class="brand">Aperture <em>Studio</em></div>
+  <div class="nav-links mono"><a href="#work">Work</a><a href="#series">Series</a><a href="#contact">Contact</a></div>
+</nav>
+
+<div class="wrap">
   <header class="hero">
-    <div class="k">Photography · Film · Pune</div>
-    <h1>Light, held<br>a little longer.</h1>
-    <p class="sans" style="font-family:Georgia,serif">Product, portrait and event work for brands that care how they're seen.</p>
+    <div class="hero-top">
+      <h1>Light, held<br>a little longer.</h1>
+      <div class="hero-meta mono">
+        <div>Est. 2019</div>
+        <div>Pune · India</div>
+        <div>Available Q2</div>
+      </div>
+    </div>
+    <div class="hero-sub">
+      <p>Product, portrait and event work for brands that care how they are seen.</p>
+      <span class="mono" style="color:var(--faint)">Scroll ↓</span>
+    </div>
   </header>
 
-  <div class="grid">
-    <figure class="a"><img src="../assets/images/web/djstage-2.jpg" alt=""><figcaption>Live · Stage</figcaption></figure>
-    <figure class="b"><img src="../assets/images/web/model-1.jpg" alt=""><figcaption>Portrait</figcaption></figure>
-    <figure class="c"><img src="../assets/images/web/jwellery-3.jpg" alt=""><figcaption>Jewellery</figcaption></figure>
-    <figure class="d"><img src="../assets/images/web/product-4.jpg" alt=""><figcaption>Product</figcaption></figure>
-    <figure class="e"><img src="../assets/images/web/model-2.jpg" alt=""><figcaption>Editorial</figcaption></figure>
-    <figure class="f"><img src="../assets/images/web/light-trails-khandala.jpg" alt=""><figcaption>Long exposure</figcaption></figure>
-    <figure class="g"><img src="../assets/images/web/architecture.jpg" alt=""><figcaption>Architecture</figcaption></figure>
+  <figure class="plate">
+    <img src="../assets/images/web/sm/light-trails-khandala.jpg" alt="Long exposure light trails on a mountain road" width="900" height="506">
+    <figcaption class="mono"><span>Khandala Ghat · Long exposure</span><span>30s · f/11 · ISO 100</span></figcaption>
+  </figure>
+
+  <div class="head" id="work">
+    <h2>Selected work</h2>
+    <span class="mono">Seven of forty-one</span>
   </div>
 
-  <div class="statement"><p>“I don't take pictures of things. I take pictures of the way things feel.”</p></div>
+  <div class="grid">
+    <figure class="a">
+      <span class="no mono">01</span>
+      <img src="../assets/images/web/sm/djstage-2.jpg" alt="DJ stage" loading="lazy">
+      <figcaption class="mono"><span>Live · Stage</span><em>1/125 · f/1.8</em></figcaption>
+    </figure>
+    <figure class="b">
+      <span class="no mono">02</span>
+      <img src="../assets/images/web/sm/model-1.jpg" alt="Portrait" loading="lazy">
+      <figcaption class="mono"><span>Portrait</span><em>1/200 · f/2.0</em></figcaption>
+    </figure>
+    <figure class="c">
+      <span class="no mono">03</span>
+      <img src="../assets/images/web/sm/jwellery-3.jpg" alt="Jewellery" loading="lazy">
+      <figcaption class="mono"><span>Jewellery</span><em>1/160 · f/8</em></figcaption>
+    </figure>
+    <figure class="d">
+      <span class="no mono">04</span>
+      <img src="../assets/images/web/sm/product-4.jpg" alt="Product" loading="lazy">
+      <figcaption class="mono"><span>Product</span><em>1/125 · f/9</em></figcaption>
+    </figure>
+    <figure class="e">
+      <span class="no mono">05</span>
+      <img src="../assets/images/web/sm/model-2.jpg" alt="Editorial" loading="lazy">
+      <figcaption class="mono"><span>Editorial</span><em>1/250 · f/2.8</em></figcaption>
+    </figure>
+    <figure class="f">
+      <span class="no mono">06</span>
+      <img src="../assets/images/web/sm/architecture.jpg" alt="Architecture" loading="lazy">
+      <figcaption class="mono"><span>Architecture</span><em>1/60 · f/11</em></figcaption>
+    </figure>
+    <figure class="g">
+      <span class="no mono">07</span>
+      <img src="../assets/images/web/sm/traditional-1.jpg" alt="Heritage portrait" loading="lazy">
+      <figcaption class="mono"><span>Heritage</span><em>1/200 · f/2.2</em></figcaption>
+    </figure>
+  </div>
 
-  <footer>
+  <div class="head" id="series">
+    <h2>Series</h2>
+    <span class="mono">2019 — 2026</span>
+  </div>
+
+  <div class="index" id="idx">
+    <div class="row" data-img="../assets/images/web/sm/smirnoff.jpg">
+      <span class="no2 mono">01</span><h3>Dark Field</h3><span class="yr mono">2026 · Product</span>
+    </div>
+    <div class="row" data-img="../assets/images/web/sm/maternity-1.jpg">
+      <span class="no2 mono">02</span><h3>New Beginnings</h3><span class="yr mono">2025 · Portrait</span>
+    </div>
+    <div class="row" data-img="../assets/images/web/sm/bike-3.jpg">
+      <span class="no2 mono">03</span><h3>Pit Lane</h3><span class="yr mono">2025 · Motorsport</span>
+    </div>
+    <div class="row" data-img="../assets/images/web/sm/club-2.jpg">
+      <span class="no2 mono">04</span><h3>After Hours</h3><span class="yr mono">2024 · Live</span>
+    </div>
+    <div class="row" data-img="../assets/images/web/sm/watchproduct.jpg">
+      <span class="no2 mono">05</span><h3>Small Objects</h3><span class="yr mono">2024 · Still life</span>
+    </div>
+    <!-- No src until a row is hovered: src="" makes the browser
+         re-request the page itself. -->
+    <figure class="peek" id="peek"><img id="peekImg" alt=""></figure>
+  </div>
+
+  <div class="statement">
+    <p>I don't photograph things. I photograph the way they feel.</p>
+    <span class="mono">— Aperture Studio</span>
+  </div>
+
+  <div class="contact" id="contact">
+    <div><span class="mono">Commissions</span><p><a href="#">studio@aperture.in</a></p></div>
+    <div><span class="mono">Studio</span><p>Kalyani Nagar, Pune</p></div>
+    <div><span class="mono">Elsewhere</span><p><a href="#">Instagram</a> · <a href="#">Behance</a></p></div>
+  </div>
+
+  <footer class="mono">
     <span>Aperture — a design demo</span>
     <span>Built by <a href="../index.html">Jitendra Kulkarni</a></span>
   </footer>
 </div>
+
+<script>
+/* The series index shows a frame that follows the pointer. Desktop only —
+   there is no pointer to follow on touch, and the preview is display:none
+   there anyway, so the images are never even requested. */
+(function () {
+  if (!matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+  if (!matchMedia('(min-width:901px)').matches) return;
+
+  var idx = document.getElementById('idx');
+  var peek = document.getElementById('peek');
+  var img = document.getElementById('peekImg');
+  var rows = [].slice.call(idx.querySelectorAll('.row'));
+  var tx = 0, ty = 0, cx = 0, cy = 0, raf = null, live = false;
+
+  rows.forEach(function (r) { var p = new Image(); p.src = r.dataset.img; });
+
+  function loop() {
+    cx += (tx - cx) * .15;                 /* lag behind the cursor for weight */
+    cy += (ty - cy) * .15;
+    peek.style.left = cx + 'px';
+    peek.style.top = cy + 'px';
+    if (live || Math.abs(tx - cx) > .5 || Math.abs(ty - cy) > .5) raf = requestAnimationFrame(loop);
+    else raf = null;
+  }
+
+  idx.addEventListener('pointermove', function (e) {
+    var r = idx.getBoundingClientRect();
+    tx = e.clientX - r.left; ty = e.clientY - r.top;
+    if (!raf) raf = requestAnimationFrame(loop);
+  }, { passive: true });
+
+  rows.forEach(function (row) {
+    row.addEventListener('pointerenter', function () {
+      img.src = row.dataset.img;
+      live = true; peek.classList.add('on');
+      if (!raf) raf = requestAnimationFrame(loop);
+    });
+  });
+  idx.addEventListener('pointerleave', function () { live = false; peek.classList.remove('on'); });
+})();
+</script>
 </body>
 </html>

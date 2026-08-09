@@ -7,96 +7,271 @@
 <meta name="description" content="Demo product dashboard UI — built by Jitendra Kulkarni.">
 <style>
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  :root{--bg:#f4f6f8;--panel:#fff;--ink:#0f172a;--mut:#64748b;--line:#e6eaf0;--teal:#0d9488;--teal2:#14b8a6;--rose:#e11d48}
-  body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;font-size:14px;line-height:1.5}
-  .app{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
-  /* sidebar */
-  .side{background:var(--panel);border-right:1px solid var(--line);padding:22px 16px;display:flex;flex-direction:column}
-  .brand{display:flex;align-items:center;gap:9px;font-weight:700;font-size:16px;letter-spacing:-.02em;padding:6px 8px;margin-bottom:24px}
-  .brand i{width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,var(--teal),var(--teal2));display:block}
-  .menu{display:flex;flex-direction:column;gap:2px}
-  .menu a{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:9px;color:var(--mut);text-decoration:none;font-weight:500}
-  .menu a.on{background:#e6faf6;color:var(--teal)}
-  .menu a:hover:not(.on){background:var(--bg)}
-  .side .foot{margin-top:auto;font-size:12px;color:var(--mut);padding:10px 8px;border-top:1px solid var(--line)}
-  /* main */
-  .main{padding:24px 28px}
-  .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
-  .top h1{font-size:22px;letter-spacing:-.02em}
-  .top .who{display:flex;align-items:center;gap:10px;color:var(--mut);font-size:13px}
-  .top .av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#fda4af,#f43f5e)}
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:18px}
-  .stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
-  .stat .l{font-size:12px;color:var(--mut);margin-bottom:8px}
-  .stat .v{font-size:26px;font-weight:700;letter-spacing:-.02em}
-  .stat .d{font-size:12px;font-weight:600;margin-top:4px}
-  .up{color:var(--teal)}.down{color:var(--rose)}
-  .cols{display:grid;grid-template-columns:1.7fr 1fr;gap:16px}
-  .panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
-  .panel h3{font-size:14px;margin-bottom:2px}
-  .panel .sub{font-size:12px;color:var(--mut);margin-bottom:16px}
-  svg{width:100%;height:180px;display:block}
-  .legend{display:flex;gap:16px;font-size:12px;color:var(--mut);margin-top:10px}
-  .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+  :root{
+    --bg:#f6f7f9; --panel:#fff; --ink:#0b1220; --mut:#667085; --faint:#98a2b3;
+    --line:#e8ecf1; --line-2:#dde3ea;
+    --teal:#0d9488; --teal2:#14b8a6; --teal-bg:#effcf9;
+    --rose:#e11d48; --rose-bg:#fff1f3; --amber:#b45309; --amber-bg:#fffaeb;
+    --sh-sm:0 1px 2px rgba(16,24,40,.05);
+    --sh:0 1px 3px rgba(16,24,40,.07),0 1px 2px rgba(16,24,40,.04);
+    --ease:cubic-bezier(.16,1,.3,1);
+  }
+  body{background:var(--bg);color:var(--ink);
+    font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;font-size:14px;line-height:1.5;
+    font-feature-settings:"tnum","cv02","cv03"}
+  .app{display:grid;grid-template-columns:244px 1fr;min-height:100vh}
+  a{text-decoration:none;color:inherit}
+
+  /* ── Sidebar ── */
+  .side{background:var(--panel);border-right:1px solid var(--line);padding:16px 12px;display:flex;flex-direction:column}
+  .ws{display:flex;align-items:center;gap:10px;padding:8px 9px;border-radius:10px;cursor:pointer;
+    transition:background .2s}
+  .ws:hover{background:var(--bg)}
+  .ws i{width:28px;height:28px;border-radius:8px;flex:none;display:grid;place-items:center;
+    background:linear-gradient(135deg,var(--teal),var(--teal2));color:#fff;font-weight:700;font-size:13px}
+  .ws b{font-size:14px;letter-spacing:-.01em;display:block;line-height:1.25}
+  .ws span{font-size:11.5px;color:var(--faint)}
+  .ws em{margin-left:auto;font-style:normal;color:var(--faint);font-size:11px}
+
+  .search{display:flex;align-items:center;gap:8px;margin:14px 2px 18px;padding:8px 10px;
+    border:1px solid var(--line-2);border-radius:9px;color:var(--faint);font-size:13px;cursor:text;
+    transition:border-color .2s,box-shadow .2s}
+  .search:hover{border-color:#cfd6de}
+  .search kbd{margin-left:auto;font:inherit;font-size:10.5px;border:1px solid var(--line-2);
+    border-radius:5px;padding:1px 5px;background:var(--bg)}
+
+  .lbl{font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--faint);padding:0 10px;margin:14px 0 6px}
+  .menu{display:flex;flex-direction:column;gap:1px}
+  .menu a{display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:8px;
+    color:var(--mut);font-weight:500;position:relative;transition:background .18s,color .18s}
+  .menu a .ico{width:16px;text-align:center;opacity:.75}
+  .menu a.on{background:var(--teal-bg);color:var(--teal);font-weight:600}
+  .menu a.on::before{content:'';position:absolute;left:-12px;top:8px;bottom:8px;width:3px;
+    border-radius:0 3px 3px 0;background:var(--teal)}
+  .menu a:hover:not(.on){background:var(--bg);color:var(--ink)}
+  .menu a .pill{margin-left:auto;font-size:10.5px;font-weight:600;padding:1px 7px;border-radius:100px;
+    background:var(--rose);color:#fff}
+
+  .side .foot{margin-top:auto;font-size:11.5px;color:var(--faint);padding:12px 10px 2px;border-top:1px solid var(--line)}
+  .side .foot a{color:var(--teal);font-weight:500}
+
+  /* ── Main ── */
+  .main{padding:20px 26px 34px;min-width:0}
+  .top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:6px}
+  .crumb{font-size:12px;color:var(--faint)}
+  .top h1{font-size:23px;letter-spacing:-.025em;margin-top:2px}
+  .actions{display:flex;align-items:center;gap:9px}
+  .seg{display:flex;background:var(--panel);border:1px solid var(--line-2);border-radius:9px;padding:2px}
+  .seg button{border:0;background:none;font:inherit;font-size:12.5px;font-weight:500;color:var(--mut);
+    padding:5px 12px;border-radius:7px;cursor:pointer;transition:.18s}
+  .seg button.on{background:var(--ink);color:#fff}
+  .btn{display:inline-flex;align-items:center;gap:7px;font:inherit;font-size:13px;font-weight:500;
+    padding:7px 13px;border-radius:9px;border:1px solid var(--line-2);background:var(--panel);
+    cursor:pointer;box-shadow:var(--sh-sm);transition:.18s}
+  .btn:hover{border-color:#cfd6de;transform:translateY(-1px)}
+  .avs{display:flex}
+  .avs i{width:28px;height:28px;border-radius:50%;border:2px solid var(--panel);margin-left:-8px;display:block}
+  .avs i:nth-child(1){background:linear-gradient(135deg,#fda4af,#f43f5e);margin-left:0}
+  .avs i:nth-child(2){background:linear-gradient(135deg,#a5b4fc,#6366f1)}
+  .avs i:nth-child(3){background:linear-gradient(135deg,#5eead4,#0d9488)}
+
+  /* ── Stat cards with sparklines ── */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:20px 0 14px}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px;
+    box-shadow:var(--sh);transition:border-color .25s,transform .3s var(--ease)}
+  .stat:hover{border-color:var(--line-2);transform:translateY(-2px)}
+  .stat .l{font-size:12px;color:var(--mut);margin-bottom:7px;display:flex;justify-content:space-between}
+  .stat .v{font-size:27px;font-weight:680;letter-spacing:-.03em;line-height:1.1}
+  .stat .r{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin-top:6px}
+  .stat .d{font-size:12px;font-weight:600;display:inline-flex;align-items:center;gap:3px;
+    padding:2px 7px;border-radius:100px}
+  .up{color:var(--teal);background:var(--teal-bg)}
+  .down{color:var(--rose);background:var(--rose-bg)}
+  .spark{width:74px;height:26px;flex:none}
+
+  .cols{display:grid;grid-template-columns:1.75fr 1fr;gap:14px}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:18px;box-shadow:var(--sh)}
+  .p-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px}
+  .panel h3{font-size:14.5px;letter-spacing:-.01em}
+  .panel .sub{font-size:12px;color:var(--faint);margin-top:1px}
+  /* height:auto and uniform scaling — stretching the viewBox would
+     distort the axis labels along with the plot. */
+  .chart{width:100%;height:auto;display:block;overflow:visible}
+  .legend{display:flex;gap:16px;font-size:12px;color:var(--mut);margin-top:12px;
+    padding-top:12px;border-top:1px solid var(--line)}
+  .legend i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:6px;vertical-align:0}
+
   table{width:100%;border-collapse:collapse;font-size:13px}
-  th{text-align:left;color:var(--mut);font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding:0 0 12px}
-  td{padding:11px 0;border-top:1px solid var(--line)}
-  .tag{font-size:11px;font-weight:600;padding:3px 9px;border-radius:100px}
-  .paid{background:#e6faf6;color:var(--teal)}.due{background:#fff1f2;color:var(--rose)}
-  @media(max-width:860px){.app{grid-template-columns:1fr}.side{display:none}.stats{grid-template-columns:1fr 1fr}.cols{grid-template-columns:1fr}}
+  th{text-align:left;color:var(--faint);font-weight:600;font-size:10.5px;text-transform:uppercase;
+    letter-spacing:.07em;padding:0 0 10px}
+  td{padding:10px 0;border-top:1px solid var(--line)}
+  td:last-child,th:last-child{text-align:right}
+  .cli{display:flex;align-items:center;gap:9px;font-weight:500}
+  .cli i{width:24px;height:24px;border-radius:6px;display:grid;place-items:center;font-size:10.5px;
+    font-weight:700;color:#fff;flex:none}
+  .tag{font-size:10.5px;font-weight:600;padding:2.5px 9px;border-radius:100px;white-space:nowrap}
+  .paid{background:var(--teal-bg);color:var(--teal)}
+  .due{background:var(--rose-bg);color:var(--rose)}
+  .pend{background:var(--amber-bg);color:var(--amber)}
+
+  @media(max-width:1080px){.stats{grid-template-columns:repeat(2,1fr)}.cols{grid-template-columns:1fr}}
+  @media(max-width:860px){.app{grid-template-columns:1fr}.side{display:none}}
+  @media(max-width:520px){.stats{grid-template-columns:1fr}}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
 <div class="app">
   <aside class="side">
-    <div class="brand"><i></i> Pulse</div>
+    <div class="ws"><i>P</i><span><b>Pulse</b><span>Acme Studio</span></span><em>⌄</em></div>
+    <div class="search">⌕ Search<kbd>⌘K</kbd></div>
+
+    <div class="lbl">Workspace</div>
     <nav class="menu">
-      <a class="on" href="#">▦ Overview</a>
-      <a href="#">◷ Activity</a>
-      <a href="#">◈ Customers</a>
-      <a href="#">▤ Invoices</a>
-      <a href="#">⚙ Settings</a>
+      <a class="on" href="#"><span class="ico">▦</span> Overview</a>
+      <a href="#"><span class="ico">◷</span> Activity</a>
+      <a href="#"><span class="ico">◈</span> Customers</a>
+      <a href="#"><span class="ico">▤</span> Invoices <span class="pill">3</span></a>
     </nav>
-    <div class="foot">Pulse — a design demo<br>Built by <a href="../index.html" style="color:var(--teal)">J. Kulkarni</a></div>
+
+    <div class="lbl">Insights</div>
+    <nav class="menu">
+      <a href="#"><span class="ico">◑</span> Cohorts</a>
+      <a href="#"><span class="ico">↗</span> Funnels</a>
+      <a href="#"><span class="ico">⚙</span> Settings</a>
+    </nav>
+
+    <div class="foot">Pulse — a design demo<br>Built by <a href="../index.html">J. Kulkarni</a></div>
   </aside>
 
   <main class="main">
     <div class="top">
-      <h1>Overview</h1>
-      <div class="who">Priya M. <div class="av"></div></div>
+      <div>
+        <div class="crumb">Acme Studio · Analytics</div>
+        <h1>Overview</h1>
+      </div>
+      <div class="actions">
+        <div class="seg">
+          <button>7d</button><button class="on">30d</button><button>90d</button>
+        </div>
+        <button class="btn">↓ Export</button>
+        <div class="avs"><i></i><i></i><i></i></div>
+      </div>
     </div>
 
     <div class="stats">
-      <div class="stat"><div class="l">Revenue</div><div class="v">₹8.4L</div><div class="d up">▲ 12.4%</div></div>
-      <div class="stat"><div class="l">Active users</div><div class="v">2,841</div><div class="d up">▲ 6.1%</div></div>
-      <div class="stat"><div class="l">Churn</div><div class="v">1.9%</div><div class="d down">▲ 0.3%</div></div>
-      <div class="stat"><div class="l">MRR</div><div class="v">₹1.2L</div><div class="d up">▲ 9.0%</div></div>
+      <div class="stat">
+        <div class="l"><span>Revenue</span></div>
+        <div class="v">₹8.42L</div>
+        <div class="r"><span class="d up">▲ 12.4%</span>
+          <svg class="spark" viewBox="0 0 74 26" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0,20 L12,17 L25,19 L37,11 L49,13 L61,5 L74,7" fill="none" stroke="#0d9488" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="stat">
+        <div class="l"><span>Active users</span></div>
+        <div class="v">2,841</div>
+        <div class="r"><span class="d up">▲ 6.1%</span>
+          <svg class="spark" viewBox="0 0 74 26" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0,18 L12,20 L25,14 L37,16 L49,10 L61,12 L74,6" fill="none" stroke="#0d9488" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="stat">
+        <div class="l"><span>Churn</span></div>
+        <div class="v">1.9%</div>
+        <div class="r"><span class="d down">▲ 0.3%</span>
+          <svg class="spark" viewBox="0 0 74 26" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0,14 L12,12 L25,15 L37,11 L49,13 L61,9 L74,8" fill="none" stroke="#e11d48" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="stat">
+        <div class="l"><span>MRR</span></div>
+        <div class="v">₹1.24L</div>
+        <div class="r"><span class="d up">▲ 9.0%</span>
+          <svg class="spark" viewBox="0 0 74 26" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0,21 L12,19 L25,16 L37,14 L49,12 L61,8 L74,4" fill="none" stroke="#0d9488" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
     </div>
 
     <div class="cols">
       <div class="panel">
-        <h3>Revenue trend</h3><div class="sub">Last 6 months</div>
-        <svg viewBox="0 0 400 180" preserveAspectRatio="none">
-          <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#14b8a6" stop-opacity=".35"/><stop offset="1" stop-color="#14b8a6" stop-opacity="0"/></linearGradient></defs>
-          <path d="M0,140 L70,120 L140,128 L210,80 L280,92 L350,44 L400,52 L400,180 L0,180 Z" fill="url(#g)"/>
-          <path d="M0,140 L70,120 L140,128 L210,80 L280,92 L350,44 L400,52" fill="none" stroke="#0d9488" stroke-width="2.5"/>
-          <g fill="#0d9488"><circle cx="210" cy="80" r="3.5"/><circle cx="350" cy="44" r="3.5"/></g>
+        <div class="p-head">
+          <div><h3>Revenue trend</h3><div class="sub">Last six months, against target</div></div>
+          <button class="btn">⋯</button>
+        </div>
+        <svg class="chart" viewBox="0 0 440 196" role="img" aria-label="Revenue rising against a flatter target line">
+          <defs>
+            <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#14b8a6" stop-opacity=".28"/>
+              <stop offset="1" stop-color="#14b8a6" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <!-- gridlines + value axis -->
+          <g stroke="#eef1f5" stroke-width="1">
+            <line x1="30" y1="12"  x2="440" y2="12"/>
+            <line x1="30" y1="52"  x2="440" y2="52"/>
+            <line x1="30" y1="92"  x2="440" y2="92"/>
+            <line x1="30" y1="132" x2="440" y2="132"/>
+            <line x1="30" y1="164" x2="440" y2="164"/>
+          </g>
+          <g fill="#98a2b3" font-size="9" font-family="Inter,sans-serif">
+            <text x="0" y="15">10L</text><text x="0" y="55">8L</text>
+            <text x="0" y="95">6L</text><text x="0" y="135">4L</text>
+            <text x="30" y="184">Sep</text><text x="98" y="184">Oct</text><text x="166" y="184">Nov</text>
+            <text x="234" y="184">Dec</text><text x="302" y="184">Jan</text><text x="374" y="184">Feb</text>
+          </g>
+          <!-- target -->
+          <path d="M38,124 L106,118 L174,112 L242,104 L310,96 L406,86"
+                fill="none" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4 4"/>
+          <!-- revenue -->
+          <path d="M38,140 L106,120 L174,128 L242,80 L310,92 L406,40 L406,164 L38,164 Z" fill="url(#g)"/>
+          <path d="M38,140 L106,120 L174,128 L242,80 L310,92 L406,40"
+                fill="none" stroke="#0d9488" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+          <g fill="#fff" stroke="#0d9488" stroke-width="2.5">
+            <circle cx="242" cy="80" r="4"/><circle cx="406" cy="40" r="4"/>
+          </g>
+          <!-- callout on the latest point -->
+          <g><rect x="342" y="8" width="72" height="24" rx="6" fill="#0b1220"/>
+             <text x="378" y="24" fill="#fff" font-size="11" font-family="Inter,sans-serif" text-anchor="middle">₹8.42L</text></g>
         </svg>
-        <div class="legend"><span><i style="background:#0d9488"></i>Revenue</span><span><i style="background:#cbd5e1"></i>Target</span></div>
+        <div class="legend">
+          <span><i style="background:#0d9488"></i>Revenue</span>
+          <span><i style="background:#cbd5e1"></i>Target</span>
+          <span style="margin-left:auto;color:var(--teal);font-weight:600">▲ 12.4% vs last period</span>
+        </div>
       </div>
+
       <div class="panel">
-        <h3>Recent invoices</h3><div class="sub">This week</div>
+        <div class="p-head">
+          <div><h3>Recent invoices</h3><div class="sub">This week</div></div>
+          <a href="#" style="color:var(--teal);font-size:12.5px;font-weight:600">View all</a>
+        </div>
         <table>
           <tr><th>Client</th><th>Amount</th><th>Status</th></tr>
-          <tr><td>Studio K</td><td>₹64,000</td><td><span class="tag paid">Paid</span></td></tr>
-          <tr><td>Meridian</td><td>₹28,500</td><td><span class="tag due">Due</span></td></tr>
-          <tr><td>Loop Co.</td><td>₹41,200</td><td><span class="tag paid">Paid</span></td></tr>
-          <tr><td>Casa</td><td>₹12,000</td><td><span class="tag paid">Paid</span></td></tr>
+          <tr><td><span class="cli"><i style="background:#6366f1">SK</i>Studio K</span></td><td>₹64,000</td><td><span class="tag paid">Paid</span></td></tr>
+          <tr><td><span class="cli"><i style="background:#f43f5e">ME</i>Meridian</span></td><td>₹28,500</td><td><span class="tag due">Overdue</span></td></tr>
+          <tr><td><span class="cli"><i style="background:#0d9488">LC</i>Loop Co.</span></td><td>₹41,200</td><td><span class="tag paid">Paid</span></td></tr>
+          <tr><td><span class="cli"><i style="background:#b45309">CA</i>Casa</span></td><td>₹12,000</td><td><span class="tag pend">Sent</span></td></tr>
+          <tr><td><span class="cli"><i style="background:#0ea5e9">NV</i>Novena</span></td><td>₹86,750</td><td><span class="tag paid">Paid</span></td></tr>
         </table>
       </div>
     </div>
   </main>
 </div>
+
+<script>
+/* Segmented control — the one control on the page a visitor will try. */
+document.querySelector('.seg').addEventListener('click', function (e) {
+  var b = e.target.closest('button'); if (!b) return;
+  this.querySelectorAll('button').forEach(function (x) { x.classList.toggle('on', x === b); });
+});
+</script>
 </body>
 </html>
