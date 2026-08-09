@@ -627,7 +627,62 @@ body:not(.hero-page) { padding-top: var(--nav-h); }
   .row-desc { grid-column: 2; }
 }
 
-/* ── Project links ────────────────────────────────── */
+/* ── Web work: live previews ──────────────────────────
+   Each demo renders in an iframe scaled down to thumbnail size. The
+   scale factor is set on --s by site.js, because it depends on the
+   rendered card width and CSS cannot divide two lengths reliably yet. */
+.web-grid {
+  margin-top: 48px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+}
+.web-card { position: relative; }
+
+.web-thumb {
+  display: block; position: relative;
+  aspect-ratio: 16 / 10; overflow: hidden;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  transition: border-color .4s var(--ease), transform .6s var(--ease);
+}
+.web-thumb iframe {
+  position: absolute; top: 0; left: 0;
+  width: 1280px; height: 800px; border: 0;
+  pointer-events: none;                 /* clicks belong to the card link */
+  transform-origin: 0 0;
+  transform: scale(var(--s, 0.3));
+}
+/* Sits over the iframe so a demo's own colours never fight the page */
+.web-thumb::after {
+  content: ''; position: absolute; inset: 0;
+  background: rgba(22,24,28,0.06);
+  transition: opacity .4s var(--ease);
+}
+.web-card:hover .web-thumb { border-color: var(--border-strong); transform: translateY(-3px); }
+.web-card:hover .web-thumb::after { opacity: 0; }
+
+.web-info {
+  display: flex; align-items: baseline; gap: 10px;
+  padding: 13px 2px 0;
+}
+.web-info::after { content: ''; position: absolute; inset: 0; }  /* whole card is the link */
+.web-info b { font-weight: 400; font-size: 16px; }
+.web-info i { font-style: normal; font-size: 13.5px; color: var(--text-muted); flex: 1; }
+.web-info s {
+  text-decoration: none; font-family: var(--font-mono);
+  font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--text-faint);
+  transition: transform .45s var(--ease), color .4s var(--ease);
+}
+.web-card:hover .web-info b { color: var(--gold); }
+.web-card:hover .web-info s { color: var(--gold); transform: translateX(4px); }
+
+@media (max-width: 900px) { .web-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) {
+  .web-grid { grid-template-columns: 1fr; }
+  .web-info i { display: none; }
+}
+
+/* ── Project links (legacy) ───────────────────────── */
 .links { margin-top: 40px; border-top: 1px solid var(--border); }
 .link-row {
   position: relative;

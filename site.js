@@ -89,6 +89,25 @@
     }
   }
 
+  /* ── Web previews: scale each iframe to its card ──
+     The iframe renders at a fixed 1280px so the demos lay out at their
+     intended desktop width; --s shrinks that to whatever the card
+     actually is. Recomputed on resize because the grid reflows. */
+  var thumbs = [].slice.call(document.querySelectorAll('.web-thumb'));
+  if (thumbs.length) {
+    var fit = function () {
+      thumbs.forEach(function (t) {
+        var w = t.clientWidth;
+        if (w) t.style.setProperty('--s', (w / 1280).toFixed(5));
+      });
+    };
+    fit();
+    if ('ResizeObserver' in window) new ResizeObserver(fit).observe(document.body);
+    else addEventListener('resize', fit, { passive: true });
+    /* Fonts landing late can change the card width by a pixel or two. */
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+  }
+
   /* ── Shared lightbox plumbing ── */
   function lightbox(el, onClose) {
     if (!el) return null;
