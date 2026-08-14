@@ -18,3 +18,6 @@ desktop.ini
 node_modules/
 .vercel
 .env*
+
+# Build output (Vercel rebuilds this from source via vercel.json's buildCommand)
+dist/

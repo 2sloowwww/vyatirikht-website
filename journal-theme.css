@@ -1,0 +1,115 @@
+/* ══════════════════════════════════════════════════════
+   JOURNAL THEME — journal-theme.css
+   Re-skins blog.html and every blog/<slug>.html to match the
+   brutalist homepage (black/white, Anton + JetBrains Mono, zero
+   radius, hard offset shadows) without touching their markup.
+
+   style.css/blog.css/policy.css are token-driven (var(--text),
+   var(--gold), var(--radius)…) so overriding :root here — loaded
+   AFTER those three — re-themes almost everything. Only the handful
+   of hardcoded old-theme values (gold glow shadows, pill buttons,
+   the giant decorative "Blog" watermark) need their own rules below.
+   This file is linked only from blog.html and blog/*.html, so
+   style.css's own tokens are untouched everywhere else (dashboard,
+   vault, login…).
+══════════════════════════════════════════════════════ */
+
+:root {
+  --bg:            #FFFFFF;
+  --bg-raised:     #ECECEC;
+  --surface-1:     #FFFFFF;
+  --surface-2:     #F1F1F1;
+  --paper:         #FFFFFF;
+  --warm:          #F1F1F1;
+  --steel:         #000000;
+
+  --text:          #000000;
+  --text-mid:      #1A1A1A;
+  --text-muted:    #4A4A4A;
+  --text-faint:    #6E6E6E;
+
+  --gold:          #000000;
+  --gold-bright:   #000000;
+  --gold-deep:     #000000;
+  --accent:        #000000;
+  --accent-warm:   #000000;
+  --brass:         #000000;
+
+  --ink:           var(--text);
+  --ink-mid:       var(--text-mid);
+  --ink-muted:     var(--text-muted);
+  --ink-faint:     var(--text-faint);
+  --cream:         var(--surface-1);
+  --cream-deep:    var(--surface-2);
+  --surface:       var(--surface-1);
+  --primary:       var(--gold);
+  --accent-deep:   #000000;
+  --accent-light:  rgba(0,0,0,0.05);
+  --gold-light:    rgba(0,0,0,0.05);
+
+  --border:        #000000;
+  --border-mid:    #000000;
+  --border-strong: #000000;
+
+  --shadow-sm: 4px 4px 0 var(--text);
+  --shadow-md: 7px 7px 0 var(--text);
+  --shadow-lg: 12px 12px 0 var(--text);
+
+  --font-display: 'Anton', 'Archivo Black', Impact, sans-serif;
+  --font-body:    'Inter', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+
+  --radius:    0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+}
+
+/* Anton/Archivo Black read best in caps; the old serif titles were
+   set for a mixed-case italic face. */
+.h2, .pol-title, .blog-hero-title, .blog-card-title, .ig-section-title,
+.post-title, .journal-head h1 {
+  text-transform: uppercase;
+  font-weight: 400 !important;
+}
+.h2 em, .pol-title em, .blog-hero-title em, .ig-section-title em {
+  font-style: normal;
+  background: var(--text); color: var(--bg);
+  padding: 0.14em 0.16em 0.08em;
+  display: inline-block; line-height: 0.86;
+  text-shadow: none !important;
+}
+
+/* Pill buttons/filters -> square, thick border, no soft glow */
+.blog-filter-btn, .filters button, .blog-sort-select, .blog-tag, .pol-related a {
+  border-radius: 0 !important;
+  border-color: var(--text) !important;
+}
+.blog-filter-btn.active, .filters button.on {
+  background: var(--text) !important; color: var(--bg) !important; border-color: var(--text) !important;
+}
+.blog-filter-btn:hover, .filters button:hover { color: var(--text); border-color: var(--text) !important; }
+
+/* Kill leftover gold glow effects that were hardcoded as raw colour
+   rather than a token, so the :root override above can't reach them. */
+.blog-hero::before { display: none; }
+.orb { display: none !important; }
+.blog-hero-title em, .ig-section-title em { text-shadow: none; }
+.blog-quote, .pol-body blockquote.blog-quote {
+  border-left: 3px solid var(--text);
+  background: var(--warm);
+  font-style: normal;
+}
+.blog-ph-4, .blog-ph-5, .blog-ph-6 { background: var(--text) !important; }
+
+/* Cards/notes/callouts: square corners, solid black hairlines, hard
+   offset shadow on hover instead of a soft blurred one. */
+.blog-card-featured, .art-nav-link, .pol-contact, .blog-coming-card, .post-row {
+  border-radius: 0 !important;
+  transition: box-shadow .2s ease, transform .2s ease, border-color .2s ease;
+}
+.blog-card-featured:hover, .blog-coming-card:hover { box-shadow: var(--shadow-md) !important; transform: translate(-4px, -4px) !important; }
+.art-nav-link:hover { box-shadow: var(--shadow-sm) !important; transform: translate(-3px, -3px) !important; }
+.pol-note { border-left: 3px solid var(--text); border-radius: 0; }
+
+/* Buttons that used the old sweep/fill trick keep working, they just
+   inherit solid black instead of oxblood — nothing else needed. */

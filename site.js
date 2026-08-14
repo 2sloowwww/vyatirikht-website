@@ -234,7 +234,7 @@
     var msg = document.getElementById('enq-msg');
     var send = document.getElementById('enq-send');
     var done = document.getElementById('enq-done');
-    var WA = 'Please WhatsApp me instead: +91 91680 50906.';
+    var WA = 'Please WhatsApp me instead: +91 98901 01755.';
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();

@@ -179,11 +179,11 @@ section[id], header[id] { scroll-margin-top: calc(var(--nav-h) + 24px); }
   border-bottom-color: var(--border);
 }
 .nav-mark {
-  display: flex; align-items: center; gap: 10px;
+  display: flex; align-items: center; gap: 12px;
   font-family: var(--font-display);
-  font-size: 19px; letter-spacing: 0.04em;
+  font-size: 24px; letter-spacing: 0.04em;
 }
-.nav-mark img { height: 26px; width: auto; }
+.nav-mark img { height: 40px; width: auto; }
 .nav-links { display: flex; gap: 30px; align-items: center; }
 .nav-links a {
   position: relative;
