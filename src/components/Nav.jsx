@@ -32,6 +32,7 @@ export default function Nav() {
         <Magnetic href="#tech" strength={0.4}>Stack</Magnetic>
         <Magnetic href="#web" strength={0.4}>Work</Magnetic>
         <Magnetic href="#journal" strength={0.4}>Journal</Magnetic>
+        <Magnetic href="books.html" strength={0.4}>Books</Magnetic>
         <Magnetic href="#contact" strength={0.4}>Contact</Magnetic>
       </div>
     </nav>

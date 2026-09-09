@@ -7,6 +7,7 @@ export default function Footer() {
         <span>© 2026 Vyatirikht · Pune, India · <span className="site-version">v{version}</span></span>
         <nav>
           <a href="blog.html">Journal</a>
+          <a href="books.html">Books</a>
           <a href="privacy.html">Privacy</a>
           <a href="terms.html">Terms</a>
           <a href="refund.html">Refunds</a>

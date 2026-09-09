@@ -1,0 +1,84 @@
+/* ══════════════════════════════════════════════════════
+   BOOKS — books.css
+   Page-specific rules for books.html only. Nav, footer, eyebrow/
+   h2/lede and the pull-quote all come free from style.css +
+   journal-theme.css (already brutalist black/white) — this file
+   just lays out the two book cards.
+══════════════════════════════════════════════════════ */
+
+.books-head { padding-bottom: 8px; }
+
+.books-main { padding: clamp(24px, 5vw, 56px) 0 clamp(64px, 10vw, 120px); }
+
+.book-card {
+  display: grid;
+  grid-template-columns: minmax(220px, 320px) 1fr;
+  gap: clamp(28px, 5vw, 64px);
+  align-items: start;
+  padding: clamp(28px, 5vw, 48px) 0;
+  border-top: 2px solid var(--text);
+}
+.book-card:last-of-type { border-bottom: 2px solid var(--text); }
+.book-card.is-reverse { grid-template-columns: 1fr minmax(220px, 320px); }
+.book-card.is-reverse .book-cover { order: 2; }
+.book-card.is-reverse .book-body { order: 1; }
+
+.book-cover {
+  display: block;
+  border: 2px solid var(--text);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.book-cover:hover { transform: translate(-4px, -4px); box-shadow: var(--shadow-lg); }
+.book-cover img { display: block; width: 100%; height: auto; aspect-ratio: 800 / 1035; object-fit: cover; background: #fff; }
+
+.book-body { display: flex; flex-direction: column; gap: 14px; }
+
+.book-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.book-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: clamp(28px, 4vw, 42px);
+  line-height: 1.02;
+  margin: 0;
+}
+
+.book-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.book-meta span {
+  border: 2px solid var(--text);
+  padding: 5px 10px;
+}
+.book-meta .is-done { background: var(--text); color: var(--bg); }
+.book-meta .is-progress { background: var(--warm); }
+
+.book-body > p { max-width: 62ch; color: var(--text-mid); }
+
+.book-body .blog-quote { max-width: 62ch; }
+
+.book-body .btn { align-self: flex-start; }
+
+@media (max-width: 720px) {
+  .book-card, .book-card.is-reverse {
+    grid-template-columns: 1fr;
+  }
+  .book-card.is-reverse .book-cover,
+  .book-card.is-reverse .book-body { order: 0; }
+  .book-cover { max-width: 260px; }
+}
