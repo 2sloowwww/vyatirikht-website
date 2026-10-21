@@ -20,7 +20,7 @@ export const REEL = {
   src: 'assets/videos/reel/showreel.mp4',
   small: 'assets/videos/reel/showreel-sm.mp4',
   poster: 'assets/videos/reel/showreel.jpg',
-  duration: 30,
+  duration: 30.1,
   count: 13,
   cues: [
     { at: 0, cat: 'Product animation', title: 'Sword', n: 1 },
@@ -29,14 +29,14 @@ export const REEL = {
     { at: 6.15, cat: '3D animation', title: 'Kyoto street', n: 4 },
     { at: 8.35, cat: 'Cinematography', title: 'Badminton', n: 5 },
     { at: 10.75, cat: '3D animation', title: 'Nature', n: 6 },
-    { at: 13.35, cat: 'Character render', title: 'Joker', n: 7 },
-    { at: 15.55, cat: '3D animation', title: 'Kyoto', n: 8 },
-    { at: 17.45, cat: 'Cinematography', title: 'Badminton', n: 9 },
-    { at: 19.75, cat: '3D animation', title: 'Autumn drive', n: 10 },
-    { at: 22.35, cat: '3D animation', title: 'Kyoto shrine', n: 11 },
-    { at: 24.75, cat: '3D animation', title: 'Mountain', n: 12 },
-    { at: 27.05, cat: '3D animation', title: 'Autumn drive', n: 13 },
-    { at: 29.55, cat: 'Product animation', title: 'Sword', n: 1 }
+    { at: 13.35, cat: '3D animation', title: 'Kyoto shopfront', n: 7 },
+    { at: 15.65, cat: '3D animation', title: 'Kyoto', n: 8 },
+    { at: 17.55, cat: 'Cinematography', title: 'Badminton', n: 9 },
+    { at: 19.85, cat: '3D animation', title: 'Autumn drive', n: 10 },
+    { at: 22.45, cat: '3D animation', title: 'Kyoto shrine', n: 11 },
+    { at: 24.85, cat: '3D animation', title: 'Mountain', n: 12 },
+    { at: 27.15, cat: '3D animation', title: 'Autumn drive', n: 13 },
+    { at: 29.65, cat: 'Product animation', title: 'Sword', n: 1 }
   ]
 };
 

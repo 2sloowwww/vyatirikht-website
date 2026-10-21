@@ -24,6 +24,7 @@ function staticPassthrough() {
     name: 'static-passthrough',
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
+        if (/[?&](import|url|raw)(&|=|$)/.test(req.url || '')) return next();   // a module import of an image (Hero's poster) is Vite's to answer
         const urlPath = (req.url || '').split('?')[0];
         const top = urlPath.split('/')[1];
         if (!STATIC_DIRS.includes(top)) return next();

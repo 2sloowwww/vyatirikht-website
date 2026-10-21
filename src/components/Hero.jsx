@@ -3,6 +3,7 @@ import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion
 import { COUNTS, REEL, WHATSAPP_HREF } from '../data.js';
 import Magnetic from './Magnetic.jsx';
 import { timecode } from './Hud.jsx';
+import posterUrl from '../../assets/videos/reel/showreel.jpg';   // same hashed URL as the <head> preload, so the poster is fetched once
 
 const EASE = [0.16, 1, 0.3, 1];
 const rise = { hidden: { y: '118%' }, show: { y: '0%', transition: { duration: 1.15, ease: EASE } } };
@@ -66,7 +67,7 @@ function Reel({ onCue, tcRef }) {
 
   return (
     <div className="reel" ref={wrap} aria-hidden="true">
-      <img className="reel-poster" src={REEL.poster} alt="" fetchpriority="high" decoding="async" />
+      <img className="reel-poster" src={posterUrl} alt="" fetchpriority="high" decoding="async" />
       <video ref={vid} className={live ? 'on' : ''} muted loop playsInline preload="auto" />
       <div className="reel-scrim" />
       <div className="reel-grain" />
