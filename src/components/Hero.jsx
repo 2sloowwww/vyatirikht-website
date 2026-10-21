@@ -81,7 +81,7 @@ export default function Hero() {
   const [cue, setCue] = useState(0);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
-  const copyY = useTransform(scrollYProgress, [0, 1], [0, 70]);
+  const copyY = useTransform(scrollYProgress, [0, 1], [0, 28]);      // a small drift: the headline must never catch up with the copy or the foot bar below it
 
   const lines = [
     { key: 'a', node: 'We shoot.' },

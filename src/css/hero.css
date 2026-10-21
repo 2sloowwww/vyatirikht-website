@@ -98,9 +98,9 @@
 }
 @media (max-width: 960px) {
   .hero { padding-top: 96px; }
-  .hero-inner { grid-template-columns: 1fr; gap: 26px; }
+  .hero-inner { grid-template-columns: 1fr; gap: 30px; }
   .hero-title { font-size: clamp(54px, 16vw, 130px); }
-  .hero-title .hl:last-child em { display: block; margin: 0.08em 0 0; font-size: 0.62em; }   /* "your brand." drops to its own line */
+  .hero-title .hl:last-child em { display: block; margin: 0.08em 0 0; padding-bottom: 0.2em; font-size: 0.62em; }   /* "your brand." drops to its own line */
   .hero-side { justify-self: start; max-width: 460px; }
   .now { display: none; }
 }
