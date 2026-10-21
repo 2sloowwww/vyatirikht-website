@@ -1,0 +1,122 @@
+/* ══════════════════════════════════════════════════════
+   CHAPTERS — Shoot · Edit · Build · Grow.
+   Each opens with its name in giant letters filled with its own work,
+   then lets the work run, edge to edge.
+══════════════════════════════════════════════════════ */
+
+.chapter { padding-bottom: clamp(56px, 6.4vw, 100px); }
+
+/* Opener */
+.opener { padding-top: clamp(44px, 5.2vw, 84px); }
+.opener-grid { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 0.8fr); gap: clamp(24px, 4vw, 72px); align-items: end; }
+.opener-word { container-type: inline-size; }
+/* The word is sized from the width of its own cell, so it always fills it exactly. */
+.ko-text { display: block; font-size: calc(100cqw / var(--k, 2.5)); line-height: 0.9; padding: 0.05em 0 0.02em; white-space: nowrap; word-spacing: 0; letter-spacing: 0.01em; }
+.opener-copy { display: grid; gap: 28px; justify-items: start; padding-bottom: 0.6vw; }
+.caps { display: flex; flex-wrap: wrap; gap: 8px 0; font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--paper-2); }
+.caps li:not(:last-child)::after { content: '/'; margin: 0 12px; color: var(--gold); }
+
+/* ── Shoot: the mosaic ────────────────────────────── */
+.mosaic { padding-top: clamp(44px, 5vw, 80px); }
+.filters { display: flex; flex-wrap: wrap; gap: 4px 30px; margin-bottom: 22px; font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: 0.13em; text-transform: uppercase; }
+.filters button { padding: 8px 0; color: var(--paper-3); border-bottom: 1px solid transparent; transition: color .3s, border-color .3s; }
+.filters button:hover { color: var(--paper); }
+.filters button.on { color: var(--paper); border-bottom-color: var(--gold); }
+.filters sup { margin-left: 6px; font-size: 9.5px; color: var(--gold); vertical-align: top; position: relative; top: -2px; }
+
+.mosaic-grid { width: 100%; }
+.mosaic-rows { display: flex; flex-direction: column; gap: 4px; }
+.mrow { display: flex; }
+.mtile { position: relative; flex: none; overflow: hidden; background: var(--night-2); }
+.mtile img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
+.mtile:hover img { transform: scale(1.05); }
+.mtile::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(8, 16, 11, 0.72), transparent 46%); opacity: 0; transition: opacity .5s; pointer-events: none; }
+.mtile:hover::after, .mtile:focus-visible::after { opacity: 1; }
+.mtile-cap {
+  position: absolute; z-index: 2; left: 16px; right: 16px; bottom: 14px; display: grid; gap: 3px; font-size: 14px; font-weight: 500; line-height: 1.3; color: var(--paper); text-align: left;
+  opacity: 0; transform: translateY(10px); transition: opacity .5s, transform .6s var(--ease);
+}
+.mtile-cap b { font-family: var(--font-mono); font-size: 10.5px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
+.mtile:hover .mtile-cap, .mtile:focus-visible .mtile-cap { opacity: 1; transform: none; }
+
+/* ── Edit: the film index ─────────────────────────── */
+.findex { padding-top: clamp(44px, 5vw, 80px); }
+.findex-list { border-top: 1px solid var(--line); }
+.frow {
+  width: 100%; display: grid; grid-template-columns: 70px minmax(0, 1fr) 170px; align-items: baseline; gap: 24px; padding: clamp(6px, 0.8vw, 14px) 0;
+  border-bottom: 1px solid var(--line); text-align: left; transition: opacity .45s var(--ease), color .3s, padding-left .6s var(--ease);
+}
+.frow-n { color: var(--paper-3); }
+.frow-t { font-size: clamp(46px, 8.6vw, 156px); line-height: 0.92; }
+.frow-m { color: var(--paper-3); text-align: right; line-height: 1.7; }
+.frow-thumb { display: none; }
+.findex-list.is-hover .frow:not(.on) { opacity: 0.25; }
+.frow.on { color: var(--gold); padding-left: clamp(8px, 1.6vw, 28px); }
+.frow.on .frow-n, .frow.on .frow-m { color: var(--gold); }
+
+.fprev { position: fixed; left: 0; top: 0; z-index: 80; width: 440px; aspect-ratio: 16 / 9; pointer-events: none; opacity: 0; background: #000; transition: opacity .3s; }
+.fprev.is-tall { width: 250px; aspect-ratio: 9 / 16; }
+.fprev.is-on { opacity: 1; }
+.fprev video { width: 100%; height: 100%; object-fit: cover; }
+.fprev-hint { position: absolute; left: 12px; bottom: 10px; padding: 0; font-size: 10px; color: var(--paper); text-shadow: 0 1px 8px rgba(0, 0, 0, 0.8); }
+.fprev::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0, 0, 0, 0.55), transparent 36%); pointer-events: none; }
+
+/* ── Build: 3D worlds, edge to edge ───────────────── */
+.worlds { margin-top: clamp(48px, 6vw, 96px); }
+.worlds-head { padding-bottom: 18px; color: var(--paper-3); }
+.world { position: relative; isolation: isolate; overflow: hidden; display: flex; align-items: flex-end; height: min(92vh, 56.25vw); min-height: 440px; background: var(--night-2); color: var(--paper); }
+.world + .world { margin-top: 4px; }
+.world-poster, .world-video { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
+.world-video { opacity: 0; transition: opacity .8s var(--ease); }
+.world-video.on { opacity: 1; }
+.world-scrim {
+  position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(0deg, rgba(8, 16, 11, 0.88), rgba(8, 16, 11, 0.3) 44%, rgba(8, 16, 11, 0.1) 62%, rgba(8, 16, 11, 0.3)), linear-gradient(90deg, rgba(8, 16, 11, 0.4), transparent 55%);
+}
+.world-text { padding-bottom: clamp(22px, 3.4vw, 48px); display: grid; gap: 14px; justify-items: start; }
+.world-text .mono { color: rgba(242, 245, 234, 0.9); text-shadow: 0 1px 12px rgba(0, 0, 0, 0.6); }
+.world-title { font-size: clamp(84px, 17vw, 300px); line-height: 0.8; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25), 0 4px 50px rgba(0, 0, 0, 0.45); }
+.world-foot { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-top: 10px; }
+.world-foot .tlink { text-shadow: 0 1px 12px rgba(0, 0, 0, 0.6); }
+.world-count { color: rgba(242, 245, 234, 0.7); }
+
+/* ── Build: the websites, one long pass ───────────── */
+.webs { position: relative; margin-top: clamp(48px, 6vw, 96px); }
+.webs-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; display: flex; flex-direction: column; justify-content: center; gap: clamp(18px, 3vh, 36px); }
+.webs-head { display: flex; justify-content: space-between; gap: 20px; color: var(--paper-3); }
+.webs-track { display: flex; align-items: flex-start; gap: clamp(32px, 4vw, 72px); padding: 0 var(--gutter); width: max-content; will-change: transform; }
+.web { flex: none; width: min(56vw, 900px, calc((100vh - 340px) * 1.6)); }
+.web.is-low { margin-top: 6vh; }
+.web-shot { display: block; overflow: hidden; background: var(--night-2); }
+.web-shot img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; transition: transform 1.2s var(--ease); }
+a.web-shot:hover img { transform: scale(1.03); }
+.web figcaption { display: grid; gap: 8px; justify-items: start; padding-top: 18px; max-width: 62ch; }
+.web-kind { color: var(--paper-3); }
+.web-kind.own { color: var(--gold); }
+.web-name { font-size: clamp(38px, 4.2vw, 68px); }
+.web-tag { color: var(--paper-3); }
+.web figcaption p { color: var(--paper-2); font-size: 15.5px; line-height: 1.5; }
+.web-note { color: var(--paper-3); }
+
+/* ── Responsive ───────────────────────────────────── */
+@media (max-width: 960px) {
+  .opener-grid { grid-template-columns: 1fr; gap: 30px; }
+  .opener-copy { padding-bottom: 0; }
+}
+@media (max-width: 900px), (hover: none) {
+  .findex .frow { grid-template-columns: minmax(0, 1fr) 84px; gap: 16px; align-items: center; }
+  .frow-n, .frow-m { display: none; }
+  .frow-t { font-size: clamp(44px, 13vw, 90px); }
+  .frow-thumb { display: block; width: 84px; height: 84px; object-fit: cover; }
+  .world { height: auto; aspect-ratio: 4 / 5; min-height: 0; }
+  .world-title { font-size: clamp(64px, 20vw, 150px); }
+  .webs-sticky { position: static; height: auto; overflow: visible; }
+  .webs-track { width: auto; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); scrollbar-width: none; padding-bottom: 8px; }
+  .webs-track::-webkit-scrollbar { display: none; }
+  .web { width: 82vw; scroll-snap-align: start; }
+  .web.is-low { margin-top: 0; }
+}
+@media (hover: none) {
+  .mtile-cap, .mtile::after { display: none; }     /* on touch the captions live in the viewer, not on thumbnails */
+}
+

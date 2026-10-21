@@ -1,35 +1,39 @@
-import Ambient from './components/Ambient.jsx';
 import Nav from './components/Nav.jsx';
-import SectionNav from './components/SectionNav.jsx';
+import Hud from './components/Hud.jsx';
 import Hero from './components/Hero.jsx';
-import TechWall from './components/TechWall.jsx';
-import WebWork from './components/WebWork.jsx';
-import BrandWall from './components/BrandWall.jsx';
-import Services from './components/Services.jsx';
-import Films from './components/Films.jsx';
+import Brands from './components/Brands.jsx';
+import Shoot from './components/Shoot.jsx';
+import Edit from './components/Edit.jsx';
+import Build from './components/Build.jsx';
+import Grow from './components/Grow.jsx';
+import How from './components/How.jsx';
 import Journal from './components/Journal.jsx';
-import About from './components/About.jsx';
 import Contact from './components/Contact.jsx';
 import Footer from './components/Footer.jsx';
+import Cursor from './components/Cursor.jsx';
+import { useSmoothScroll, useHashLanding } from './lib/smooth.js';
 
 export default function App() {
+  useSmoothScroll();
+  useHashLanding();
   return (
     <>
-      <Ambient />
+      <a className="skip-link" href="#shoot">Skip to content</a>
       <Nav />
-      <SectionNav />
-      <Hero />
       <main>
-        <TechWall />
-        <WebWork />
-        <BrandWall />
-        <Services />
+        <Hero />
+        <Brands />
+        <Shoot />
+        <Edit />
+        <Build />
+        <Grow />
+        <How />
         <Journal />
-        <Films />
-        <About />
         <Contact />
       </main>
       <Footer />
+      <Hud />
+      <Cursor />
     </>
   );
 }

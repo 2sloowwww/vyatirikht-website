@@ -1,0 +1,148 @@
+/* ══════════════════════════════════════════════════════
+   BASE — tokens, reset, type, links.
+   No boxes: nothing on this site sits in a bordered, rounded, shaded or
+   filled container. Structure comes from scale, space, hairlines and
+   full-bleed work. Dark by default — the work glows against it — with one
+   light block where the numbers need to hit hardest.
+══════════════════════════════════════════════════════ */
+
+:root {
+  --night:   #0F1A14;            /* page: deep spruce-black */
+  --night-2: #15241B;
+  --paper:   #F2F5EA;            /* type on dark; background of the light block */
+  --paper-2: rgba(242, 245, 234, 0.78);
+  --paper-3: rgba(242, 245, 234, 0.58);
+  --line:    rgba(242, 245, 234, 0.2);
+
+  --ink:     #0E1A13;            /* type on the light block */
+  --ink-2:   rgba(14, 26, 19, 0.76);
+  --ink-3:   rgba(14, 26, 19, 0.6);
+  --line-ink: rgba(14, 26, 19, 0.2);
+
+  --gold:    #D4943C;            /* the brand gold: the one accent */
+  --gold-hi: #E8B35C;
+  --rec:     #E5484D;            /* the recording dot, nothing else */
+
+  --font-display: 'Archivo', 'Arial Narrow', system-ui, sans-serif;
+  --font-serif:   'Instrument Serif', Georgia, 'Times New Roman', serif;
+  --font-body:    'Geist', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono:    'Geist Mono', ui-monospace, 'SFMono-Regular', Consolas, monospace;
+
+  --maxw: 1500px;
+  --gutter: clamp(18px, 3.4vw, 56px);
+  --section-v: clamp(72px, 8.6vw, 132px);
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  position: relative;               /* framer-motion measures scroll against this */
+  background: var(--night);
+  color-scheme: dark;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: clip; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--paper);
+  background: var(--night);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+img, video, svg, canvas { display: block; max-width: 100%; }
+img { height: auto; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: inherit; }
+h1, h2, h3, h4, p, ul, ol, dl, dd, figure, blockquote { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+
+::selection { background: var(--gold); color: var(--night); }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+
+.skip-link {
+  position: fixed; left: 16px; top: -80px; z-index: 500; padding: 12px 18px; background: var(--paper); color: var(--night); font-weight: 500;
+  transition: top .3s var(--ease);
+}
+.skip-link:focus { top: 14px; }
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+.wrap { width: 100%; max-width: calc(var(--maxw) + var(--gutter) * 2); margin-inline: auto; padding-inline: var(--gutter); }
+
+/* The one light block — numbers on paper. Same vocabulary, inverted. */
+.light { background: var(--paper); color: var(--ink); --line: var(--line-ink); --paper-2: var(--ink-2); --paper-3: var(--ink-3); }
+.light :focus-visible { outline-color: var(--ink); }
+.light ::selection { background: var(--ink); color: var(--paper); }
+
+/* ── Type ─────────────────────────────────────────── */
+/* Titles and giant words: Archivo at its narrowest and heaviest, capitals — film-title lettering. */
+.giant, .title { font-family: var(--font-display); font-stretch: 62%; font-weight: 900; text-transform: uppercase; letter-spacing: -0.005em; word-spacing: 0.12em; line-height: 0.84; }
+.title { line-height: 0.88; }
+.giant em, .title em, .quote em {
+  font-family: var(--font-serif); font-stretch: 100%; font-style: italic; font-weight: 400; text-transform: none; letter-spacing: -0.015em; color: var(--gold);
+}
+.light .giant em, .light .title em, .light .quote em { color: var(--ink); }
+
+.mono { font-family: var(--font-mono); font-size: 11.5px; font-weight: 500; letter-spacing: 0.13em; text-transform: uppercase; }
+.lede { font-size: clamp(18px, 1.55vw, 22px); line-height: 1.5; color: var(--paper-2); max-width: 46ch; }
+.gold { color: var(--gold); }
+
+/* Slate: the line that opens every chapter. */
+.slate { display: flex; align-items: center; gap: 18px; color: var(--paper-3); padding-bottom: clamp(18px, 2.4vw, 34px); }
+.slate b { font-family: var(--font-display); font-stretch: 125%; font-weight: 800; font-size: 12px; letter-spacing: 0.1em; color: var(--paper); }
+.slate span { font-family: var(--font-mono); font-size: 11.5px; font-weight: 500; letter-spacing: 0.13em; text-transform: uppercase; }
+.slate i { flex: 1; height: 1px; background: var(--line); }
+.light .slate b { color: var(--ink); }
+
+/* Text links — the only "buttons" on the site */
+.tlink {
+  display: inline-flex; align-items: center; gap: 12px; padding-bottom: 6px; border-bottom: 2px solid currentColor;
+  font-family: var(--font-display); font-stretch: 125%; font-weight: 800; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; line-height: 1;
+  transition: gap .5s var(--ease), color .3s, border-color .3s;
+}
+.tlink .arr { display: block; width: 24px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: square; flex: none; }
+.tlink:hover { gap: 20px; color: var(--gold); }
+.tlink.big { font-size: clamp(14px, 1.2vw, 17px); }
+.tlink.gold { color: var(--gold); }
+.tlink.gold:hover { color: var(--paper); }
+.light .tlink:hover { color: var(--ink); border-color: var(--ink); }
+
+.chapter { position: relative; }
+
+@media (max-width: 900px) {
+  :root { --section-v: clamp(64px, 13vw, 110px); }
+  .slate { gap: 12px; }
+}
+@media (max-width: 600px) {
+  .slate > span:last-child { display: none; }      /* the right-hand note wraps badly on a phone */
+  .slate > i { min-width: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+}
+
+/* Outline button: a single thin stroke, nothing inside it but the words. */
+.obtn {
+  display: inline-flex; align-items: center; gap: 14px; padding: 17px 26px; border: 1px solid currentColor; background: none;
+  font-family: var(--font-display); font-stretch: 125%; font-weight: 800; font-size: 12.5px; letter-spacing: 0.09em; text-transform: uppercase; line-height: 1; white-space: nowrap;
+  transition: color .4s var(--ease), border-color .4s var(--ease), gap .5s var(--ease);
+}
+.obtn .arr { display: block; width: 24px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: square; flex: none; }
+.obtn:hover { gap: 22px; color: var(--gold); border-color: var(--gold); }
+.obtn.gold { color: var(--gold); border-color: var(--gold); }
+.obtn.gold:hover { color: var(--paper); border-color: var(--paper); }
+.light .obtn:hover { color: var(--ink); border-color: var(--ink); }
+.light .obtn.gold { color: var(--ink); border-color: var(--ink); }
+

@@ -1,0 +1,91 @@
+/* ══════════════════════════════════════════════════════
+   GROW · HOW WE WORK · JOURNAL
+   The numbers on paper, then plain columns and lists.
+══════════════════════════════════════════════════════ */
+
+/* ── Grow: the numbers, on paper ──────────────────── */
+.cu { display: inline-grid; font-variant-numeric: tabular-nums lining-nums; }
+.cu > * { grid-area: 1 / 1; }
+.cu-ghost { visibility: hidden; }
+
+.results { margin-top: clamp(48px, 6vw, 96px); padding-block: clamp(56px, 7vw, 104px) clamp(60px, 7vw, 110px); }
+.results-top { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 0.8fr); gap: clamp(24px, 4vw, 72px); align-items: end; margin-bottom: clamp(28px, 3.4vw, 56px); }
+.results-num { container-type: inline-size; }
+.results-num .cu { font-size: calc(100cqw / 2.62); line-height: 0.86; letter-spacing: -0.005em; padding-top: 0.04em; }
+.results-copy { display: grid; gap: 16px; padding-bottom: 0.6vw; }
+.results-copy .mono { color: var(--ink-3); max-width: 44ch; line-height: 1.7; }
+
+.reach { margin-top: 8px; }
+.reach-read { display: flex; flex-wrap: wrap; gap: 4px 18px; align-items: baseline; padding-bottom: 6px; color: var(--ink-3); }
+.reach-read b { font-family: var(--font-display); font-stretch: 62%; font-weight: 900; font-size: clamp(34px, 3.2vw, 52px); line-height: 1; letter-spacing: 0; color: var(--ink); }
+.reach-svg { width: 100%; height: auto; color: var(--ink); touch-action: pan-y; cursor: crosshair; overflow: visible; }
+.reach-grid { stroke: var(--line-ink); stroke-width: 1; }
+.reach-line { stroke: currentColor; stroke-width: 3.5; stroke-linejoin: round; stroke-linecap: round; }
+.reach-cross { stroke: currentColor; stroke-width: 1; opacity: 0.45; stroke-dasharray: 3 5; }
+.reach-dot { fill: var(--paper); stroke: currentColor; stroke-width: 3; }
+.reach-tick { font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: 0.1em; fill: var(--ink-3); }
+
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: clamp(34px, 4vw, 60px); border-top: 1px solid var(--line); }
+.kpi { padding: 24px 22px 0 0; }
+.kpi + .kpi { padding-left: 22px; border-left: 1px solid var(--line); }
+.kpi dt { font-size: clamp(54px, 7.2vw, 124px); line-height: 0.9; font-variant-numeric: lining-nums; }
+.kpi dd { margin-top: 12px; color: var(--ink-3); }
+
+.voices { padding-top: clamp(56px, 6.4vw, 104px); display: grid; gap: clamp(44px, 5vw, 84px); }
+.voices-label { color: var(--paper-3); }
+.voice { max-width: 1060px; display: grid; gap: 24px; }
+.voice.is-right { justify-self: end; }
+.quote { font-family: var(--font-serif); font-style: italic; font-weight: 400; font-size: clamp(30px, 3.9vw, 64px); line-height: 1.08; letter-spacing: -0.015em; }
+.voice figcaption { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 24px; }
+.voice figcaption b { font-family: var(--font-display); font-stretch: 125%; font-weight: 800; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; }
+.voice figcaption .mono { color: var(--paper-3); }
+.voice figcaption .mono.gold { color: var(--gold); }
+
+/* ── How we work ──────────────────────────────────── */
+.how { padding-block: var(--section-v); }
+.how-title { font-size: clamp(56px, 8.6vw, 150px); margin-bottom: clamp(40px, 5vw, 84px); max-width: 15ch; }
+.why-row, .steps-row { display: grid; gap: clamp(24px, 3vw, 56px); padding-top: 26px; border-top: 1px solid var(--line); }
+.why-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.steps-row { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: clamp(54px, 6vw, 96px); }
+.why-row h3, .steps-row h3 { font-size: clamp(34px, 3.6vw, 58px); margin: 12px 0 14px; }
+.why-row p, .steps-row p { color: var(--paper-2); max-width: 34ch; }
+
+/* ── Journal ──────────────────────────────────────── */
+.journal { padding-block: 0 var(--section-v); }
+.journal-head { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 0.8fr); gap: clamp(24px, 5vw, 80px); align-items: end; margin-bottom: clamp(34px, 5vw, 80px); }
+.journal-title { font-size: clamp(56px, 8.4vw, 150px); }
+.journal-aside { display: grid; gap: 22px; justify-items: start; }
+.jlist { border-top: 1px solid var(--line); }
+.jrow {
+  display: grid; grid-template-columns: 190px minmax(0, 1fr) 40px; gap: 4px 24px; align-items: baseline; padding: clamp(18px, 2.2vw, 34px) 0;
+  border-bottom: 1px solid var(--line); transition: padding .6s var(--ease), color .3s;
+}
+.jrow-meta { display: grid; gap: 4px; color: var(--paper-3); }
+.jrow-meta b { color: var(--gold); font-weight: 500; }
+.jrow-title { font-size: clamp(30px, 4vw, 66px); line-height: 0.95; }
+.jrow-ex { grid-column: 2; max-width: 62ch; max-height: 0; opacity: 0; overflow: hidden; color: var(--paper-2); font-size: 15.5px; line-height: 1.5; transition: max-height .6s var(--ease), opacity .4s, margin .6s var(--ease); }
+.jrow:hover .jrow-ex, .jrow:focus-visible .jrow-ex { max-height: 5em; opacity: 1; margin-top: 10px; }
+.jrow-go { grid-row: 1; grid-column: 3; justify-self: end; font-size: 26px; color: var(--paper-3); transition: color .3s, transform .6s var(--ease); }
+.jrow:hover { padding-left: 18px; }
+.jrow:hover .jrow-title, .jrow:hover .jrow-go { color: var(--gold); }
+.jrow:hover .jrow-go { transform: translate(4px, -4px); }
+
+@media (max-width: 960px) {
+  .results-top, .journal-head { grid-template-columns: 1fr; }
+  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .kpi:nth-child(3) { padding-left: 0; border-left: 0; }
+  .kpi:nth-child(n + 3) { border-top: 1px solid var(--line); margin-top: 22px; }
+  .why-row, .steps-row { grid-template-columns: 1fr 1fr; }
+  .jrow { grid-template-columns: minmax(0, 1fr) 36px; }
+  .jrow-meta { grid-column: 1; display: flex; gap: 14px; }
+  .jrow-title { grid-column: 1; }
+  .jrow-ex { grid-column: 1; max-height: none; opacity: 1; margin-top: 8px; }
+  .jrow-go { grid-row: 2; grid-column: 2; }
+}
+@media (max-width: 600px) {
+  .why-row, .steps-row { grid-template-columns: 1fr; }
+}
+@media (hover: none) {
+  .jrow-ex { max-height: none; opacity: 1; margin-top: 8px; }
+}
+

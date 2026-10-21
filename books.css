@@ -1,83 +1,69 @@
 /* ══════════════════════════════════════════════════════
    BOOKS — books.css
-   Page-specific rules for books.html only. Nav, footer, eyebrow/
-   h2/lede and the pull-quote all come free from style.css +
-   journal-theme.css (already brutalist black/white) — this file
-   just lays out the two book cards.
+   Layout for books.html only. Nav, footer, type and the pull-quote come
+   from style.css + journal-theme.css. No boxes: the two books are
+   separated by hairlines, the facts are one line of mono type, and the
+   links are text links.
 ══════════════════════════════════════════════════════ */
 
-.books-head { padding-bottom: 8px; }
+.books-head { padding-bottom: 0; }
+.books-head h1.h2 { font-size: clamp(54px, 9.4vw, 160px); }
+.books-head h1.h2 em { font-size: 0.7em; }
 
-.books-main { padding: clamp(24px, 5vw, 56px) 0 clamp(64px, 10vw, 120px); }
+.books-main { padding: clamp(40px, 6vw, 84px) var(--pad) clamp(64px, 9vw, 120px); }
+.books-main .wrap { max-width: 1500px; }
 
 .book-card {
   display: grid;
-  grid-template-columns: minmax(220px, 320px) 1fr;
-  gap: clamp(28px, 5vw, 64px);
+  grid-template-columns: minmax(220px, 340px) minmax(0, 1fr);
+  gap: clamp(28px, 5vw, 80px);
   align-items: start;
-  padding: clamp(28px, 5vw, 48px) 0;
-  border-top: 2px solid var(--text);
+  padding: clamp(34px, 5vw, 64px) 0;
+  border-top: 1px solid var(--border);
 }
-.book-card:last-of-type { border-bottom: 2px solid var(--text); }
-.book-card.is-reverse { grid-template-columns: 1fr minmax(220px, 320px); }
+.book-card:last-of-type { border-bottom: 1px solid var(--border); }
+.book-card.is-reverse { grid-template-columns: minmax(0, 1fr) minmax(220px, 340px); }
 .book-card.is-reverse .book-cover { order: 2; }
 .book-card.is-reverse .book-body { order: 1; }
 
-.book-cover {
-  display: block;
-  border: 2px solid var(--text);
-  box-shadow: var(--shadow-md);
-  overflow: hidden;
-  transition: transform .2s ease, box-shadow .2s ease;
-}
-.book-cover:hover { transform: translate(-4px, -4px); box-shadow: var(--shadow-lg); }
-.book-cover img { display: block; width: 100%; height: auto; aspect-ratio: 800 / 1035; object-fit: cover; background: #fff; }
+.book-cover { display: block; overflow: hidden; background: var(--bg-raised); }
+.book-cover img { display: block; width: 100%; height: auto; aspect-ratio: 1410 / 2250; object-fit: cover; transition: transform 1.2s var(--ease); }
+.book-cover:hover img { transform: scale(1.03); }
 
-.book-body { display: flex; flex-direction: column; gap: 14px; }
+.book-body { display: flex; flex-direction: column; gap: 20px; }
 
-.book-label {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
+.book-label { font-family: var(--font-mono); font-size: 11.5px; font-weight: 500; letter-spacing: 0.13em; text-transform: uppercase; color: var(--gold); }
 
 .book-title {
-  font-family: var(--font-display);
-  font-weight: 400;
-  text-transform: uppercase;
-  font-size: clamp(28px, 4vw, 42px);
-  line-height: 1.02;
-  margin: 0;
+  margin: 0; font-family: var(--font-display); font-stretch: 62%; font-weight: 900; text-transform: uppercase;
+  font-size: clamp(42px, 5.8vw, 88px); line-height: 0.9; letter-spacing: 0; color: var(--text);
 }
 
-.book-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+.book-meta { display: flex; flex-wrap: wrap; gap: 6px 0; font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-mid); }
+.book-meta span { padding: 0; border: 0; background: none; }
+.book-meta span + span::before { content: '/'; margin: 0 12px; color: var(--gold); }
+.book-meta .is-done, .book-meta .is-progress { color: var(--gold); background: none; }
+
+.book-body > p { max-width: 62ch; font-size: clamp(17px, 1.3vw, 19px); line-height: 1.7; color: var(--text-mid); }
+.book-body .blog-quote { max-width: 62ch; margin: 8px 0; }
+
+/* The one link on each book: type, an underline, an arrow. */
+.book-body .btn {
+  align-self: flex-start; display: inline-flex; align-items: center; gap: 12px; margin-top: 6px; padding: 0 0 6px; overflow: visible;
+  border: 0; border-bottom: 2px solid var(--gold); border-radius: 0; background: none; color: var(--gold);
+  font-family: var(--font-display); font-stretch: 125%; font-weight: 800; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; line-height: 1;
+  transition: gap .5s var(--ease), color .3s, border-color .3s;
 }
-.book-meta span {
-  border: 2px solid var(--text);
-  padding: 5px 10px;
+.book-body .btn::before { display: none; }
+.book-body .btn::after {
+  content: ''; display: block; flex: none; width: 24px; height: 12px; background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 12' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='square'%3E%3Cpath d='M0 6h20M15 1l5 5-5 5'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 12' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='square'%3E%3Cpath d='M0 6h20M15 1l5 5-5 5'/%3E%3C/svg%3E") center / contain no-repeat;
 }
-.book-meta .is-done { background: var(--text); color: var(--bg); }
-.book-meta .is-progress { background: var(--warm); }
-
-.book-body > p { max-width: 62ch; color: var(--text-mid); }
-
-.book-body .blog-quote { max-width: 62ch; }
-
-.book-body .btn { align-self: flex-start; }
+.book-body .btn:hover { gap: 20px; color: var(--text); border-color: var(--text); }
 
 @media (max-width: 720px) {
-  .book-card, .book-card.is-reverse {
-    grid-template-columns: 1fr;
-  }
+  .book-card, .book-card.is-reverse { grid-template-columns: 1fr; }
   .book-card.is-reverse .book-cover,
   .book-card.is-reverse .book-body { order: 0; }
   .book-cover { max-width: 260px; }

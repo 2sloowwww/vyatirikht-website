@@ -31,6 +31,24 @@ function staticPassthrough() {
         fs.stat(filePath, (err, stat) => {
           if (err || !stat.isFile()) return next();
           res.setHeader('Content-Type', MIME[path.extname(filePath)] || 'application/octet-stream');
+          res.setHeader('Accept-Ranges', 'bytes');
+
+          // Videos need byte-range replies or browsers can't seek in them.
+          const range = /^bytes=(\d*)-(\d*)$/.exec(req.headers.range || '');
+          if (range && (range[1] || range[2])) {
+            const start = range[1] ? parseInt(range[1], 10) : Math.max(0, stat.size - parseInt(range[2], 10));
+            const end = range[1] && range[2] ? Math.min(parseInt(range[2], 10), stat.size - 1) : stat.size - 1;
+            if (start > end || start >= stat.size) {
+              res.statusCode = 416;
+              res.setHeader('Content-Range', `bytes */${stat.size}`);
+              return res.end();
+            }
+            res.statusCode = 206;
+            res.setHeader('Content-Range', `bytes ${start}-${end}/${stat.size}`);
+            res.setHeader('Content-Length', end - start + 1);
+            return fs.createReadStream(filePath, { start, end }).pipe(res);
+          }
+          res.setHeader('Content-Length', stat.size);
           fs.createReadStream(filePath).pipe(res);
         });
       });

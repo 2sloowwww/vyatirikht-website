@@ -1,0 +1,114 @@
+/* ══════════════════════════════════════════════════════
+   HERO — the showreel behind the headline — the client marquee,
+   and the knockout words that open every chapter (work playing
+   inside the letters).
+══════════════════════════════════════════════════════ */
+
+.hero {
+  position: relative; isolation: isolate; overflow: clip; min-height: 100svh; display: flex; flex-direction: column; justify-content: flex-end;
+  padding-top: 110px; background: var(--night); color: var(--paper);
+}
+
+/* The reel and what sits over it */
+.reel { position: absolute; inset: 0; z-index: -1; background: var(--night); }
+.reel-poster, .reel video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.reel video { opacity: 0; transition: opacity .9s var(--ease); }
+.reel video.on { opacity: 1; }
+.reel-scrim {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 46% 52% at 84% 88%, rgba(8, 16, 11, 0.62), transparent 70%),
+    linear-gradient(0deg, rgba(8, 16, 11, 0.9) 0%, rgba(8, 16, 11, 0.42) 30%, rgba(8, 16, 11, 0.06) 56%, rgba(8, 16, 11, 0.38) 100%),
+    linear-gradient(90deg, rgba(8, 16, 11, 0.5), transparent 62%);
+}
+.reel-grain {
+  position: absolute; inset: -60px; pointer-events: none; opacity: 0.13; mix-blend-mode: overlay; will-change: transform;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 0.9s steps(1, end) infinite;
+}
+@keyframes grain {
+  0% { transform: translate(0, 0); } 17% { transform: translate(-22px, 14px); } 33% { transform: translate(18px, -26px); }
+  50% { transform: translate(-30px, -10px); } 67% { transform: translate(26px, 22px); } 83% { transform: translate(-12px, 30px); } 100% { transform: translate(0, 0); }
+}
+
+/* Headline + copy: no frame, just type on footage */
+.hero-inner {
+  position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 0.62fr); gap: clamp(24px, 4vw, 64px); align-items: end;
+  padding-bottom: clamp(52px, 8vh, 96px);      /* clears the tail of the italic "y" before the hairline of the foot bar */
+}
+.hero-title { font-size: clamp(60px, 10.4vw, 190px); line-height: 0.85; text-shadow: 0 2px 40px rgba(0, 0, 0, 0.35); }
+.hero-title .hl { display: block; white-space: nowrap; }
+.hero-title em { margin-left: 0.14em; font-size: 0.56em; }
+.hero-side { display: grid; gap: 24px; max-width: 400px; justify-self: end; padding-bottom: 6px; }
+.hero-sub { font-size: clamp(16px, 1.3vw, 18px); line-height: 1.55; color: rgba(242, 245, 234, 0.92); text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35), 0 1px 22px rgba(0, 0, 0, 0.5); }
+.hero-inner > * { min-width: 0; }
+.hero-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 30px; }
+.hero-note { font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--paper-3); }
+
+.hero-foot { position: relative; z-index: 2; }
+.hero-foot .wrap { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-block: 18px 22px; border-top: 1px solid var(--line); }
+.counts { display: flex; flex-wrap: wrap; gap: 8px 26px; font-family: var(--font-mono); font-size: 11.5px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--paper-2); }
+.counts b { color: var(--gold); font-weight: 500; margin-right: 6px; }
+.now { display: flex; align-items: center; gap: 12px; font-family: var(--font-mono); font-size: 11.5px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--paper-2); text-align: right; }
+.now-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--rec); animation: rec-blink 1.4s steps(1, end) infinite; flex: none; }
+.now-tc { font-variant-numeric: tabular-nums; color: var(--paper-3); }
+.now b { color: var(--gold); font-weight: 500; }
+
+/* ── Client marquee: just names, scrolling ─────────── */
+.band { position: relative; padding: clamp(20px, 2.4vw, 32px) 0 clamp(8px, 1.2vw, 16px); overflow: hidden; }
+.band-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 28px; margin-bottom: 4px; }
+.band-top .mono { color: var(--paper-3); }
+.band-own { display: inline-flex; align-items: center; gap: 12px; font-size: 14px; color: var(--paper-2); transition: color .3s; }
+.band-own b { font-family: var(--font-display); font-stretch: 100%; font-weight: 800; letter-spacing: 0.02em; color: var(--paper); }
+.band-own .own-tag { font-family: var(--font-mono); font-size: 10.5px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+.band-own:hover { color: var(--gold); }
+.band-marquee { overflow: hidden; }
+.band-track { display: flex; width: max-content; will-change: transform; }
+.band-item {
+  display: inline-flex; align-items: center; gap: clamp(26px, 3.2vw, 52px); padding-right: clamp(26px, 3.2vw, 52px);
+  font-family: var(--font-display); font-stretch: 62%; font-weight: 900; text-transform: uppercase; font-size: clamp(54px, 7.4vw, 124px); line-height: 1.02; white-space: nowrap;
+}
+.band-item svg { width: 0.34em; height: 0.34em; flex: none; fill: var(--gold); }
+
+/* ── Knockout: work playing inside giant letters ──────
+   Layers, bottom to top: the media; a black layer with white letters set to
+   `multiply` (black hides the media, white lets it through); a night-coloured
+   layer set to `lighten` so the black becomes the page colour exactly; and a
+   hairline outline of the same letters, so the word still reads when the
+   picture inside it is dark, flat or the same colour as the page. */
+.ko { position: relative; isolation: isolate; overflow: hidden; background: var(--night); }
+.ko-media { position: absolute; inset: -8% 0; z-index: 0; will-change: transform; }
+.ko-media img, .ko-media video, .ko-media canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(1.18) contrast(1.14) brightness(0.9); }
+.ko-media::after { content: ''; position: absolute; inset: 0; z-index: 2; background: rgba(242, 245, 234, 0.05); mix-blend-mode: screen; pointer-events: none; }   /* a whisper of lift; the outline keeps dark frames readable */
+.ko-mask { position: relative; z-index: 1; background: #000; color: #fff; mix-blend-mode: multiply; }
+.ko-tint { position: absolute; inset: 0; z-index: 2; background: var(--night); mix-blend-mode: lighten; pointer-events: none; }
+.ko-edge { position: absolute; inset: 0; z-index: 3; pointer-events: none; color: transparent; -webkit-text-stroke: clamp(1.25px, 0.0042em, 3px) rgba(242, 245, 234, 0.92); }
+.ko-edge .ko-text { color: transparent; }
+
+.ko-poster, .lv-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.lv { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .8s var(--ease); }
+.lv.on { opacity: 1; }
+
+.stack-media img { opacity: 0; transition: opacity 1.2s var(--ease); }
+.stack-media img.on { opacity: 1; }
+
+/* ── Responsive ───────────────────────────────────── */
+@media (max-width: 1100px) {
+  .hero-title em { font-size: 0.5em; }
+}
+@media (max-width: 960px) {
+  .hero { padding-top: 96px; }
+  .hero-inner { grid-template-columns: 1fr; gap: 26px; }
+  .hero-title { font-size: clamp(54px, 16vw, 130px); }
+  .hero-title .hl:last-child em { display: block; margin: 0.08em 0 0; font-size: 0.62em; }   /* "your brand." drops to its own line */
+  .hero-side { justify-self: start; max-width: 460px; }
+  .now { display: none; }
+}
+@media (max-width: 600px) {
+  .counts { gap: 6px 18px; font-size: 10.5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reel-grain, .now-dot { animation: none !important; }
+  .stack-media img { transition: none; }
+}
+
