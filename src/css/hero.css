@@ -36,7 +36,7 @@
   position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 0.62fr); gap: clamp(24px, 4vw, 64px); align-items: end;
   padding-bottom: clamp(52px, 8vh, 96px);      /* clears the tail of the italic "y" before the hairline of the foot bar */
 }
-.hero-title { font-size: clamp(60px, 10.4vw, 190px); line-height: 0.85; text-shadow: 0 2px 40px rgba(0, 0, 0, 0.35); }
+.hero-title { font-size: clamp(60px, 10vw, 164px); line-height: 0.85; text-shadow: 0 2px 40px rgba(0, 0, 0, 0.35); }
 .hero-title .hl { display: block; white-space: nowrap; }
 .hero-title em { margin-left: 0.14em; font-size: 0.56em; }
 .hero-side { display: grid; gap: 24px; max-width: 400px; justify-self: end; padding-bottom: 6px; }
